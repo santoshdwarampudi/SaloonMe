@@ -14,6 +14,7 @@ import com.saloonme.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.ViewHolder> {
     private Context context;
@@ -53,17 +54,35 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
         @BindView(R.id.tv_rating)
         TextView tv_rating;
 
+        @OnClick(R.id.card_menu)
+        void onSaloonClick() {
+            if (itemListener != null) {
+                itemListener.onItemClick();
+            }
+        }
+        @OnClick(R.id.tv_bookNow)
+        void onBookNowClick(){
+            if (itemListener != null) {
+                itemListener.onBookNowClick();
+            }
+        }
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void setData() {
-
+            if (getAdapterPosition() % 2 == 0) {
+                iv_saloon.setImageDrawable(context.getDrawable(R.drawable.saloon1));
+            } else {
+                iv_saloon.setImageDrawable(context.getDrawable(R.drawable.saloon2));
+            }
         }
     }
 
     public interface ItemListener {
-
+        void onItemClick();
+        void onBookNowClick();
     }
 }

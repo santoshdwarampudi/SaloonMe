@@ -2,7 +2,7 @@ package com.saloonme.interfaces;
 
 
 public interface APIConstants {
-    String BASE_URL = "https://cube-media.in/oceano/";
+    String BASE_URL = "http://salooonme.com/demo_new/api/";
 
 
 }

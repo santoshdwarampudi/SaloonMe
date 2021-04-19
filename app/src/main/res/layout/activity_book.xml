@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.BookActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/book_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/bookTab"
+                style="@style/AppTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/white"
+
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="30dp" />
+
+            <include
+                android:id="@+id/book1"
+                layout="@layout/book_step_one"
+                app:layout_constraintTop_toBottomOf="@+id/bookTab" />
+
+            <include
+                android:id="@+id/book2"
+                layout="@layout/book_step_two"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/bookTab" />
+
+            <include
+                android:id="@+id/book3"
+                layout="@layout/book_step_three"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/bookTab" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/btn_rounded_fill"
+            android:fontFamily="@font/mulish_regular"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/book_layout" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/btn_rounded_fill"
+            android:fontFamily="@font/mulish_regular"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/previous"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/next"
+            app:layout_constraintTop_toBottomOf="@id/book_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

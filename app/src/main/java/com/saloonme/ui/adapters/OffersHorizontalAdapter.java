@@ -71,9 +71,9 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
         }
 
         public void setData() {
-            Random rnd = new Random();
+           /* Random rnd = new Random();
             int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            iv_banner.setBackgroundColor(color);
+            iv_banner.setBackgroundColor(color);*/
         }
 
        /* public void setData(OffersResponseData menuProductsImagesResponse) {

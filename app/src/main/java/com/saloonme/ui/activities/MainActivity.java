@@ -27,6 +27,7 @@ import com.saloonme.ui.fragments.MoreFragment;
 import com.saloonme.ui.fragments.ProfileFragment;
 import com.saloonme.ui.fragments.SalonsFragment;
 import com.saloonme.util.LocationSingleTon;
+import com.saloonme.util.PrefUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +72,10 @@ public class MainActivity extends BaseAppCompactActivity {
                         loadFragment(new SalonsFragment());
                         break;
                     case 2:
-                        loadFragment(new ProfileFragment());
+                        if (PrefUtils.getInstance().isLogin())
+                            loadFragment(new ProfileFragment());
+                        else
+                            goToActivity(LoginActivity.class);
                         break;
                     case 3:
                         loadFragment(new CartFragment());

@@ -2,11 +2,22 @@
     <string name="app_name">Saloon Me</string>
     <string name="home">Home</string>
     <string name="saloons">Salons</string>
+    <string name="shop">Shop</string>
     <string name="profile">Profile</string>
     <string name="cart">Cart</string>
+    <string name="blog">Blog</string>
+    <string name="feed">Feed</string>
     <string name="others">More</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="storeName">Store Name</string>
+    <string name="hint_email_phone">Email / Mobile Number</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_mobile_number">Mobile Number</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_firstName">First Name</string>
+    <string name="dummy_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="next"><![CDATA[NEXT >]]></string>
+    <string name="previous"><![CDATA[<Previous]]></string>
 </resources>

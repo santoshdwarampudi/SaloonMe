@@ -56,10 +56,10 @@
             android:theme="@style/BottomNavigationViewTextStyle"
             app:bt_colorActive="@color/colorPrimary"
             app:bt_colorInactive="@color/bottomNavigationInactiveColor"
-            app:bt_icon="@drawable/ic_salon"
+            app:bt_icon="@drawable/ic_shop"
             app:bt_padding="@dimen/_11sdp"
             app:bt_shape="@drawable/transition_background_drawable"
-            app:bt_title="@string/saloons"
+            app:bt_title="@string/shop"
             app:bt_titlePadding="@dimen/_11sdp" />
 
         <com.gauravk.bubblenavigation.BubbleToggleView
@@ -82,10 +82,10 @@
             android:theme="@style/BottomNavigationViewTextStyle"
             app:bt_colorActive="@color/colorPrimary"
             app:bt_colorInactive="@color/bottomNavigationInactiveColor"
-            app:bt_icon="@drawable/ic_shop"
+            app:bt_icon="@drawable/ic_blog"
             app:bt_padding="@dimen/_11sdp"
             app:bt_shape="@drawable/transition_background_drawable"
-            app:bt_title="@string/cart"
+            app:bt_title="@string/blog"
             app:bt_titlePadding="@dimen/_11sdp" />
 
         <com.gauravk.bubblenavigation.BubbleToggleView
@@ -95,10 +95,10 @@
             android:theme="@style/BottomNavigationViewTextStyle"
             app:bt_colorActive="@color/colorPrimary"
             app:bt_colorInactive="@color/bottomNavigationInactiveColor"
-            app:bt_icon="@drawable/ic_more"
+            app:bt_icon="@drawable/ic_feed"
             app:bt_padding="@dimen/_11sdp"
             app:bt_shape="@drawable/transition_background_drawable"
-            app:bt_title="@string/others"
+            app:bt_title="@string/feed"
             app:bt_titlePadding="@dimen/_11sdp" />
     </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
 

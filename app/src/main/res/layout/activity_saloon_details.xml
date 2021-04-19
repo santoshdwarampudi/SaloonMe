@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/quantum_grey100">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context=".ui.activities.SaloonDetailsActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_saloon"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_margin="@dimen/_8sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/saloon2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <LinearLayout
+            android:id="@+id/rating_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_3sdp"
+            app:layout_constraintStart_toStartOf="@+id/iv_saloon"
+            app:layout_constraintTop_toTopOf="@+id/iv_saloon">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mulish_regular"
+                android:text="4.8"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_saloon">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_saloon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:fontFamily="@font/mulish_bold"
+                    android:text="Raj Saloon"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_14ssp"></androidx.appcompat.widget.AppCompatTextView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/mulish_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Book Now"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="Ameerpet"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_openTimings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="Open Now (6Am-12Pm)"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+
+
+        </LinearLayout>
+
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"
+            app:layout_constraintTop_toBottomOf="@+id/details_layout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/spacer">
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/saloonTabs"
+                style="@style/AppTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/white"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="30dp" />
+
+            <include
+                android:id="@+id/booknow_layout"
+                layout="@layout/saloon_booknow"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/photos_layout"
+                layout="@layout/saloon_photos"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/overview_layout"
+                layout="@layout/saloon_overview"
+                android:visibility="visible" />
+
+            <include
+                android:id="@+id/reviews_layout"
+                layout="@layout/saloon_reviews"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

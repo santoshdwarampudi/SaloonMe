@@ -18,6 +18,9 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
+import com.saloonme.ui.activities.BookActivity;
+import com.saloonme.ui.activities.SaloonDetailsActivity;
+import com.saloonme.ui.activities.SearchActivity;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.SaloonListAdapter;
 import com.saloonme.util.CirclePagerIndicatorDecoration;
@@ -47,7 +50,7 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
 
     @OnClick(R.id.search_layout)
     void onSearchClick() {
-
+        goToActivity(SearchActivity.class);
     }
 
     public HomeFragment() {
@@ -118,6 +121,16 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    @Override
+    public void onItemClick() {
+        goToActivity(SaloonDetailsActivity.class);
+    }
+
+    @Override
+    public void onBookNowClick() {
+        goToActivity(BookActivity.class);
     }
 
     class RemindTask extends TimerTask {
