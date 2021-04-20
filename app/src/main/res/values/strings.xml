@@ -15,9 +15,18 @@
     <string name="hint_email_phone">Email / Mobile Number</string>
     <string name="hint_email">Email</string>
     <string name="hint_mobile_number">Mobile Number</string>
+    <string name="hint_address">Address</string>
     <string name="hint_password">Password</string>
     <string name="hint_firstName">First Name</string>
     <string name="dummy_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
     <string name="next"><![CDATA[NEXT >]]></string>
     <string name="previous"><![CDATA[<Previous]]></string>
+    <string name="select_seat_here">Select Seat here</string>
+    <string name="submit_pay"><![CDATA[Submit & Pay >]]></string>
+    <string name="enter_details">Enter Details</string>
+    <string name="name">Name</string>
+    <string name="salon_information">Salon Information</string>
+    <string name="barber_information">Barber Information</string>
+    <string name="payment_information">Payment Information</string>
+    <string name="product_information">Product Information</string>
 </resources>
