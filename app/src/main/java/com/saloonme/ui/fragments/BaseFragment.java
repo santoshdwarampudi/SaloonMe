@@ -1,7 +1,9 @@
 package com.saloonme.ui.fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -19,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.saloonme.R;
 import com.saloonme.interfaces.IActivityBaseView;
+import com.saloonme.interfaces.IBaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +35,7 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract int getFragmentLayoutId();
     private Unbinder unbinder;
+
 
     @Nullable
     @Override
@@ -163,4 +168,7 @@ public abstract class BaseFragment extends Fragment {
         progressDialog = null;
         unbinder.unbind();
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.saloonme.interfaces;
 
+import android.app.Dialog;
 import android.content.Context;
 
 public interface IBaseView {

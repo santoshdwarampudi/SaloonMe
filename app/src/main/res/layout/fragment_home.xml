@@ -66,7 +66,7 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:clipToPadding="false"
                 android:paddingLeft="@dimen/_3sdp"
-                android:paddingRight="@dimen/_3sdp"></androidx.recyclerview.widget.RecyclerView>
+                android:paddingRight="@dimen/_3sdp"/>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
@@ -88,7 +88,7 @@
                 android:background="@color/quantum_grey100"
                 android:layout_below="@+id/tabLayout"
                 android:layout_marginBottom="?attr/actionBarSize"
-                android:layout_marginTop="@dimen/_5sdp"></androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="@dimen/_5sdp"/>
 
         </LinearLayout>
 
