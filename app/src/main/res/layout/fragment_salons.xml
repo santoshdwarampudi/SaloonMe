@@ -3,30 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         style="@style/AppTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        android:layout_marginTop="@dimen/_5sdp"
         app:tabPaddingEnd="10dp"
-        app:tabPaddingStart="30dp"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:tabPaddingStart="30dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_menuItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="?attr/actionBarSize"
+        android:paddingBottom="@dimen/_40sdp"
         android:background="@color/quantum_grey100"
         app:layout_constraintTop_toBottomOf="@id/tabs" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filter_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:background="@color/colorPrimary"
@@ -36,38 +39,39 @@
             android:id="@+id/sort_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" SORT BY"
             android:drawableStart="@drawable/ic_sort_by_attributes"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/white"
             android:fontFamily="@font/mulish_regular"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text=" SORT BY"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/view"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <View
             android:id="@+id/view"
             android:layout_width="2dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/filter_by"
             app:layout_constraintStart_toEndOf="@id/sort_by"
-            app:layout_constraintEnd_toStartOf="@id/filter_by"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/filter_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" FILTER BY"
             android:drawableStart="@drawable/ic_filter"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/white"
             android:fontFamily="@font/mulish_regular"
-            app:layout_constraintStart_toEndOf="@id/view"
+            android:text=" FILTER BY"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/view"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -79,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Safe and hyginie"
+                    android:fontFamily="@font/mulish_regular"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -87,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Previously visited"
+                    android:fontFamily="@font/mulish_regular"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/safe_and_hygine_cb" />
 
@@ -95,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Spacious and Neat"
+                    android:fontFamily="@font/mulish_regular"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/previously_visited_cb" />
             </androidx.constraintlayout.widget.ConstraintLayout>
