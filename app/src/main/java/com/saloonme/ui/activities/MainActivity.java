@@ -69,14 +69,13 @@ public class MainActivity extends BaseAppCompactActivity {
                         loadFragment(new HomeFragment());
                         break;
                     case 1:
-                        loadFragment(new SalonsFragment());
-                        break;
-                    case 2:
-                        loadFragment(new ProfileFragment());
-                       /* if (PrefUtils.getInstance().isLogin())
+                        if (PrefUtils.getInstance().isLogin())
                             loadFragment(new ProfileFragment());
                         else
-                            goToActivity(LoginActivity.class);*/
+                            goToActivity(LoginActivity.class);
+                        break;
+                    case 2:
+                        loadFragment(new SalonsFragment());
                         break;
                     case 3:
                         loadFragment(new CartFragment());

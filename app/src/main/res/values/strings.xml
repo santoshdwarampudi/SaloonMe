@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Saloon Me</string>
     <string name="home">Home</string>
+    <string name="book_now">Book Now</string>
     <string name="saloons">Salons</string>
     <string name="shop">Shop</string>
+    <string name="explore">Explore</string>
     <string name="profile">Profile</string>
     <string name="cart">Cart</string>
     <string name="blog">Blog</string>
+    <string name="click_share">Click &amp; Share</string>
     <string name="feed">Feed</string>
     <string name="others">More</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -29,4 +32,5 @@
     <string name="barber_information">Barber Information</string>
     <string name="payment_information">Payment Information</string>
     <string name="product_information">Product Information</string>
+    <string name="popular_places">Popular Places</string>
 </resources>

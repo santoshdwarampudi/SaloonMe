@@ -1,8 +1,11 @@
 package com.saloonme.ui.fragments;
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +17,10 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
@@ -40,6 +46,10 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     TabLayout tabLayout;
     @BindView(R.id.rv_menuItems)
     RecyclerView rv_menuItems;
+    @BindView(R.id.tv_popularPlaces)
+    TextView tv_popularPlaces;
+    @BindView(R.id.rv_popularItems)
+    RecyclerView rv_popularItems;
 
     private View view;
     private Timer timer;
@@ -47,6 +57,7 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     private SaloonListAdapter saloonListAdapter;
     private OffersHorizontalAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private Dialog sort, filter;
 
     @OnClick(R.id.search_layout)
     void onSearchClick() {
@@ -64,6 +75,50 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     @Override
     public int getFragmentLayoutId() {
         return R.layout.fragment_home;
+    }
+
+    @OnClick(R.id.sort_by)
+    void onSortByclick() {
+        sort = new Dialog(getActivity());
+        sort.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        sort.setCancelable(false);
+        sort.setContentView(R.layout.sort_by_dialog);
+        sort.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        sort.findViewById(R.id.closeDialogIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sort.dismiss();
+            }
+        });
+        sort.show();
+    }
+
+    @OnClick(R.id.filter_by)
+    void onFilterByclick() {
+        filter = new Dialog(getActivity());
+        filter.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        filter.setCancelable(false);
+        filter.setContentView(R.layout.filter_dialog);
+        filter.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        filter.findViewById(R.id.closeDialogIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter.dismiss();
+            }
+        });
+        final ConstraintLayout ll = (ConstraintLayout) filter.findViewById(R.id.filter_cl);
+        filter.findViewById(R.id.clear_all).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < ll.getChildCount(); i++) {
+                    view = ll.getChildAt(i);
+                    if (view instanceof CheckBox) {
+                        ((CheckBox) view).setChecked(false);
+                    }
+                }
+            }
+        });
+        filter.show();
     }
 
     @Override
@@ -98,12 +153,19 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
             timer = new Timer();
         timer.scheduleAtFixedRate(new RemindTask(), 2000, 2000);
 
-        saloonListAdapter = new SaloonListAdapter(getContext(), this);
+        saloonListAdapter = new SaloonListAdapter(getContext(), this,true);
         LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_menuItems.setLayoutManager(saloonListManager);
         rv_menuItems.setAdapter(saloonListAdapter);
         rv_menuItems.setNestedScrollingEnabled(false);
+
+        saloonListAdapter = new SaloonListAdapter(getContext(), this,false);
+        LinearLayoutManager pouplarListManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_popularItems.setLayoutManager(pouplarListManager);
+        rv_popularItems.setAdapter(saloonListAdapter);
+        rv_popularItems.setNestedScrollingEnabled(false);
     }
 
     private void setSnapHelper() {

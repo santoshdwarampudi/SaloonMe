@@ -19,10 +19,12 @@ import butterknife.OnClick;
 public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.ViewHolder> {
     private Context context;
     private ItemListener itemListener;
+    private boolean showBookNowOption;
 
-    public SaloonListAdapter(Context context, ItemListener itemListener) {
+    public SaloonListAdapter(Context context, ItemListener itemListener, boolean showBookNowOption) {
         this.context = context;
         this.itemListener = itemListener;
+        this.showBookNowOption = showBookNowOption;
     }
 
     @NonNull
@@ -60,8 +62,9 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
                 itemListener.onItemClick();
             }
         }
+
         @OnClick(R.id.tv_bookNow)
-        void onBookNowClick(){
+        void onBookNowClick() {
             if (itemListener != null) {
                 itemListener.onBookNowClick();
             }
@@ -73,6 +76,11 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
         }
 
         void setData() {
+            if (showBookNowOption) {
+                tv_bookNow.setVisibility(View.VISIBLE);
+            } else {
+                tv_bookNow.setVisibility(View.GONE);
+            }
             if (getAdapterPosition() % 2 == 0) {
                 iv_saloon.setImageDrawable(context.getDrawable(R.drawable.saloon1));
             } else {
@@ -83,6 +91,7 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
 
     public interface ItemListener {
         void onItemClick();
+
         void onBookNowClick();
     }
 }

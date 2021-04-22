@@ -83,7 +83,7 @@ public class SalonsFragment
     private void initRecyclerview() {
 
 
-        saloonListAdapter = new SaloonListAdapter(getContext(), this);
+        saloonListAdapter = new SaloonListAdapter(getContext(), this,true);
         LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_menuItems.setLayoutManager(saloonListManager);

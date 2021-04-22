@@ -17,8 +17,8 @@
             android:id="@+id/iv_saloon"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/saloon1"
             android:scaleType="fitXY"
+            android:src="@drawable/saloon1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +75,19 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_saloon"></androidx.appcompat.widget.AppCompatTextView>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_openTimings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:fontFamily="@font/mulish_regular"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="Open Now(6Am-9Pm)"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location"></androidx.appcompat.widget.AppCompatTextView>
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_bookNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,7 +100,7 @@
             android:text="Book Now"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_location"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_openTimings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_saloon"></androidx.appcompat.widget.AppCompatTextView>
 
