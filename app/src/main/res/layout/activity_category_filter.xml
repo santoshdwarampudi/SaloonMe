@@ -9,6 +9,7 @@
         android:id="@+id/verticalTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/grey"
         app:tab_orientation="vertical"
         app:tab_style="sliding"
         app:tab_position_icon="icon_left"
