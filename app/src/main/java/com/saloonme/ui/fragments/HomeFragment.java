@@ -25,10 +25,13 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
 import com.saloonme.ui.activities.BookActivity;
+import com.saloonme.ui.activities.CategoryFilterActivity;
 import com.saloonme.ui.activities.SaloonDetailsActivity;
 import com.saloonme.ui.activities.SearchActivity;
+import com.saloonme.ui.adapters.HomeServicesAdapter;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.SaloonListAdapter;
+import com.saloonme.ui.adapters.TrendingListAdapter;
 import com.saloonme.util.CirclePagerIndicatorDecoration;
 
 import java.util.Timer;
@@ -39,7 +42,7 @@ import butterknife.OnClick;
 
 
 public class HomeFragment extends BaseFragment implements OffersHorizontalAdapter.ItemListener,
-        SaloonListAdapter.ItemListener {
+        SaloonListAdapter.ItemListener, TrendingListAdapter.TrendingItemListener {
     @BindView(R.id.rv_horizontalOffers)
     RecyclerView rv_horizontalOffers;
     @BindView(R.id.tabs)
@@ -50,11 +53,21 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     TextView tv_popularPlaces;
     @BindView(R.id.rv_popularItems)
     RecyclerView rv_popularItems;
+    @BindView(R.id.tv_trending)
+    TextView tv_trending;
+    @BindView(R.id.rv_trendingItems)
+    RecyclerView rv_trendingItems;
+    @BindView(R.id.tv_home_services)
+    TextView tv_home_services;
+    @BindView(R.id.rv_homeServiceItems)
+    RecyclerView rv_homeServiceItems;
 
     private View view;
     private Timer timer;
     public int position = 0;
     private SaloonListAdapter saloonListAdapter;
+    private TrendingListAdapter trendingListAdapter;
+    private HomeServicesAdapter homeServicesAdapter;
     private OffersHorizontalAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
     private Dialog sort, filter;
@@ -166,6 +179,21 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
         rv_popularItems.setLayoutManager(pouplarListManager);
         rv_popularItems.setAdapter(saloonListAdapter);
         rv_popularItems.setNestedScrollingEnabled(false);
+
+
+        trendingListAdapter = new TrendingListAdapter(getContext(), this,false);
+        LinearLayoutManager trendingListManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_trendingItems.setLayoutManager(trendingListManager);
+        rv_trendingItems.setAdapter(trendingListAdapter);
+        rv_trendingItems.setNestedScrollingEnabled(false);
+
+        homeServicesAdapter = new HomeServicesAdapter(getContext(), this,false);
+        LinearLayoutManager homeServicesListManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_homeServiceItems.setLayoutManager(homeServicesListManager);
+        rv_homeServiceItems.setAdapter(homeServicesAdapter);
+        rv_homeServiceItems.setNestedScrollingEnabled(false);
     }
 
     private void setSnapHelper() {
@@ -193,6 +221,11 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     @Override
     public void onBookNowClick() {
         goToActivity(BookActivity.class);
+    }
+
+    @Override
+    public void onTrendingClick() {
+        goToActivity(CategoryFilterActivity.class);
     }
 
     class RemindTask extends TimerTask {

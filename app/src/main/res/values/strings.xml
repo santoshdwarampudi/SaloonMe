@@ -33,4 +33,6 @@
     <string name="payment_information">Payment Information</string>
     <string name="product_information">Product Information</string>
     <string name="popular_places">Popular Places</string>
+    <string name="trending">Trending</string>
+    <string name="home_services">Home Services</string>
 </resources>

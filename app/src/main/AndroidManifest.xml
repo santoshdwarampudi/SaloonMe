@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.CheckOutActivity"></activity>
+        <activity android:name=".ui.activities.CategoryFilterActivity"/>
+        <activity android:name=".ui.activities.CheckOutActivity" />
         <activity android:name=".ui.activities.BookActivity" />
         <activity android:name=".ui.activities.SaloonDetailsActivity" />
         <activity android:name=".ui.activities.SearchActivity" />

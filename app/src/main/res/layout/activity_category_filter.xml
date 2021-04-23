@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.athbk.ultimatetablayout.UltimateTabLayout
+        android:id="@+id/verticalTabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tab_orientation="vertical"
+        app:tab_style="sliding"
+        app:tab_position_icon="icon_left"
+        app:tab_under_line_color="@color/colorPrimaryDark"
+        app:tab_text_size="20"
+        app:tab_height="@dimen/_100sdp"
+        app:tab_height_under_line="2dp"
+        app:tab_resource_font="font/Roboto-BoldItalic.ttf"
+        app:tab_text_color="@color/colorPrimaryDark"
+        app:tab_width="@dimen/_100sdp"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"/>
+</LinearLayout>
