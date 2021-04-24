@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:fontFamily="@font/mulish_bold"
-        android:text="Select Barber"
+        android:text="Select Barber &amp; Seat"
         android:textColor="@android:color/black"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintStart_toStartOf="parent"

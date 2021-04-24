@@ -52,7 +52,7 @@ public class TrendingListAdapter extends RecyclerView.Adapter<TrendingListAdapte
         @OnClick(R.id.card_menu)
         void onTrendingClick() {
             if (itemListener != null) {
-                itemListener.onTrendingClick();
+                //itemListener.onTrendingClick();
             }
         }
         public ViewHolder(@NonNull View itemView) {

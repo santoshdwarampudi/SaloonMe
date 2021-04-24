@@ -22,12 +22,12 @@ public class FragmentAdapterDemo extends FragmentPagerAdapter implements IFTabAd
 
     @Override
     public int getCount() {
-        return 8;
+        return 5;
     }
 
     @Override
     public String getTitle(int position) {
-        return "TAB"+position;
+        return "Hair";
     }
 
     @Override
@@ -37,7 +37,7 @@ public class FragmentAdapterDemo extends FragmentPagerAdapter implements IFTabAd
 
     @Override
     public boolean isEnableBadge(int position) {
-        if (position == 0){
+        if (position == 0) {
             return true;
         }
         return false;

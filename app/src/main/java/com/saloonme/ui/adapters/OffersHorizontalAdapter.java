@@ -60,9 +60,8 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
 
         @OnClick(R.id.iv_banner)
         void onBannerClick() {
-           /* if (itemListener != null)
-                itemListener.onHorizontalItemClick(getAdapterPosition(), offersResponseDataList.get(getAdapterPosition()));
-      */
+            if (itemListener != null)
+                itemListener.onHorizontalItemClick();
         }
 
         public ViewHolder(@NonNull View itemView) {
@@ -89,6 +88,6 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
     }
 
     public interface ItemListener {
-        //void onHorizontalItemClick(int position, OffersResponseData offersResponseData);
+        void onHorizontalItemClick();
     }
 }

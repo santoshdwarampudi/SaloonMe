@@ -145,6 +145,7 @@
             android:padding="@dimen/_10sdp"
             android:text="Pay with Razorpay"
             android:textColor="@color/white"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/_14ssp"
+            android:visibility="gone" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

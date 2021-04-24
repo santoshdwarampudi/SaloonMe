@@ -5,25 +5,47 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.athbk.ultimatetablayout.OnClickTabListener;
 import com.athbk.ultimatetablayout.UltimateTabLayout;
 import com.saloonme.R;
 import com.saloonme.ui.adapters.FragmentAdapterDemo;
 
-public class CategoryFilterActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.OnClick;
+
+public class CategoryFilterActivity extends BaseAppCompactActivity {
 
     UltimateTabLayout tabLayout;
     ViewPager viewPager;
 
     FragmentAdapterDemo adapter;
+
+    @BindView(R.id.tv_heading)
+    TextView tv_heading;
+
+    @Override
+    public int getActivityLayout() {
+        return R.layout.activity_category_filter;
+    }
+
+    @OnClick(R.id.continue_btn)
+    void onContinueClick() {
+        goToActivity(BookActivity.class);
+    }
+
+    @OnClick(R.id.iv_menu)
+    void onBackClicked() {
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_filter);
-
-        tabLayout = (UltimateTabLayout)findViewById(R.id.verticalTabLayout);
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        tv_heading.setText("Select Service");
+        tabLayout = (UltimateTabLayout) findViewById(R.id.verticalTabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         adapter = new FragmentAdapterDemo(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -34,10 +56,9 @@ public class CategoryFilterActivity extends AppCompatActivity {
             public void onClickTab(int currentPos) {
                 Log.e("LOG", "OnClickTab " + currentPos);
                 viewPager.setCurrentItem(currentPos);
-                if (currentPos == 1){
+                if (currentPos == 1) {
                     tabLayout.setNumberBadge(currentPos, 0);
-                }
-                else {
+                } else {
                     tabLayout.setNumberBadge(currentPos, 1);
                 }
             }

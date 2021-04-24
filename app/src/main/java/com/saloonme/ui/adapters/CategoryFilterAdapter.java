@@ -18,7 +18,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     private Context context;
     private boolean showBookNowOption;
 
-    public CategoryFilterAdapter(Context context,  boolean showBookNowOption) {
+    public CategoryFilterAdapter(Context context, boolean showBookNowOption) {
         this.context = context;
 
         this.showBookNowOption = showBookNowOption;
@@ -33,7 +33,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
 
     @Override
     public void onBindViewHolder(@NonNull CategoryFilterAdapter.ViewHolder holder, int position) {
-
+        holder.setData();
     }
 
     @Override
@@ -51,6 +51,9 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             ButterKnife.bind(this, itemView);
         }
 
+        public void setData() {
+            itemCb.setText("Hair Style " + (getAdapterPosition() + 1));
+        }
     }
 
 }

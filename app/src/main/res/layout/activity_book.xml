@@ -47,7 +47,7 @@
 
             <include
                 android:id="@+id/book2"
-                layout="@layout/book_step_two"
+                layout="@layout/activity_check_out"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/bookTab" />
 

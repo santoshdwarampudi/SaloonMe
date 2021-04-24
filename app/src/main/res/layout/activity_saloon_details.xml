@@ -27,6 +27,14 @@
             android:layout_margin="@dimen/_8sdp"
             android:scaleType="fitXY"
             android:src="@drawable/saloon2"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_saloonImages"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_100sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -41,8 +49,8 @@
             android:paddingTop="@dimen/_3sdp"
             android:paddingRight="@dimen/_8sdp"
             android:paddingBottom="@dimen/_3sdp"
-            app:layout_constraintStart_toStartOf="@+id/iv_saloon"
-            app:layout_constraintTop_toTopOf="@+id/iv_saloon">
+            app:layout_constraintStart_toStartOf="@+id/rv_saloonImages"
+            app:layout_constraintTop_toTopOf="@+id/rv_saloonImages">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_rating"
@@ -65,7 +73,7 @@
             android:orientation="vertical"
             android:padding="@dimen/_5sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_saloon">
+            app:layout_constraintTop_toBottomOf="@+id/rv_saloonImages">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -118,6 +126,17 @@
                 android:fontFamily="@font/mulish_regular"
                 android:paddingBottom="@dimen/_5sdp"
                 android:text="Open Now (6Am-12Pm)"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_visitorCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:fontFamily="@font/mulish_regular"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="733 Persons Visited"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 

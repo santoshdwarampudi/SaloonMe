@@ -16,6 +16,7 @@ public class PrefUtils {
         static final String BIDBOL_SHARED_PREF = StringConstants.APPNAME;
         static final String ISLOGIN = "isLogin";
         static final String USERID = "userId";
+        static final String TOKEN = "tokem";
     }
 
     public static PrefUtils getInstance() {
@@ -37,6 +38,26 @@ public class PrefUtils {
 
     public boolean isLogin() {
         return getPreferences().getBoolean(PrefKeys.ISLOGIN, false);
+    }
+
+    public void saveIsLogin(boolean isLogin) {
+        getPreferences().edit().putBoolean(PrefKeys.ISLOGIN, isLogin).apply();
+    }
+
+    public void saveUserId(int userId) {
+        getPreferences().edit().putInt(PrefKeys.USERID, userId).apply();
+    }
+
+    public int getUserId() {
+        return getPreferences().getInt(PrefKeys.USERID, 0);
+    }
+
+    public void saveToken(String token) {
+        getPreferences().edit().putString(PrefKeys.TOKEN, token).apply();
+    }
+
+    public String geToken() {
+        return getPreferences().getString(PrefKeys.TOKEN, "");
     }
 
     public void clearSharedPref() {

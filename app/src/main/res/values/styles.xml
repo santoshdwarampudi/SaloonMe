@@ -40,4 +40,10 @@
         <item name="android:fontFamily">@font/mulish_regular</item>
         <item name="textAllCaps">false</item>
     </style>
+
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

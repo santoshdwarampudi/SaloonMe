@@ -11,13 +11,14 @@
     <application
         android:name=".util.AppApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.CategoryFilterActivity"/>
+        <activity android:name=".ui.activities.SaloonImagesActivity"></activity>
+        <activity android:name=".ui.activities.CategoryFilterActivity" />
         <activity android:name=".ui.activities.CheckOutActivity" />
         <activity android:name=".ui.activities.BookActivity" />
         <activity android:name=".ui.activities.SaloonDetailsActivity" />

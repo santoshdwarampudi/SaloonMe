@@ -166,14 +166,14 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
             timer = new Timer();
         timer.scheduleAtFixedRate(new RemindTask(), 2000, 2000);
 
-        saloonListAdapter = new SaloonListAdapter(getContext(), this,true);
+        saloonListAdapter = new SaloonListAdapter(getContext(), this, true);
         LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_menuItems.setLayoutManager(saloonListManager);
         rv_menuItems.setAdapter(saloonListAdapter);
         rv_menuItems.setNestedScrollingEnabled(false);
 
-        saloonListAdapter = new SaloonListAdapter(getContext(), this,false);
+        saloonListAdapter = new SaloonListAdapter(getContext(), this, false);
         LinearLayoutManager pouplarListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_popularItems.setLayoutManager(pouplarListManager);
@@ -181,14 +181,14 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
         rv_popularItems.setNestedScrollingEnabled(false);
 
 
-        trendingListAdapter = new TrendingListAdapter(getContext(), this,false);
+        trendingListAdapter = new TrendingListAdapter(getContext(), this, false);
         LinearLayoutManager trendingListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_trendingItems.setLayoutManager(trendingListManager);
         rv_trendingItems.setAdapter(trendingListAdapter);
         rv_trendingItems.setNestedScrollingEnabled(false);
 
-        homeServicesAdapter = new HomeServicesAdapter(getContext(), this,false);
+        homeServicesAdapter = new HomeServicesAdapter(getContext(), this, false);
         LinearLayoutManager homeServicesListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_homeServiceItems.setLayoutManager(homeServicesListManager);
@@ -220,12 +220,17 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
 
     @Override
     public void onBookNowClick() {
-        goToActivity(BookActivity.class);
+        goToActivity(CategoryFilterActivity.class);
     }
 
     @Override
     public void onTrendingClick() {
         goToActivity(CategoryFilterActivity.class);
+    }
+
+    @Override
+    public void onHorizontalItemClick() {
+
     }
 
     class RemindTask extends TimerTask {

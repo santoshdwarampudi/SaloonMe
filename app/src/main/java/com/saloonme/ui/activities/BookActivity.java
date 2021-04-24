@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
 import com.saloonme.ui.adapters.PhotosAdapter;
+import com.saloonme.ui.adapters.ProductsAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.ui.adapters.SeatBookingAdapter;
 import com.saloonme.ui.adapters.SelectBarbersAdapter;
@@ -27,10 +28,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class BookActivity extends BaseAppCompactActivity implements
-        SelectBarbersAdapter.ItemListener, SeatBookingAdapter.ItemListener {
+        SelectBarbersAdapter.ItemListener, SeatBookingAdapter.ItemListener,
+        ProductsAdapter.ItemListener {
     private SelectBarbersAdapter selectBarbersAdapter;
     private SeatBookingAdapter seatBookingAdapter;
     private int tabPosition = 0;
+    private ProductsAdapter productsAdapter;
     private int mYear, mMonth, mDay, mHour, mMinute;
     @BindView(R.id.bookTab)
     TabLayout tabLayout;
@@ -48,8 +51,10 @@ public class BookActivity extends BaseAppCompactActivity implements
     TextView previous;
     @BindView(R.id.next)
     TextView next;
-    @BindView(R.id.rv_seats)
-    RecyclerView rv_seats;
+    @BindView(R.id.rv_products)
+    RecyclerView rv_products;
+    /*@BindView(R.id.rv_seats)
+    RecyclerView rv_seats;*/
     @BindView(R.id.tv_select_date)
     TextView tv_select_date;
     @BindView(R.id.tv_select_time)
@@ -65,7 +70,8 @@ public class BookActivity extends BaseAppCompactActivity implements
         if (next.getText().toString().equalsIgnoreCase(getString(R.string.next))) {
             tabPosition++;
         } else {
-            goToActivity(CheckOutActivity.class);
+            // goToActivity(CheckOutActivity.class);
+            showToast("Redirect to payment gateway");
         }
         if (tabPosition > 0) {
             previous.setVisibility(View.VISIBLE);
@@ -150,23 +156,38 @@ public class BookActivity extends BaseAppCompactActivity implements
         tv_heading.setText("Book Now");
         setUpTabs();
         setBarbersRecyclerView();
-        setSeatSelectionRecycleView();
+        // setSeatSelectionRecycleView();
+        setUpProductsRecyclerview();
+    }
+
+    private void setUpProductsRecyclerview() {
+        productsAdapter = new ProductsAdapter(getContext(), this);
+        LinearLayoutManager saloonListManager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        rv_products.setLayoutManager(saloonListManager);
+        rv_products.setAdapter(productsAdapter);
+        rv_products.setNestedScrollingEnabled(false);
     }
 
     private void setSeatSelectionRecycleView() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
         seatBookingAdapter = new SeatBookingAdapter(getContext(), this);
-        rv_seats.setLayoutManager(layoutManager);
+       /* rv_seats.setLayoutManager(layoutManager);
         rv_seats.setAdapter(seatBookingAdapter);
-        rv_seats.setNestedScrollingEnabled(false);
+        rv_seats.setNestedScrollingEnabled(false);*/
     }
 
     private void setBarbersRecyclerView() {
-        selectBarbersAdapter = new SelectBarbersAdapter(getContext(), this);
+       /* selectBarbersAdapter = new SelectBarbersAdapter(getContext(), this);
         LinearLayoutManager saloonListManager = new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false);
         rv_barbers.setLayoutManager(saloonListManager);
         rv_barbers.setAdapter(selectBarbersAdapter);
+        rv_barbers.setNestedScrollingEnabled(false);*/
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
+        seatBookingAdapter = new SeatBookingAdapter(getContext(), this);
+        rv_barbers.setLayoutManager(layoutManager);
+        rv_barbers.setAdapter(seatBookingAdapter);
         rv_barbers.setNestedScrollingEnabled(false);
     }
 
