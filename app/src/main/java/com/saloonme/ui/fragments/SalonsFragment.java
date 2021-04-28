@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
+import com.saloonme.model.response.SaloonListResponseData;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.SaloonListAdapter;
 import com.saloonme.util.CirclePagerIndicatorDecoration;
@@ -138,7 +139,7 @@ public class SalonsFragment
 
 
     @Override
-    public void onItemClick() {
+    public void onItemClick(SaloonListResponseData saloonListResponseData) {
 
     }
 

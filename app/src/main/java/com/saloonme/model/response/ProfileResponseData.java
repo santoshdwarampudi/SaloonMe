@@ -38,7 +38,7 @@ public class ProfileResponseData implements Serializable {
     private String password;
     @SerializedName("profile_pic")
     @Expose
-    private Object profilePic;
+    private String profilePic;
     @SerializedName("pass_status")
     @Expose
     private String passStatus;
@@ -132,11 +132,11 @@ public class ProfileResponseData implements Serializable {
         this.password = password;
     }
 
-    public Object getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(Object profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 

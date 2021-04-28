@@ -24,6 +24,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
+import com.saloonme.interfaces.ISaloonDetailView;
+import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.response.SaloonDetailsImageResponse;
+import com.saloonme.model.response.SaloonListResponseData;
+import com.saloonme.model.response.SaloonReviewResponse;
+import com.saloonme.network.APIClient;
+import com.saloonme.presenters.SaloonDetailPresenter;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.PhotosAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
@@ -38,15 +45,19 @@ import butterknife.OnClick;
 
 public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         ReviewsAdapter.ItemListener, PhotosAdapter.ItemListener,
-        OffersHorizontalAdapter.ItemListener {
+        OffersHorizontalAdapter.ItemListener, ISaloonDetailView {
     private ReviewsAdapter reviewsAdapter;
     private PhotosAdapter photosAdapter;
     private OffersHorizontalAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
     private Timer timer;
     public int position = 0;
+    private SaloonDetailPresenter saloonDetailPresenter;
+    private SaloonListResponseData saloonListResponseData;
     @BindView(R.id.tv_heading)
     TextView tv_heading;
+    @BindView(R.id.tv_description_details)
+    TextView tv_description_details;
     @BindView(R.id.saloonTabs)
     TabLayout tabLayout;
     @BindView(R.id.rv_reviews)
@@ -63,6 +74,14 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     RecyclerView rv_photos;
     @BindView(R.id.rv_saloonImages)
     RecyclerView rv_saloonImages;
+    @BindView(R.id.tv_saloon)
+    TextView tv_saloon;
+    @BindView(R.id.tv_location)
+    TextView tv_location;
+    @BindView(R.id.tv_openTimings)
+    TextView tv_openTimings;
+    @BindView(R.id.tv_visitorCount)
+    TextView tv_visitorCount;
 
 
     @OnClick(R.id.iv_menu)
@@ -84,11 +103,27 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_heading.setText("Raj Saloon");
-        setUpTabs();
+        saloonDetailPresenter = new SaloonDetailPresenter(APIClient.getAPIService(),
+                this);
+        saloonListResponseData = (SaloonListResponseData)
+                getIntent().getSerializableExtra(StringConstants.EXTRA_DETAILS);
+        if (saloonListResponseData == null) {
+            showToast("Something went wrong");
+            finish();
+            return;
+        }
+        setSaloonImagesRecyclerView();
         setReviewRecyclerview();
         setPhotosRecyclerview();
-        setSaloonImagesRecyclerView();
+        saloonDetailPresenter.getSaloonImages(saloonListResponseData.getStoreId());
+        saloonDetailPresenter.getSaloonReviews(saloonListResponseData.getStoreId());
+        tv_heading.setText(saloonListResponseData.getStoreName());
+        tv_saloon.setText(saloonListResponseData.getStoreName());
+        tv_location.setText(saloonListResponseData.getAddress());
+        tv_description_details.setText(saloonListResponseData.getLongBio());
+        setUpTabs();
+
+
     }
 
     private void setSaloonImagesRecyclerView() {
@@ -109,6 +144,63 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     @Override
     public void onHorizontalItemClick() {
         showImage("");
+    }
+
+    @Override
+    public void getSaloonImageSuccess(SaloonDetailsImageResponse saloonDetailsImageResponse) {
+        if (saloonDetailsImageResponse == null) {
+            showToast("Failed to get the store images");
+            offersHorizontalAdapter.setData(null);
+            photosAdapter.setData(null);
+            return;
+        }
+        if (saloonDetailsImageResponse.getStatus().equalsIgnoreCase("failed")) {
+            showToast(saloonDetailsImageResponse.getMessage());
+            offersHorizontalAdapter.setData(null);
+            photosAdapter.setData(null);
+            return;
+        }
+        if (saloonDetailsImageResponse.getData() == null || saloonDetailsImageResponse.getData().size() == 0) {
+            showToast(saloonDetailsImageResponse.getMessage());
+            offersHorizontalAdapter.setData(null);
+            photosAdapter.setData(null);
+            return;
+        }
+        offersHorizontalAdapter.setData(saloonDetailsImageResponse.getData());
+        photosAdapter.setData(saloonDetailsImageResponse.getData());
+    }
+
+    @Override
+    public void getSaloonImageFailed() {
+        showToast("Failed to get the store images");
+        offersHorizontalAdapter.setData(null);
+        photosAdapter.setData(null);
+    }
+
+    @Override
+    public void getSaloonReviewSuccess(SaloonReviewResponse saloonReviewResponse) {
+        if (saloonReviewResponse == null) {
+            showToast("Failed to get the store reviews");
+            reviewsAdapter.setData(null);
+            return;
+        }
+        if (saloonReviewResponse.getStatus().equalsIgnoreCase("failed")) {
+            showToast(saloonReviewResponse.getMessage());
+            reviewsAdapter.setData(null);
+            return;
+        }
+        if (saloonReviewResponse.getData() == null || saloonReviewResponse.getData().size() == 0) {
+            showToast(saloonReviewResponse.getMessage());
+            reviewsAdapter.setData(null);
+            return;
+        }
+        reviewsAdapter.setData(saloonReviewResponse.getData());
+    }
+
+    @Override
+    public void getSaloonReviewFailed() {
+        showToast("Failed to get the store reviews");
+        reviewsAdapter.setData(null);
     }
 
     class RemindTask extends TimerTask {

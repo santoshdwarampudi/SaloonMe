@@ -19,9 +19,9 @@ public class LoginPresenter {
         this.apiInterface = apiInterface;
     }
 
-    public void loginUser(@Body LoginRequest loginRequest) {
+    public void loginUser(String userId, String pwd) {
         iLoginView.showProgressDialog("Login user....");
-        Call<LoginResponse> loginResponseCall = apiInterface.loginUser(loginRequest);
+        Call<LoginResponse> loginResponseCall = apiInterface.loginUser(userId, pwd);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

@@ -32,6 +32,7 @@
             android:text="10% Discount"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_14ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_saloon"/>
 
@@ -46,6 +47,7 @@
             android:text="27 Saloons"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_discount"/>
 

@@ -24,6 +24,13 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
+import com.saloonme.interfaces.IHomeView;
+import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.response.PromotionsResponse;
+import com.saloonme.model.response.SaloonListResponse;
+import com.saloonme.model.response.SaloonListResponseData;
+import com.saloonme.network.APIClient;
+import com.saloonme.presenters.HomePresenter;
 import com.saloonme.ui.activities.BookActivity;
 import com.saloonme.ui.activities.CategoryFilterActivity;
 import com.saloonme.ui.activities.SaloonDetailsActivity;
@@ -42,7 +49,8 @@ import butterknife.OnClick;
 
 
 public class HomeFragment extends BaseFragment implements OffersHorizontalAdapter.ItemListener,
-        SaloonListAdapter.ItemListener, TrendingListAdapter.TrendingItemListener {
+        SaloonListAdapter.ItemListener, TrendingListAdapter.TrendingItemListener, IHomeView,
+        HomeServicesAdapter.ItemListener {
     @BindView(R.id.rv_horizontalOffers)
     RecyclerView rv_horizontalOffers;
     @BindView(R.id.tabs)
@@ -71,6 +79,7 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     private OffersHorizontalAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
     private Dialog sort, filter;
+    private HomePresenter homePresenter;
 
     @OnClick(R.id.search_layout)
     void onSearchClick() {
@@ -138,15 +147,37 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
+        homePresenter = new HomePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
         setUpTabs();
         return view;
     }
 
+
     private void setUpTabs() {
         tabLayout.addTab(tabLayout.newTab().setText("Mens"));
         tabLayout.addTab(tabLayout.newTab().setText("Womens"));
         tabLayout.addTab(tabLayout.newTab().setText("Kids"));
+        homePresenter.getSaloonListBasedOnCategory("1");
+        homePresenter.getHomeServices("1", "1");
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "");
+                homePresenter.getHomeServices((tab.getPosition() + 1) + "",
+                        "1");
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void initRecyclerview() {
@@ -173,22 +204,22 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
         rv_menuItems.setAdapter(saloonListAdapter);
         rv_menuItems.setNestedScrollingEnabled(false);
 
-        saloonListAdapter = new SaloonListAdapter(getContext(), this, false);
+      /*  saloonListAdapter = new SaloonListAdapter(getContext(), this, false);
         LinearLayoutManager pouplarListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_popularItems.setLayoutManager(pouplarListManager);
         rv_popularItems.setAdapter(saloonListAdapter);
-        rv_popularItems.setNestedScrollingEnabled(false);
+        rv_popularItems.setNestedScrollingEnabled(false);*/
 
 
-        trendingListAdapter = new TrendingListAdapter(getContext(), this, false);
+        trendingListAdapter = new TrendingListAdapter(getContext(), this);
         LinearLayoutManager trendingListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_trendingItems.setLayoutManager(trendingListManager);
         rv_trendingItems.setAdapter(trendingListAdapter);
         rv_trendingItems.setNestedScrollingEnabled(false);
 
-        homeServicesAdapter = new HomeServicesAdapter(getContext(), this, false);
+        homeServicesAdapter = new HomeServicesAdapter(getContext(), this);
         LinearLayoutManager homeServicesListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_homeServiceItems.setLayoutManager(homeServicesListManager);
@@ -214,8 +245,10 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     }
 
     @Override
-    public void onItemClick() {
-        goToActivity(SaloonDetailsActivity.class);
+    public void onItemClick(SaloonListResponseData saloonListResponseData) {
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS,saloonListResponseData);
+        goToActivity(SaloonDetailsActivity.class,bundle);
     }
 
     @Override
@@ -230,6 +263,92 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
 
     @Override
     public void onHorizontalItemClick() {
+
+    }
+
+    @Override
+    public void saloonListFetchedSuccess(SaloonListResponse saloonListResponse) {
+        if (saloonListResponse == null) {
+            saloonListAdapter.setData(null);
+            return;
+        }
+        homePresenter.getPromotions();
+        if (saloonListResponse.getStatus().equalsIgnoreCase("failed")) {
+            showToast(saloonListResponse.getMessage());
+            saloonListAdapter.setData(null);
+            return;
+        }
+        if (saloonListResponse.getData() == null || saloonListResponse.getData().size() == 0) {
+            showToast(saloonListResponse.getMessage());
+            saloonListAdapter.setData(null);
+            return;
+        }
+        saloonListAdapter.setData(saloonListResponse.getData());
+    }
+
+    @Override
+    public void saloonListFetchedFailed() {
+        showToast("Failed to fetch the saloons");
+        saloonListAdapter.setData(null);
+        homePresenter.getPromotions();
+    }
+
+    @Override
+    public void promotionsFetchedSuccess(PromotionsResponse promotionsResponse) {
+        if (promotionsResponse != null) {
+            if (promotionsResponse.getStatus().equalsIgnoreCase("failed")) {
+                showToast(promotionsResponse.getMessage());
+                trendingListAdapter.setData(null);
+                return;
+            }
+            if (promotionsResponse.getData() == null || promotionsResponse.getData().size() == 0) {
+                showToast(promotionsResponse.getMessage());
+                trendingListAdapter.setData(null);
+                return;
+            }
+            trendingListAdapter.setData(promotionsResponse.getData());
+        } else {
+            trendingListAdapter.setData(null);
+            showToast("Failed to fetch the promotions");
+        }
+    }
+
+    @Override
+    public void promotionsFetchedFailed() {
+        trendingListAdapter.setData(null);
+        showToast("Failed to fetch the promotions");
+    }
+
+    @Override
+    public void homeServiceListFetchedSuccess(SaloonListResponse saloonListResponse) {
+        if (saloonListResponse != null) {
+            if (saloonListResponse.getStatus().equalsIgnoreCase("failed")) {
+                showToast(saloonListResponse.getMessage());
+                homeServicesAdapter.setData(null);
+                return;
+            }
+            if (saloonListResponse.getData() == null || saloonListResponse.getData().size() == 0) {
+                showToast(saloonListResponse.getMessage());
+                homeServicesAdapter.setData(null);
+                return;
+            }
+            homeServicesAdapter.setData(saloonListResponse.getData());
+        } else {
+            showToast("Failed to fetch the home services");
+            homeServicesAdapter.setData(null);
+            return;
+        }
+
+    }
+
+    @Override
+    public void homeServiceListFetchedFailed() {
+        showToast("Failed to fetch the home services");
+        homeServicesAdapter.setData(null);
+    }
+
+    @Override
+    public void onItemClick() {
 
     }
 

@@ -44,12 +44,12 @@ public class PrefUtils {
         getPreferences().edit().putBoolean(PrefKeys.ISLOGIN, isLogin).apply();
     }
 
-    public void saveUserId(int userId) {
-        getPreferences().edit().putInt(PrefKeys.USERID, userId).apply();
+    public void saveUserId(String userId) {
+        getPreferences().edit().putString(PrefKeys.USERID, userId).apply();
     }
 
-    public int getUserId() {
-        return getPreferences().getInt(PrefKeys.USERID, 0);
+    public String  getUserId() {
+        return getPreferences().getString(PrefKeys.USERID, "");
     }
 
     public void saveToken(String token) {

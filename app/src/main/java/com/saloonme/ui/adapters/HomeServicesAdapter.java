@@ -10,7 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
+import com.saloonme.interfaces.APIConstants;
+import com.saloonme.model.response.SaloonListResponseData;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,13 +25,17 @@ import butterknife.OnClick;
 
 public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapter.ViewHolder> {
     private Context context;
-    private SaloonListAdapter.ItemListener itemListener;
-    private boolean showBookNowOption;
+    private ItemListener itemListener;
+    private List<SaloonListResponseData> saloonListResponseDataList;
 
-    public HomeServicesAdapter(Context context, SaloonListAdapter.ItemListener itemListener, boolean showBookNowOption) {
+    public HomeServicesAdapter(Context context, ItemListener itemListener) {
         this.context = context;
         this.itemListener = itemListener;
-        this.showBookNowOption = showBookNowOption;
+    }
+
+    public void setData(List<SaloonListResponseData> saloonListResponseDataList) {
+        this.saloonListResponseDataList = saloonListResponseDataList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -36,12 +47,12 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeServicesAdapter.ViewHolder holder, int position) {
-
+        holder.setData(saloonListResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return saloonListResponseDataList != null ? saloonListResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,6 +75,14 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        public void setData(SaloonListResponseData saloonListResponseData) {
+            Glide.with(context).load(APIConstants.IMAGE_BASE_URL +
+                    saloonListResponseData.getStoreImg())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .into(iv_saloon);
         }
 
     }

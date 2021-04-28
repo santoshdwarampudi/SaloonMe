@@ -15,6 +15,10 @@ public class LoginResponseData implements Serializable {
     @SerializedName("token")
     @Expose
     private String token;
+    @SerializedName("user_id")
+    @Expose
+    private String userId;
+
 
     public String getEmailAddress() {
         return emailAddress;
@@ -40,4 +44,11 @@ public class LoginResponseData implements Serializable {
         this.token = token;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

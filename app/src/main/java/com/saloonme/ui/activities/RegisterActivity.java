@@ -56,10 +56,11 @@ public class RegisterActivity extends BaseAppCompactActivity implements IRegiste
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.setEmailAddress(email_tv.getText().toString());
             registerRequest.setFirstName(firstName_tv.getText().toString());
-            registerRequest.setLastName(lastName_tv.getText().toString());
             registerRequest.setMobileNumber(phoneNumber_tv.getText().toString());
             registerRequest.setPassword(password_tv.getText().toString());
-            registerPresenter.registerUser(registerRequest);
+            registerPresenter.registerUser(firstName_tv.getText().toString(), lastName_tv.getText()
+                            .toString(), password_tv.getText().toString(), email_tv.getText().toString(),
+                    password_tv.getText().toString());
         }
     }
 

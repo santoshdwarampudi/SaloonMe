@@ -65,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:paddingBottom="@dimen/_5sdp"
-            android:text="Ameerpet"
+            android:text="@string/dummy_text"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_bookNow"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_70sdp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_3sdp"
@@ -100,7 +100,6 @@
             android:text="Book Now"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_openTimings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_saloon"></androidx.appcompat.widget.AppCompatTextView>
 

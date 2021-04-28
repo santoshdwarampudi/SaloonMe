@@ -10,7 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
+import com.saloonme.interfaces.APIConstants;
+import com.saloonme.model.response.SaloonListResponseData;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,11 +27,17 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
     private Context context;
     private ItemListener itemListener;
     private boolean showBookNowOption;
+    private List<SaloonListResponseData> saloonListResponseDataList;
 
     public SaloonListAdapter(Context context, ItemListener itemListener, boolean showBookNowOption) {
         this.context = context;
         this.itemListener = itemListener;
         this.showBookNowOption = showBookNowOption;
+    }
+
+    public void setData(List<SaloonListResponseData> saloonListResponseDataList) {
+        this.saloonListResponseDataList = saloonListResponseDataList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -36,12 +49,12 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData();
+        holder.setData(saloonListResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return saloonListResponseDataList != null ? saloonListResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,7 +72,7 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
         @OnClick(R.id.card_menu)
         void onSaloonClick() {
             if (itemListener != null) {
-                itemListener.onItemClick();
+                itemListener.onItemClick(saloonListResponseDataList.get(getAdapterPosition()));
             }
         }
 
@@ -75,22 +88,23 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
             ButterKnife.bind(this, itemView);
         }
 
-        void setData() {
+        void setData(SaloonListResponseData saloonListResponseData) {
             if (showBookNowOption) {
                 tv_bookNow.setVisibility(View.VISIBLE);
             } else {
                 tv_bookNow.setVisibility(View.GONE);
             }
-            if (getAdapterPosition() % 2 == 0) {
-                iv_saloon.setImageDrawable(context.getDrawable(R.drawable.saloon1));
-            } else {
-                iv_saloon.setImageDrawable(context.getDrawable(R.drawable.saloon2));
-            }
+            Glide.with(context).load(APIConstants.IMAGE_BASE_URL + saloonListResponseData.getStoreImg())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .into(iv_saloon);
+            tv_saloon.setText(saloonListResponseData.getStoreName());
+            tv_location.setText(saloonListResponseData.getAddress());
         }
     }
 
     public interface ItemListener {
-        void onItemClick();
+        void onItemClick(SaloonListResponseData saloonListResponseData);
 
         void onBookNowClick();
     }

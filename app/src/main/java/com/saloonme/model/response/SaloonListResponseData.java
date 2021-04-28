@@ -80,7 +80,7 @@ public class SaloonListResponseData implements Serializable {
     private String aadharCardimg;
     @SerializedName("long_bio")
     @Expose
-    private Object longBio;
+    private String longBio;
     @SerializedName("status")
     @Expose
     private Object status;
@@ -310,11 +310,11 @@ public class SaloonListResponseData implements Serializable {
         this.aadharCardimg = aadharCardimg;
     }
 
-    public Object getLongBio() {
+    public String getLongBio() {
         return longBio;
     }
 
-    public void setLongBio(Object longBio) {
+    public void setLongBio(String longBio) {
         this.longBio = longBio;
     }
 

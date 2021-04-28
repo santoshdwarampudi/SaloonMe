@@ -48,7 +48,7 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
             LoginRequest loginRequest = new LoginRequest();
             loginRequest.setPassword(password_tv.getText().toString());
             loginRequest.setUserId(email_tv.getText().toString());
-            loginPresenter.loginUser(loginRequest);
+            loginPresenter.loginUser(email_tv.getText().toString(), password_tv.getText().toString());
         }
     }
 
@@ -70,6 +70,7 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
                 loginResponse.getData().size() > 0) {
             showToast(loginResponse.getMessage());
             PrefUtils.getInstance().saveIsLogin(true);
+            PrefUtils.getInstance().saveUserId(loginResponse.getData().get(0).getUserId());
             PrefUtils.getInstance().saveToken(loginResponse.getData().get(0).getToken());
             finish();
             goToActivity(MainActivity.class);

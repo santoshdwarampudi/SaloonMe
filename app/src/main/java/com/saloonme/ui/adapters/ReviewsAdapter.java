@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saloonme.R;
+import com.saloonme.model.response.SaloonReviewResponseData;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +23,16 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     private Context context;
     private ItemListener itemListener;
+    private List<SaloonReviewResponseData> saloonReviewResponseDataList;
 
     public ReviewsAdapter(Context context, ItemListener itemListener) {
         this.context = context;
         this.itemListener = itemListener;
+    }
+
+    public void setData(List<SaloonReviewResponseData> saloonReviewResponseDataList) {
+        this.saloonReviewResponseDataList = saloonReviewResponseDataList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -35,12 +44,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.Bind();
+        holder.Bind(saloonReviewResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return saloonReviewResponseDataList != null ? saloonReviewResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +70,9 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             ButterKnife.bind(this, itemView);
         }
 
-        void Bind() {
-
+        void Bind(SaloonReviewResponseData saloonReviewResponseData) {
+            tv_description.setText(saloonReviewResponseData.getReviewComments());
+            tv_reviewcount.setText("Rating :" + saloonReviewResponseData.getRating());
         }
     }
 
