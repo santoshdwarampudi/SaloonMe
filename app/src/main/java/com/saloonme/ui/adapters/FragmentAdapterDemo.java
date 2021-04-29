@@ -6,34 +6,49 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.athbk.ultimatetablayout.IFTabAdapter;
 import com.saloonme.R;
+import com.saloonme.model.response.SaloonServiceResponseData;
 import com.saloonme.ui.fragments.FragmentCategory;
+
+import java.util.List;
 
 public class FragmentAdapterDemo extends FragmentPagerAdapter implements IFTabAdapter {
 
+    private List<SaloonServiceResponseData>
+            saloonServiceResponseDataList;
+    private String saloonId;
 
-    public FragmentAdapterDemo(FragmentManager fm) {
+    public FragmentAdapterDemo(FragmentManager fm, List<SaloonServiceResponseData>
+            saloonServiceResponseDataList,String saloonId) {
         super(fm);
+        this.saloonServiceResponseDataList = saloonServiceResponseDataList;
+        this.saloonId=saloonId;
     }
+
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentCategory.newInstance();
+        return FragmentCategory.newInstance(saloonServiceResponseDataList.get(position).getId(),saloonId);
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return saloonServiceResponseDataList != null ? saloonServiceResponseDataList.size() : 0;
     }
 
     @Override
     public String getTitle(int position) {
-        return "Hair";
+        return saloonServiceResponseDataList.get(position).getName();
     }
 
     @Override
+    public int getIcon(int i) {
+        return 0;
+    }
+
+   /* @Override
     public int getIcon(int position) {
         return R.drawable.tab_1_selected;
-    }
+    }*/
 
     @Override
     public boolean isEnableBadge(int position) {

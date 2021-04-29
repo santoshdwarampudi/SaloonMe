@@ -10,18 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saloonme.R;
+import com.saloonme.model.response.SaloonSubServiceResponseData;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAdapter.ViewHolder> {
     private Context context;
-    private boolean showBookNowOption;
+    private List<SaloonSubServiceResponseData> saloonSubServiceResponseDataList;
 
-    public CategoryFilterAdapter(Context context, boolean showBookNowOption) {
+    public CategoryFilterAdapter(Context context) {
         this.context = context;
 
-        this.showBookNowOption = showBookNowOption;
+    }
+
+    public void setData(List<SaloonSubServiceResponseData> saloonSubServiceResponseDataList) {
+        this.saloonSubServiceResponseDataList = saloonSubServiceResponseDataList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,12 +40,12 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
 
     @Override
     public void onBindViewHolder(@NonNull CategoryFilterAdapter.ViewHolder holder, int position) {
-        holder.setData();
+        holder.setData(saloonSubServiceResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return saloonSubServiceResponseDataList != null ? saloonSubServiceResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,8 +58,8 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             ButterKnife.bind(this, itemView);
         }
 
-        public void setData() {
-            itemCb.setText("Hair Style " + (getAdapterPosition() + 1));
+        public void setData(SaloonSubServiceResponseData saloonSubServiceResponseData) {
+            itemCb.setText(saloonSubServiceResponseData.getServiceName());
         }
     }
 

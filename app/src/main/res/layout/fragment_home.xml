@@ -149,7 +149,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:background="@color/colorPrimary"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_popularPlaces"
@@ -174,14 +174,14 @@
                 android:layout_below="@+id/tabLayout"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@color/quantum_grey100"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="#D8D4D6"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

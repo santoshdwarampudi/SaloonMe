@@ -12,6 +12,9 @@ import com.saloonme.model.response.RegisterResponse;
 import com.saloonme.model.response.SaloonDetailsImageResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonReviewResponse;
+import com.saloonme.model.response.SaloonServiceResponse;
+import com.saloonme.model.response.SaloonSubServiceResponse;
+import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 
 import retrofit2.Call;
@@ -78,6 +81,25 @@ public interface ApiInterface {
     @GET(APIConstants.PROFILE)
     Call<ProfileResponse> getProfile(@Path("user_id") String useId,
                                      @Path("token") String token);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.MAIN_SERVICES)
+    Call<SaloonServiceResponse> getSaloonServices();
+
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.SUB_SERVICES)
+    Call<SaloonSubServiceResponse> getSubServices(@Path("saloon_id") String saloonId,
+                                                  @Path("service_id") String serviceId);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.POUPULARPLACES)
+    Call<SaloonListResponse> getPopularPlaces(@Path("lat") String lat,
+                                              @Path("logni") String logni);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.SLIDERS)
+    Call<SliderResponse> getSliders();
 
 
 }

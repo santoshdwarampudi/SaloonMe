@@ -91,7 +91,9 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
 
     @OnClick(R.id.tv_bookNow)
     void onBookNowClick() {
-        goToActivity(CategoryFilterActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.EXTRA_DETAILS, saloonListResponseData.getStoreId());
+        goToActivity(CategoryFilterActivity.class, bundle);
     }
 
 

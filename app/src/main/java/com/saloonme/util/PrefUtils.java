@@ -17,6 +17,8 @@ public class PrefUtils {
         static final String ISLOGIN = "isLogin";
         static final String USERID = "userId";
         static final String TOKEN = "tokem";
+        static final String LAT = "lat";
+        static final String LONG = "long";
     }
 
     public static PrefUtils getInstance() {
@@ -48,7 +50,7 @@ public class PrefUtils {
         getPreferences().edit().putString(PrefKeys.USERID, userId).apply();
     }
 
-    public String  getUserId() {
+    public String getUserId() {
         return getPreferences().getString(PrefKeys.USERID, "");
     }
 
@@ -58,6 +60,22 @@ public class PrefUtils {
 
     public String geToken() {
         return getPreferences().getString(PrefKeys.TOKEN, "");
+    }
+
+    public void saveLat(String lat) {
+        getPreferences().edit().putString(PrefKeys.LAT, lat).apply();
+    }
+
+    public String geLat() {
+        return getPreferences().getString(PrefKeys.LAT, "");
+    }
+
+    public void saveLogni(String logni) {
+        getPreferences().edit().putString(PrefKeys.LONG, logni).apply();
+    }
+
+    public String geLogni() {
+        return getPreferences().getString(PrefKeys.LONG, "");
     }
 
     public void clearSharedPref() {

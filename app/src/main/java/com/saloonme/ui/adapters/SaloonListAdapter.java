@@ -79,7 +79,7 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
         @OnClick(R.id.tv_bookNow)
         void onBookNowClick() {
             if (itemListener != null) {
-                itemListener.onBookNowClick();
+                itemListener.onBookNowClick(saloonListResponseDataList.get(getAdapterPosition()));
             }
         }
 
@@ -106,6 +106,6 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
     public interface ItemListener {
         void onItemClick(SaloonListResponseData saloonListResponseData);
 
-        void onBookNowClick();
+        void onBookNowClick(SaloonListResponseData saloonListResponseData);
     }
 }

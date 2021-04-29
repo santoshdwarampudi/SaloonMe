@@ -17,4 +17,9 @@ public interface APIConstants {
     String SALOON_DETAILS_IMAGES = "SalonDetailImages/" + "{saloon_id}";
     String SALOON_DETAILS_REVIEWS = "SalonDetailReview/" + "{saloon_id}";
     String PROFILE = "UserProfileDisplay/" + "{user_id}" + "/" + "{token}";
+    String SUB_SERVICES = "SalonDetailServices/" + "{service_id}" + "/" + "{saloon_id}";
+    String MAIN_SERVICES = "MainServices";
+    String SLIDERS = "ServiceSlider";
+    String ADD_CART = "Addtocart";
+    String POUPULARPLACES = "SalonsDisplayPopular/1/" + "{lat}" + "/" + "{logni}";
 }

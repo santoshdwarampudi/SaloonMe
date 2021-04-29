@@ -1,7 +1,6 @@
 package com.saloonme.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +15,27 @@ import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
 import com.saloonme.interfaces.APIConstants;
 import com.saloonme.model.response.SaloonDetailsImageResponseData;
-import com.saloonme.model.response.SaloonListResponseData;
+import com.saloonme.model.response.SliderResponseData;
 
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizontalAdapter.ViewHolder> {
+public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder> {
     private Context context;
     private String imagePath;
     private ItemListener itemListener;
-    private List<SaloonDetailsImageResponseData> saloonDetailsImageResponseDataList;
+    private List<SliderResponseData> saloonDetailsImageResponseDataList;
 
-    public OffersHorizontalAdapter(Context context, String imagePath, ItemListener itemListener) {
+    public SliderAdapter(Context context, String imagePath, ItemListener itemListener) {
         this.context = context;
         this.imagePath = imagePath;
         this.itemListener = itemListener;
     }
 
-    public void setData(List<SaloonDetailsImageResponseData> saloonDetailsImageResponseDataList) {
+    public void setData(List<SliderResponseData> saloonDetailsImageResponseDataList) {
         this.saloonDetailsImageResponseDataList = saloonDetailsImageResponseDataList;
         notifyDataSetChanged();
     }
@@ -75,9 +73,9 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
             ButterKnife.bind(this, itemView);
         }
 
-        public void setData(SaloonDetailsImageResponseData saloonDetailsImageResponseData) {
-            Glide.with(context).load(APIConstants.IMAGE_BASE_URL +
-                    saloonDetailsImageResponseData.getStoreImg())
+        public void setData(SliderResponseData saloonDetailsImageResponseData) {
+            Glide.with(context).load(
+                    saloonDetailsImageResponseData.getImagePath())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_banner);

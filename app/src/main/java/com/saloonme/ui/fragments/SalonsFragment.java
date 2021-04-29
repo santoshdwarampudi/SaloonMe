@@ -144,9 +144,8 @@ public class SalonsFragment
     }
 
     @Override
-    public void onBookNowClick() {
+    public void onBookNowClick(SaloonListResponseData saloonListResponseData) {
 
     }
-
 
 }

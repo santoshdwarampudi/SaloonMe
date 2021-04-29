@@ -28,6 +28,7 @@ import com.saloonme.ui.fragments.ProfileFragment;
 import com.saloonme.ui.fragments.SalonsFragment;
 import com.saloonme.util.LocationSingleTon;
 import com.saloonme.util.PrefUtils;
+import com.saloonme.util.ValidationUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -94,9 +95,21 @@ public class MainActivity extends BaseAppCompactActivity {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
+                    PrefUtils.getInstance().saveLat(location.getLatitude() + "");
+                    PrefUtils.getInstance().saveLogni(location.getLongitude() + "");
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     LocationSingleTon.instance().setLatLng(latLng);
                     setLocation();
+                } else {
+                    String lat = PrefUtils.getInstance().geLat();
+                    String logni = PrefUtils.getInstance().geLogni();
+                    if (!ValidationUtil.isNullOrEmpty(lat) && !ValidationUtil.isNullOrEmpty(logni)) {
+                        double double_lat = Double.parseDouble(lat);
+                        double double_longni = Double.parseDouble(logni);
+                        LatLng latLng = new LatLng(double_lat, double_longni);
+                        LocationSingleTon.instance().setLatLng(latLng);
+                        setLocation();
+                    }
                 }
             }
         });

@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
 import com.saloonme.interfaces.IHomeView;
@@ -29,6 +30,7 @@ import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonListResponseData;
+import com.saloonme.model.response.SliderResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.HomePresenter;
 import com.saloonme.ui.activities.BookActivity;
@@ -38,8 +40,10 @@ import com.saloonme.ui.activities.SearchActivity;
 import com.saloonme.ui.adapters.HomeServicesAdapter;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.SaloonListAdapter;
+import com.saloonme.ui.adapters.SliderAdapter;
 import com.saloonme.ui.adapters.TrendingListAdapter;
 import com.saloonme.util.CirclePagerIndicatorDecoration;
+import com.saloonme.util.LocationSingleTon;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,7 +52,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class HomeFragment extends BaseFragment implements OffersHorizontalAdapter.ItemListener,
+public class HomeFragment extends BaseFragment implements SliderAdapter.ItemListener,
         SaloonListAdapter.ItemListener, TrendingListAdapter.TrendingItemListener, IHomeView,
         HomeServicesAdapter.ItemListener {
     @BindView(R.id.rv_horizontalOffers)
@@ -73,10 +77,10 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     private View view;
     private Timer timer;
     public int position = 0;
-    private SaloonListAdapter saloonListAdapter;
+    private SaloonListAdapter saloonListAdapter, poupularListAdapter;
     private TrendingListAdapter trendingListAdapter;
     private HomeServicesAdapter homeServicesAdapter;
-    private OffersHorizontalAdapter offersHorizontalAdapter;
+    private SliderAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
     private Dialog sort, filter;
     private HomePresenter homePresenter;
@@ -150,6 +154,9 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
         homePresenter = new HomePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
         setUpTabs();
+        LatLng latLng = LocationSingleTon.instance().getLatLng();
+        homePresenter.getPopularPlaces(latLng.latitude + "", latLng.longitude + "");
+        homePresenter.getSliders();
         return view;
     }
 
@@ -181,7 +188,7 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     }
 
     private void initRecyclerview() {
-        offersHorizontalAdapter = new OffersHorizontalAdapter(getActivity(), null,
+        offersHorizontalAdapter = new SliderAdapter(getActivity(), null,
                 this);
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,
                 false);
@@ -204,12 +211,13 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
         rv_menuItems.setAdapter(saloonListAdapter);
         rv_menuItems.setNestedScrollingEnabled(false);
 
-      /*  saloonListAdapter = new SaloonListAdapter(getContext(), this, false);
+        poupularListAdapter = new SaloonListAdapter(getContext(), this,
+                false);
         LinearLayoutManager pouplarListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_popularItems.setLayoutManager(pouplarListManager);
-        rv_popularItems.setAdapter(saloonListAdapter);
-        rv_popularItems.setNestedScrollingEnabled(false);*/
+        rv_popularItems.setAdapter(poupularListAdapter);
+        rv_popularItems.setNestedScrollingEnabled(false);
 
 
         trendingListAdapter = new TrendingListAdapter(getContext(), this);
@@ -246,19 +254,21 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
 
     @Override
     public void onItemClick(SaloonListResponseData saloonListResponseData) {
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(StringConstants.EXTRA_DETAILS,saloonListResponseData);
-        goToActivity(SaloonDetailsActivity.class,bundle);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS, saloonListResponseData);
+        goToActivity(SaloonDetailsActivity.class, bundle);
     }
 
     @Override
-    public void onBookNowClick() {
-        goToActivity(CategoryFilterActivity.class);
+    public void onBookNowClick(SaloonListResponseData saloonListResponseData) {
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.EXTRA_DETAILS, saloonListResponseData.getStoreId());
+        goToActivity(CategoryFilterActivity.class, bundle);
     }
 
     @Override
     public void onTrendingClick() {
-        goToActivity(CategoryFilterActivity.class);
+        //goToActivity(CategoryFilterActivity.class);
     }
 
     @Override
@@ -268,11 +278,11 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
 
     @Override
     public void saloonListFetchedSuccess(SaloonListResponse saloonListResponse) {
+        homePresenter.getPromotions();
         if (saloonListResponse == null) {
             saloonListAdapter.setData(null);
             return;
         }
-        homePresenter.getPromotions();
         if (saloonListResponse.getStatus().equalsIgnoreCase("failed")) {
             showToast(saloonListResponse.getMessage());
             saloonListAdapter.setData(null);
@@ -345,6 +355,56 @@ public class HomeFragment extends BaseFragment implements OffersHorizontalAdapte
     public void homeServiceListFetchedFailed() {
         showToast("Failed to fetch the home services");
         homeServicesAdapter.setData(null);
+    }
+
+    @Override
+    public void pouplarListFetchedSuccess(SaloonListResponse saloonListResponse) {
+        if (saloonListResponse == null) {
+            poupularListAdapter.setData(null);
+            return;
+        }
+        if (saloonListResponse.getStatus().equalsIgnoreCase("failed")) {
+            showToast(saloonListResponse.getMessage());
+            poupularListAdapter.setData(null);
+            return;
+        }
+        if (saloonListResponse.getData() == null || saloonListResponse.getData().size() == 0) {
+            showToast(saloonListResponse.getMessage());
+            poupularListAdapter.setData(null);
+            return;
+        }
+        poupularListAdapter.setData(saloonListResponse.getData());
+    }
+
+    @Override
+    public void pouplarServiceListFetchedFailed() {
+        showToast("Failed to fetch the popular places ");
+        poupularListAdapter.setData(null);
+    }
+
+    @Override
+    public void sliderSuccess(SliderResponse sliderResponse) {
+        if (sliderResponse == null) {
+            offersHorizontalAdapter.setData(null);
+            return;
+        }
+        if (sliderResponse.getStatus().equalsIgnoreCase("failed")) {
+            showToast(sliderResponse.getMessage());
+            offersHorizontalAdapter.setData(null);
+            return;
+        }
+        if (sliderResponse.getData() == null || sliderResponse.getData().size() == 0) {
+            showToast(sliderResponse.getMessage());
+            offersHorizontalAdapter.setData(null);
+            return;
+        }
+        offersHorizontalAdapter.setData(sliderResponse.getData());
+    }
+
+    @Override
+    public void sliderFailed() {
+        showToast("Failed to fetch the offers");
+        offersHorizontalAdapter.setData(null);
     }
 
     @Override
