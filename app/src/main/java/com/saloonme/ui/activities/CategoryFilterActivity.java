@@ -12,6 +12,8 @@ import com.athbk.ultimatetablayout.UltimateTabLayout;
 import com.saloonme.R;
 import com.saloonme.interfaces.ISaloonServiceView;
 import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.response.AddCartResponse;
+import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonServiceResponse;
 import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.network.APIClient;
@@ -40,7 +42,9 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
 
     @OnClick(R.id.continue_btn)
     void onContinueClick() {
-        goToActivity(BookActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString(StringConstants.EXTRA_DETAILS,saloonId);
+        goToActivity(BookActivity.class,bundle);
     }
 
     @OnClick(R.id.iv_menu)
@@ -107,6 +111,26 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
 
     @Override
     public void saloonSubServiceFailed() {
+
+    }
+
+    @Override
+    public void addToCartSuccess(AddCartResponse addCartResponse) {
+
+    }
+
+    @Override
+    public void addToCartFailed() {
+
+    }
+
+    @Override
+    public void removeCartSuccess(RemoveCartResponse removeCartResponse) {
+
+    }
+
+    @Override
+    public void removeCartFailed() {
 
     }
 }

@@ -21,5 +21,9 @@ public interface APIConstants {
     String MAIN_SERVICES = "MainServices";
     String SLIDERS = "ServiceSlider";
     String ADD_CART = "Addtocart";
+    String DELETE_CART = "Deletecart/" + "{service_id}" + "/" + "{user_id}";
     String POUPULARPLACES = "SalonsDisplayPopular/1/" + "{lat}" + "/" + "{logni}";
+    String SHOW_BOOKING_ITEMS = "ShowBookingcartitems/" + "{user_id}";
+    String GET_EXPERTS = "GetExpertslist/" + "{saloon_id}";
+    String SALOON_DETAILS = "SalonDetails/" + "{saloon_id}";
 }

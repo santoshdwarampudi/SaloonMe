@@ -11,30 +11,50 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
+import com.saloonme.interfaces.APIConstants;
+import com.saloonme.interfaces.IBookView;
+import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.ExpertsListResponseData;
+import com.saloonme.model.response.SaloonListResponse;
+import com.saloonme.model.response.SaloonListResponseData;
+import com.saloonme.network.APIClient;
+import com.saloonme.presenters.BookNowPresenter;
 import com.saloonme.ui.adapters.PhotosAdapter;
 import com.saloonme.ui.adapters.ProductsAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.ui.adapters.SeatBookingAdapter;
 import com.saloonme.ui.adapters.SelectBarbersAdapter;
+import com.saloonme.util.ValidationUtil;
 
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class BookActivity extends BaseAppCompactActivity implements
         SelectBarbersAdapter.ItemListener, SeatBookingAdapter.ItemListener,
-        ProductsAdapter.ItemListener {
+        ProductsAdapter.ItemListener, IBookView {
     private SelectBarbersAdapter selectBarbersAdapter;
     private SeatBookingAdapter seatBookingAdapter;
     private int tabPosition = 0;
     private ProductsAdapter productsAdapter;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    private BookNowPresenter bookNowPresenter;
+    private String saloonId;
+    private ExpertsListResponseData expertsListResponseData;
+    private List<ExpertsListResponseData> expertsListResponseDataList;
     @BindView(R.id.bookTab)
     TabLayout tabLayout;
     @BindView(R.id.tv_heading)
@@ -59,6 +79,18 @@ public class BookActivity extends BaseAppCompactActivity implements
     TextView tv_select_date;
     @BindView(R.id.tv_select_time)
     TextView tv_select_time;
+    @BindView(R.id.iv_saloon)
+    ImageView iv_saloon;
+    @BindView(R.id.tv_saloon)
+    TextView tv_saloon;
+    @BindView(R.id.tv_location)
+    TextView tv_location;
+    @BindView(R.id.iv_barber)
+    ImageView iv_barber;
+    @BindView(R.id.tv_barberName)
+    TextView tv_barberName;
+    @BindView(R.id.barber_rating)
+    RatingBar barber_rating;
 
     @OnClick(R.id.iv_menu)
     void onBackClick() {
@@ -67,6 +99,25 @@ public class BookActivity extends BaseAppCompactActivity implements
 
     @OnClick(R.id.next)
     void onNextClick() {
+        if (tabPosition == 0) {
+            if (ValidationUtil.isNullOrEmpty(tv_select_date.getText().toString()) ||
+                    tv_select_date.getText().toString().equalsIgnoreCase
+                            (getResources().getString(R.string.select_date))) {
+                showToast("Please select Date");
+                return;
+            }
+            if (ValidationUtil.isNullOrEmpty(tv_select_time.getText().toString()) ||
+                    tv_select_time.getText().toString().equalsIgnoreCase
+                            (getResources().getString(R.string.select_time))) {
+                showToast("Please select time");
+                return;
+            }
+            if (expertsListResponseData == null) {
+                showToast("Please select barber");
+                return;
+            }
+
+        }
         if (next.getText().toString().equalsIgnoreCase(getString(R.string.next))) {
             tabPosition++;
         } else {
@@ -154,10 +205,18 @@ public class BookActivity extends BaseAppCompactActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_heading.setText("Book Now");
+        bookNowPresenter = new BookNowPresenter(APIClient.getAPIService(), this);
+        saloonId = getIntent().getStringExtra(StringConstants.EXTRA_DETAILS);
+        if (ValidationUtil.isNullOrEmpty(saloonId)) {
+            showToast("Something went wrong");
+            finish();
+        }
         setUpTabs();
         setBarbersRecyclerView();
         // setSeatSelectionRecycleView();
         setUpProductsRecyclerview();
+        bookNowPresenter.getBarbersData(saloonId);
+        bookNowPresenter.getSaloonDetails(saloonId);
     }
 
     private void setUpProductsRecyclerview() {
@@ -238,5 +297,76 @@ public class BookActivity extends BaseAppCompactActivity implements
 
             }
         });
+    }
+
+    @Override
+    public void getBarbersSuccess(ExpertsListResponse expertsListResponse) {
+        if (expertsListResponse == null) {
+            showToast("Failed to get the experts");
+            seatBookingAdapter.setData(null);
+        }
+        if (expertsListResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(expertsListResponse.getMessage());
+            seatBookingAdapter.setData(null);
+        }
+        if (expertsListResponse.getData() == null || expertsListResponse.getData().size() == 0) {
+            showToast(expertsListResponse.getMessage());
+            seatBookingAdapter.setData(null);
+        }
+        expertsListResponseDataList = expertsListResponse.getData();
+        seatBookingAdapter.setData(expertsListResponse.getData());
+    }
+
+    @Override
+    public void getBarbersFailed() {
+        showToast("Failed to get the experts");
+        seatBookingAdapter.setData(null);
+    }
+
+    @Override
+    public void getSaloonDetailsSuccess(SaloonListResponse saloonListResponse) {
+        if (saloonListResponse == null) {
+            showToast("Failed to get the experts");
+        }
+        if (saloonListResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(saloonListResponse.getMessage());
+        }
+        if (saloonListResponse.getData() == null || saloonListResponse.getData().size() == 0) {
+            showToast(saloonListResponse.getMessage());
+        }
+        setData(saloonListResponse.getData().get(0));
+    }
+
+    private void setData(SaloonListResponseData saloonListResponseData) {
+        tv_saloon.setText(saloonListResponseData.getStoreName());
+        tv_location.setText(saloonListResponseData.getAddress());
+        Glide.with(this).load(APIConstants.IMAGE_BASE_URL + saloonListResponseData.getStoreImg())
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(iv_saloon);
+    }
+
+    @Override
+    public void getSaloonDetailsFailed() {
+        showToast("Failed to get the saloon details");
+    }
+
+    @Override
+    public void onBarberSelect(ExpertsListResponseData expertsListResponseData, int position) {
+        this.expertsListResponseData = expertsListResponseData;
+        setBarberData();
+        for (ExpertsListResponseData expertsListResponseData1 : expertsListResponseDataList) {
+            expertsListResponseData1.setSelected(false);
+        }
+        expertsListResponseDataList.get(position).setSelected(true);
+        seatBookingAdapter.setData(expertsListResponseDataList);
+    }
+
+    private void setBarberData() {
+        Glide.with(this).load(expertsListResponseData.getProfileImage())
+                .apply(new RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(iv_barber);
+        tv_barberName.setText(expertsListResponseData.getName());
     }
 }

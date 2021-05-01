@@ -36,7 +36,10 @@ import com.saloonme.ui.adapters.PhotosAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.ui.adapters.SearchAdapter;
 import com.saloonme.ui.fragments.HomeFragment;
+import com.saloonme.util.PrefUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -91,9 +94,48 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
 
     @OnClick(R.id.tv_bookNow)
     void onBookNowClick() {
+        List<String> serviceIdsList = PrefUtils.getInstance().
+                getCartList(PrefUtils.getInstance().getUserId());
+        if (serviceIdsList == null || serviceIdsList.size() == 0) {
+            goToCategorySelectionScreen();
+        } else {
+            showConfirmDialogToRemove();
+        }
+
+    }
+
+    private void goToCategorySelectionScreen() {
         Bundle bundle = new Bundle();
         bundle.putString(StringConstants.EXTRA_DETAILS, saloonListResponseData.getStoreId());
         goToActivity(CategoryFilterActivity.class, bundle);
+    }
+
+    private void showConfirmDialogToRemove() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_confirmation);
+
+        TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
+        TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
+
+        noTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        yesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PrefUtils.getInstance().saveCartDetails(new
+                        ArrayList<>(), PrefUtils.getInstance().getUserId());
+                dialog.dismiss();
+                goToCategorySelectionScreen();
+            }
+        });
+
+        dialog.show();
     }
 
 

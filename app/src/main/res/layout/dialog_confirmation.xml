@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_confirm_dialog">
+
+
+        <TextView
+            android:id="@+id/messageTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/mulish_bold"
+            android:gravity="center"
+            android:text="Are you sure you want to remove the items in cart?"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/boyDifView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="26dp"
+            android:background="#9B9B9B"
+            app:layout_constraintTop_toBottomOf="@+id/messageTv" />
+
+
+        <TextView
+            android:id="@+id/noTv"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:fontFamily="@font/mulish_medium"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="#22609D"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@+id/yesTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/boyDifView" />
+
+        <View
+            android:id="@+id/midView"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="#9B9B9B"
+            app:layout_constraintBottom_toBottomOf="@+id/yesTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/yesTv" />
+
+        <TextView
+            android:id="@+id/yesTv"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:fontFamily="@font/mulish_medium"
+            android:gravity="center"
+            android:text="Delete"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/noTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/noTv"
+            app:layout_constraintTop_toTopOf="@+id/noTv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

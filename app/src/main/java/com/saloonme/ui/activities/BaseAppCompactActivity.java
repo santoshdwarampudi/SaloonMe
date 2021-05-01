@@ -1,6 +1,7 @@
 package com.saloonme.ui.activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -235,6 +236,8 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         dismissProgress();
         super.onStop();
     }
+
+
 
     @Override
     protected void onDestroy() {

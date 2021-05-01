@@ -3,7 +3,14 @@ package com.saloonme.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.saloonme.interfaces.StringConstants;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class PrefUtils {
     private static PrefUtils prefUtils;
@@ -19,6 +26,8 @@ public class PrefUtils {
         static final String TOKEN = "tokem";
         static final String LAT = "lat";
         static final String LONG = "long";
+        static final String CART_DETAILS = "cart_details";
+
     }
 
     public static PrefUtils getInstance() {
@@ -76,6 +85,29 @@ public class PrefUtils {
 
     public String geLogni() {
         return getPreferences().getString(PrefKeys.LONG, "");
+    }
+
+    public void saveCartDetails(List<String> subServiceIdList, String userId) {
+        HashMap<String, List<String>> cartHashList = new HashMap<String, List<String>>();
+        Gson gson = new Gson();
+        cartHashList.put(userId, subServiceIdList);
+        String json = gson.toJson(cartHashList);
+        getPreferences().edit().putString(PrefKeys.CART_DETAILS, json).apply();
+    }
+
+
+    public List<String> getCartList(String userId) {
+        Gson gson = new Gson();
+        String json = getPreferences().getString(PrefKeys.CART_DETAILS, null);
+        if (json == null)
+            return new ArrayList<>();
+        Type type = new TypeToken<HashMap<String, List<String>>>() {
+        }.getType();
+        HashMap<String, List<String>> transactionModelHashList = gson.fromJson(json, type);
+        if (transactionModelHashList.containsKey(userId))
+            return transactionModelHashList.get(userId);
+        else
+            return new ArrayList<>();
     }
 
     public void clearSharedPref() {

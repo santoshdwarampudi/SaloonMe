@@ -35,4 +35,8 @@
     <string name="popular_places">Popular Salons in City</string>
     <string name="trending">Trending</string>
     <string name="home_services">Home Services</string>
+    <string name="remove_cart">Remove from cart</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="select_date">select date</string>
+    <string name="select_time">select time</string>
 </resources>

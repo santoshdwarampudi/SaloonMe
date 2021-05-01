@@ -2,18 +2,80 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp">
 
-    <CheckBox
-        android:id="@+id/itemCb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_30sdp"
-        android:fontFamily="@font/mulish_regular"
-        android:padding="@dimen/_10sdp"
-        android:text="Hair Style"
-        android:textSize="@dimen/_15ssp"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_service"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_service_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:fontFamily="@font/mulish_bold"
+        android:text="saloon"
+        app:layout_constraintStart_toEndOf="@+id/iv_service"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="Duration"
+        app:layout_constraintStart_toEndOf="@+id/iv_service"
+        app:layout_constraintTop_toBottomOf="@+id/tv_service_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="Amount"
+        app:layout_constraintStart_toEndOf="@+id/iv_service"
+        app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="Discount"
+        app:layout_constraintStart_toEndOf="@+id/iv_service"
+        app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_add_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/mulish_bold"
+        android:padding="@dimen/_5sdp"
+        android:text="@string/add_to_cart"
+        android:layout_marginRight="@dimen/_3sdp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/tv_bookNow"
+        app:layout_constraintTop_toBottomOf="@+id/tv_discount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_bookNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/mulish_bold"
+        android:padding="@dimen/_5sdp"
+        android:text="Book Now"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_discount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

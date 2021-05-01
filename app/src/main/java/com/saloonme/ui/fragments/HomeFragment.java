@@ -44,7 +44,10 @@ import com.saloonme.ui.adapters.SliderAdapter;
 import com.saloonme.ui.adapters.TrendingListAdapter;
 import com.saloonme.util.CirclePagerIndicatorDecoration;
 import com.saloonme.util.LocationSingleTon;
+import com.saloonme.util.PrefUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -261,8 +264,47 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
 
     @Override
     public void onBookNowClick(SaloonListResponseData saloonListResponseData) {
+        List<String> serviceIdsList = PrefUtils.getInstance().
+                getCartList(PrefUtils.getInstance().getUserId());
+        if (serviceIdsList == null || serviceIdsList.size() == 0) {
+            goToCategorySelectionScreen(saloonListResponseData.getStoreId());
+        } else {
+            showConfirmDialogToRemove(saloonListResponseData.getStoreId());
+        }
+
+    }
+
+    private void showConfirmDialogToRemove(String storeId) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_confirmation);
+
+        TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
+        TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
+
+        noTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        yesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PrefUtils.getInstance().saveCartDetails(new
+                        ArrayList<>(), PrefUtils.getInstance().getUserId());
+                dialog.dismiss();
+                goToCategorySelectionScreen(storeId);
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void goToCategorySelectionScreen(String storeId) {
         Bundle bundle = new Bundle();
-        bundle.putString(StringConstants.EXTRA_DETAILS, saloonListResponseData.getStoreId());
+        bundle.putString(StringConstants.EXTRA_DETAILS, storeId);
         goToActivity(CategoryFilterActivity.class, bundle);
     }
 

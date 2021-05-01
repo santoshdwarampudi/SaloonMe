@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/_90sdp"
     android:layout_gravity="center"
+    android:id="@+id/seat_card"
     android:layout_margin="@dimen/_5sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/iv_barber"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_marginStart="@dimen/_12sdp"

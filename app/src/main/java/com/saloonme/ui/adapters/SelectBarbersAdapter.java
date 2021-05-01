@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.saloonme.R;
+import com.saloonme.model.response.ExpertsListResponseData;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,10 +21,15 @@ import butterknife.ButterKnife;
 public class SelectBarbersAdapter extends RecyclerView.Adapter<SelectBarbersAdapter.ViewHolder> {
     private Context context;
     private ItemListener itemListener;
+    private List<ExpertsListResponseData> expertsListResponseDataList;
 
     public SelectBarbersAdapter(Context context, ItemListener itemListener) {
         this.context = context;
         this.itemListener = itemListener;
+    }
+
+    public void setData(List<ExpertsListResponseData> expertsListResponseDataList) {
+        this.expertsListResponseDataList = expertsListResponseDataList;
     }
 
     @NonNull
@@ -33,12 +41,12 @@ public class SelectBarbersAdapter extends RecyclerView.Adapter<SelectBarbersAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData();
+        holder.setData(expertsListResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 15;
+        return expertsListResponseDataList != null ? expertsListResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +60,7 @@ public class SelectBarbersAdapter extends RecyclerView.Adapter<SelectBarbersAdap
             ButterKnife.bind(this, itemView);
         }
 
-        void setData() {
+        void setData(ExpertsListResponseData expertsListResponseData) {
 
         }
     }

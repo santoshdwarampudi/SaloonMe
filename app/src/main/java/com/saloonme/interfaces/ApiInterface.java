@@ -1,14 +1,19 @@
 package com.saloonme.interfaces;
 
 
+import com.saloonme.model.request.AddCartRequest;
 import com.saloonme.model.request.LoginRequest;
 import com.saloonme.model.request.RegisterRequest;
+import com.saloonme.model.response.AddCartResponse;
+import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CountriesResponse;
+import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.RegisterResponse;
+import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonDetailsImageResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonReviewResponse;
@@ -17,8 +22,11 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -101,5 +109,26 @@ public interface ApiInterface {
     @GET(APIConstants.SLIDERS)
     Call<SliderResponse> getSliders();
 
+
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.ADD_CART)
+    Call<AddCartResponse> addToCart(@Body AddCartRequest addCartRequest);
+
+    @Headers({"Accept: application/json"})
+    @DELETE(APIConstants.DELETE_CART)
+    Call<RemoveCartResponse> deleteCartItem(@Path("service_id") String serviceId,
+                                            @Path("user_id") String userId);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.SHOW_BOOKING_ITEMS)
+    Call<BookingItemsResponse> getBookingItems(@Path("user_id") String userId);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.GET_EXPERTS)
+    Call<ExpertsListResponse> getExperts(@Path("saloon_id") String saloonId);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.SALOON_DETAILS)
+    Call<SaloonListResponse> getSaloonDetails(@Path("saloon_id") String saloonId);
 
 }

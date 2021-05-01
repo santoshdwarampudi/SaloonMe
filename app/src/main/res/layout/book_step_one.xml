@@ -40,7 +40,7 @@
         android:fontFamily="@font/mulish_regular"
         android:gravity="center_vertical"
         android:padding="@dimen/_5sdp"
-        android:text="select date"
+        android:text="@string/select_date"
         android:textColor="@color/bottomNavigationInactiveColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_date" />
@@ -66,7 +66,7 @@
         android:fontFamily="@font/mulish_regular"
         android:gravity="center_vertical"
         android:padding="@dimen/_5sdp"
-        android:text="select time"
+        android:text="@string/select_time"
         android:textColor="@color/bottomNavigationInactiveColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_time" />

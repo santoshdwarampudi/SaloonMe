@@ -60,6 +60,7 @@ public class SaloonSubServiceResponseData implements Serializable {
     @SerializedName("service_url")
     @Expose
     private String serviceUrl;
+    private boolean isAddedToCart;
 
     public String getServiceId() {
         return serviceId;
@@ -203,5 +204,13 @@ public class SaloonSubServiceResponseData implements Serializable {
 
     public void setServiceUrl(String serviceUrl) {
         this.serviceUrl = serviceUrl;
+    }
+
+    public boolean isAddedToCart() {
+        return isAddedToCart;
+    }
+
+    public void setAddedToCart(boolean addedToCart) {
+        isAddedToCart = addedToCart;
     }
 }

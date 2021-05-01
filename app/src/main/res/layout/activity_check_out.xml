@@ -9,9 +9,9 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/custom_toolbar"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -74,8 +74,7 @@
                             android:id="@+id/iv_saloon"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/saloon2" />
+                            android:scaleType="fitXY" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -90,7 +89,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Raj Saloon"
+                                android:text=""
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -100,7 +99,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:fontFamily="@font/mulish_regular"
-                                android:text="Ameerpet"
+                                android:text=""
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -180,6 +179,7 @@
                                 android:id="@+id/barber_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 android:rating="3" />
                         </LinearLayout>
 
@@ -235,9 +235,7 @@
 
             <include
                 android:id="@+id/payment_layout"
-                layout="@layout/payment_info"
-                />
-
+                layout="@layout/payment_info" />
 
 
         </LinearLayout>
