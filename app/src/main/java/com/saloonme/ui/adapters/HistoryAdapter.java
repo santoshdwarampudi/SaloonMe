@@ -13,6 +13,7 @@ import com.saloonme.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private Context context;
@@ -47,6 +48,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         TextView tv_cancel;
         @BindView(R.id.tv_status_value)
         TextView tv_status_value;
+        @BindView(R.id.tv_add_review)
+        TextView tv_add_review;
+
+        @OnClick(R.id.tv_add_review)
+        void onAddReviewClick() {
+
+        }
+
+        @OnClick(R.id.tv_cancel)
+        void onCancelClick() {
+
+        }
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,16 +68,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         void setData() {
             if (isHistory) {
-                tv_cancel.setVisibility(View.VISIBLE);
+                tv_add_review.setVisibility(View.VISIBLE);
+                tv_cancel.setVisibility(View.GONE);
                 tv_status_value.setText("COMPLETED");
             } else {
-                tv_cancel.setVisibility(View.GONE);
+                tv_add_review.setVisibility(View.GONE);
+                tv_cancel.setVisibility(View.VISIBLE);
                 tv_status_value.setText("CONFIRMED");
             }
         }
     }
 
     public interface ItemListener {
+        void onAddReviewClick();
 
+        void onCancelClick();
     }
 }

@@ -2,7 +2,10 @@ package com.saloonme.presenters;
 
 import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IBookView;
+import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.ProfileResponse;
+import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonListResponse;
 
 import retrofit2.Call;
@@ -50,6 +53,61 @@ public class BookNowPresenter {
             public void onFailure(Call<SaloonListResponse> call, Throwable t) {
                 iBookView.dismissProgress();
                 iBookView.getSaloonDetailsFailed();
+            }
+        });
+    }
+
+    public void getProfileDetails(String userId, String token) {
+        iBookView.showProgressDialog("Getting Profile details....");
+        Call<ProfileResponse> profileResponseCall = apiInterface.getProfile(userId, token);
+        profileResponseCall.enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                iBookView.dismissProgress();
+                iBookView.getProfileDetailsSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                iBookView.dismissProgress();
+                iBookView.getProfileDetailsFailed();
+            }
+        });
+    }
+
+    public void getProductDetails(String userId) {
+        iBookView.showProgressDialog("Getting Product details....");
+        Call<BookingItemsResponse> bookingItemsResponseCall = apiInterface.getBookingItems(userId);
+        bookingItemsResponseCall.enqueue(new Callback<BookingItemsResponse>() {
+            @Override
+            public void onResponse(Call<BookingItemsResponse> call, Response<BookingItemsResponse> response) {
+                iBookView.dismissProgress();
+                iBookView.getProductDetailsSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BookingItemsResponse> call, Throwable t) {
+                iBookView.dismissProgress();
+                iBookView.getProductDetailsFailed();
+            }
+        });
+    }
+
+    public void removeCart(String userId, String serviceId) {
+        iBookView.showProgressDialog("Removing from cart...");
+        Call<RemoveCartResponse> removeCartResponseCall = apiInterface.deleteCartItem
+                (serviceId, userId);
+        removeCartResponseCall.enqueue(new Callback<RemoveCartResponse>() {
+            @Override
+            public void onResponse(Call<RemoveCartResponse> call, Response<RemoveCartResponse> response) {
+                iBookView.dismissProgress();
+                iBookView.removeCartSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RemoveCartResponse> call, Throwable t) {
+                iBookView.dismissProgress();
+                iBookView.removeCartFailed();
             }
         });
     }

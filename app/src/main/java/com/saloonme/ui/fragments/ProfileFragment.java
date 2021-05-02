@@ -23,6 +23,7 @@ import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.ProfileResponseData;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
+import com.saloonme.ui.activities.AddReviewActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
 import com.saloonme.util.PrefUtils;
 
@@ -68,7 +69,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         profilePresenter = new ProfilePresenter(APIClient.getAPIService(), this);
         setUpTabs();
         setUpRecyclerview(false);
-        profilePresenter.getProfileDetails(PrefUtils.getInstance().getUserId() ,
+        profilePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
                 PrefUtils.getInstance().geToken());
         return view;
     }
@@ -144,5 +145,15 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     @Override
     public void getProfileDetailsFailed() {
         showToast("Failed to get the profile details");
+    }
+
+    @Override
+    public void onAddReviewClick() {
+       goToActivity(AddReviewActivity.class);
+    }
+
+    @Override
+    public void onCancelClick() {
+
     }
 }

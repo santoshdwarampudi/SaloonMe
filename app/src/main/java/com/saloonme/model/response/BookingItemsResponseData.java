@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class BookingItemsResponseData implements Serializable {
+    @SerializedName("service_name")
+    @Expose
+    private String serviceName;
     @SerializedName("booking_id")
     @Expose
     private String bookingId;
@@ -524,4 +527,11 @@ public class BookingItemsResponseData implements Serializable {
         this.popularStatus = popularStatus;
     }
 
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
 }

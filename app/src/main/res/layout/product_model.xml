@@ -37,7 +37,8 @@
             android:fontFamily="@font/mulish_regular"
             android:text="Quantity :3"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"></androidx.appcompat.widget.AppCompatTextView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_price"
@@ -49,6 +50,16 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_remove_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/mulish_bold"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/remove_cart"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

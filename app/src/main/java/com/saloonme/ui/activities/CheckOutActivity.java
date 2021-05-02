@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.saloonme.R;
+import com.saloonme.model.response.BookingItemsResponseData;
 import com.saloonme.ui.adapters.ProductsAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
 
@@ -50,5 +51,10 @@ public class CheckOutActivity extends BaseAppCompactActivity implements Products
         rv_products.setLayoutManager(saloonListManager);
         rv_products.setAdapter(productsAdapter);
         rv_products.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public void onRemoveClick(BookingItemsResponseData bookingItemsResponseData) {
+
     }
 }
