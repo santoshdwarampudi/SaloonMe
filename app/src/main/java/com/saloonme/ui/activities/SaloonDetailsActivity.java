@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -102,6 +104,20 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
             showConfirmDialogToRemove();
         }
 
+    }
+
+    @OnClick(R.id.iv_directions)
+    void onDirectionsClick() {
+        try {
+            String strUri = "http://maps.google.com/maps?q=loc:" + saloonListResponseData.getLat() + ","
+                    + saloonListResponseData.getLng() + " (" + "Label which you want" + ")";
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+            intent.setClassName("com.google.android.apps.maps",
+                    "com.google.android.maps.MapsActivity");
+            startActivity(intent);
+        } catch (Exception e) {
+
+        }
     }
 
     private void goToCategorySelectionScreen() {

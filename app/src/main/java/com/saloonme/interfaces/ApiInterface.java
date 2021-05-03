@@ -3,13 +3,16 @@ package com.saloonme.interfaces;
 
 import com.saloonme.model.request.AddCartRequest;
 import com.saloonme.model.request.LoginRequest;
+import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.request.RegisterRequest;
+import com.saloonme.model.request.ReviewRequest;
 import com.saloonme.model.response.AddCartResponse;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CountriesResponse;
 import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.LoginResponse;
+import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.RegisterResponse;
@@ -22,6 +25,7 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 
+import java.net.CacheRequest;
 import java.util.List;
 
 import retrofit2.Call;
@@ -130,5 +134,17 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.SALOON_DETAILS)
     Call<SaloonListResponse> getSaloonDetails(@Path("saloon_id") String saloonId);
+
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.PLACE_ORDER)
+    Call<PlaceOrderResponse> placeOrder(@Body PlaceOrderRequest placeOrderRequest);
+
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.ADD_REVIEW)
+    Call<RemoveCartResponse> addReview(@Body ReviewRequest reviewRequest);
+
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.CANCEL_BOOKING)
+    Call<RemoveCartResponse> cancelBooking(@Body CacheRequest cacheRequest);
 
 }

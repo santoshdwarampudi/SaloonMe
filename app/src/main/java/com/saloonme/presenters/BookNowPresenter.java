@@ -2,8 +2,10 @@ package com.saloonme.presenters;
 
 import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IBookView;
+import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonListResponse;
@@ -108,6 +110,24 @@ public class BookNowPresenter {
             public void onFailure(Call<RemoveCartResponse> call, Throwable t) {
                 iBookView.dismissProgress();
                 iBookView.removeCartFailed();
+            }
+        });
+    }
+
+    public void placeOrder(PlaceOrderRequest placeOrderRequest) {
+        iBookView.showProgressDialog("Placing order...");
+        Call<PlaceOrderResponse> placeOrderResponseCall = apiInterface.placeOrder(placeOrderRequest);
+        placeOrderResponseCall.enqueue(new Callback<PlaceOrderResponse>() {
+            @Override
+            public void onResponse(Call<PlaceOrderResponse> call, Response<PlaceOrderResponse> response) {
+                iBookView.dismissProgress();
+                iBookView.placeOrderSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PlaceOrderResponse> call, Throwable t) {
+                iBookView.dismissProgress();
+                iBookView.placeOrderFailed();
             }
         });
     }

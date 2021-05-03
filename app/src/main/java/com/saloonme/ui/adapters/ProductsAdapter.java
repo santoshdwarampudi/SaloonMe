@@ -10,7 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
+import com.saloonme.interfaces.APIConstants;
 import com.saloonme.model.response.BookingItemsResponseData;
 
 import java.util.List;
@@ -76,6 +80,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         void setData(BookingItemsResponseData bookingItemsResponseData) {
             tv_product.setText(bookingItemsResponseData.getServiceName());
             tv_price.setText("Price :" + bookingItemsResponseData.getServicePrice());
+            Glide.with(context).load( bookingItemsResponseData.getServiceImg())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .into(iv_product);
         }
     }
 

@@ -129,18 +129,34 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_visitorCount"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:fontFamily="@font/mulish_regular"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="733 Persons Visited"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+                android:background="@color/white">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_visitorCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_regular"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="733 Persons Visited"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_directions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@android:drawable/ic_dialog_map"
+                    android:tint="@color/colorPrimary" />
+            </RelativeLayout>
         </LinearLayout>
 
         <Space

@@ -25,10 +25,12 @@ import com.saloonme.R;
 import com.saloonme.interfaces.APIConstants;
 import com.saloonme.interfaces.IBookView;
 import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.BookingItemsResponseData;
 import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.ExpertsListResponseData;
+import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.ProfileResponseData;
 import com.saloonme.model.response.RemoveCartResponse;
@@ -59,7 +61,7 @@ public class BookActivity extends BaseAppCompactActivity implements
     private ProductsAdapter productsAdapter;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private BookNowPresenter bookNowPresenter;
-    private String saloonId;
+    private String saloonId, bookingId, totalPrice, userInstruction;
     private ExpertsListResponseData expertsListResponseData;
     private List<ExpertsListResponseData> expertsListResponseDataList;
     @BindView(R.id.bookTab)
@@ -125,7 +127,17 @@ public class BookActivity extends BaseAppCompactActivity implements
             tabPosition++;
         } else {
             // goToActivity(CheckOutActivity.class);
-            showToast("Redirect to payment gateway");
+            // showToast("Redirect to payment gateway");
+            PlaceOrderRequest placeOrderRequest = new PlaceOrderRequest();
+            placeOrderRequest.setBarberId(expertsListResponseData.getBarId());
+            placeOrderRequest.setBookingDate(tv_select_date.getText().toString());
+            placeOrderRequest.setBookingId(bookingId);
+            placeOrderRequest.setSalonId(saloonId);
+            placeOrderRequest.setTime(tv_select_time.getText().toString());
+            placeOrderRequest.setUserId(PrefUtils.getInstance().getUserId());
+            placeOrderRequest.setTotalPrice(totalPrice);
+            placeOrderRequest.setUserInstruction(userInstruction);
+            bookNowPresenter.placeOrder(placeOrderRequest);
         }
         if (tabPosition > 0) {
             previous.setVisibility(View.VISIBLE);
@@ -193,7 +205,7 @@ public class BookActivity extends BaseAppCompactActivity implements
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
 
-                        tv_select_time.setText(hourOfDay + ":" + minute);
+                        tv_select_time.setText(hourOfDay + ":" + minute + ":00");
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
@@ -464,6 +476,28 @@ public class BookActivity extends BaseAppCompactActivity implements
     @Override
     public void removeCartFailed() {
         showToast("Failed to remove from cart");
+    }
+
+    @Override
+    public void placeOrderSuccess(PlaceOrderResponse placeOrderResponse) {
+        if (placeOrderResponse == null) {
+            showToast("Failed to palce order,try again later");
+            return;
+        }
+        if (placeOrderResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(placeOrderResponse.getMessage());
+            return;
+        }
+        if (placeOrderResponse.getData() == null) {
+            showToast(placeOrderResponse.getMessage());
+            return;
+        }
+        showToast(placeOrderResponse.getMessage());
+    }
+
+    @Override
+    public void placeOrderFailed() {
+        showToast("Failed to palce order,try again later");
     }
 
     @Override

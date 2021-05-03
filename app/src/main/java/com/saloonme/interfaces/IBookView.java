@@ -2,6 +2,7 @@ package com.saloonme.interfaces;
 
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonListResponse;
@@ -26,5 +27,9 @@ public interface IBookView extends IActivityBaseView {
     void removeCartSuccess(RemoveCartResponse removeCartResponse);
 
     void removeCartFailed();
+
+    void placeOrderSuccess(PlaceOrderResponse placeOrderResponse);
+
+    void placeOrderFailed();
 
 }

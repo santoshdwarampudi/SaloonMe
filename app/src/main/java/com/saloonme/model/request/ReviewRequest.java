@@ -9,15 +9,18 @@ public class ReviewRequest implements Serializable {
     @SerializedName("user_id")
     @Expose
     private String userId;
-    @SerializedName("booking_date")
+    @SerializedName("salon_id")
     @Expose
-    private String bookingDate;
-    @SerializedName("time")
-    @Expose
-    private String time;
+    private String salonId;
     @SerializedName("booking_id")
     @Expose
     private String bookingId;
+    @SerializedName("rating")
+    @Expose
+    private String rating;
+    @SerializedName("comments")
+    @Expose
+    private String comments;
 
     public String getUserId() {
         return userId;
@@ -27,20 +30,12 @@ public class ReviewRequest implements Serializable {
         this.userId = userId;
     }
 
-    public String getBookingDate() {
-        return bookingDate;
+    public String getSalonId() {
+        return salonId;
     }
 
-    public void setBookingDate(String bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setSalonId(String salonId) {
+        this.salonId = salonId;
     }
 
     public String getBookingId() {
@@ -51,4 +46,19 @@ public class ReviewRequest implements Serializable {
         this.bookingId = bookingId;
     }
 
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 }

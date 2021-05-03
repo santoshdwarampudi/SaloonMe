@@ -26,4 +26,7 @@ public interface APIConstants {
     String SHOW_BOOKING_ITEMS = "ShowBookingcartitems/" + "{user_id}";
     String GET_EXPERTS = "GetExpertslist/" + "{saloon_id}";
     String SALOON_DETAILS = "SalonDetails/" + "{saloon_id}";
+    String PLACE_ORDER = "PlaceOrder";
+    String ADD_REVIEW = "AddReview";
+    String CANCEL_BOOKING = "CancelBooking";
 }
