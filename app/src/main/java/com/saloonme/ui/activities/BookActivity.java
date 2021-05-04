@@ -2,6 +2,7 @@ package com.saloonme.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,7 +58,7 @@ public class BookActivity extends BaseAppCompactActivity implements
         ProductsAdapter.ItemListener, IBookView {
     private SelectBarbersAdapter selectBarbersAdapter;
     private SeatBookingAdapter seatBookingAdapter;
-    private int tabPosition = 0;
+    private int tabPosition = 0, serviceDuration = 0;
     private ProductsAdapter productsAdapter;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private BookNowPresenter bookNowPresenter;
@@ -69,7 +70,7 @@ public class BookActivity extends BaseAppCompactActivity implements
     @BindView(R.id.tv_heading)
     TextView tv_heading;
     @BindView(R.id.book1)
-    ConstraintLayout book1;
+    NestedScrollView book1;
     @BindView(R.id.book2)
     ConstraintLayout book2;
     @BindView(R.id.book3)
@@ -108,6 +109,16 @@ public class BookActivity extends BaseAppCompactActivity implements
     EditText et_phone;
     @BindView(R.id.et_address)
     EditText et_address;
+    @BindView(R.id.tv_discount_value)
+    TextView tv_discount_value;
+    @BindView(R.id.tv_total_payment_value)
+    TextView tv_total_payment_value;
+    @BindView(R.id.tv_payment_value)
+    TextView tv_payment_value;
+    @BindView(R.id.tv_booking_slot_value)
+    TextView tv_booking_slot_value;
+    @BindView(R.id.instructions_et)
+    EditText instructions_et;
 
     @OnClick(R.id.iv_menu)
     void onBackClick() {
@@ -135,8 +146,8 @@ public class BookActivity extends BaseAppCompactActivity implements
             placeOrderRequest.setSalonId(saloonId);
             placeOrderRequest.setTime(tv_select_time.getText().toString());
             placeOrderRequest.setUserId(PrefUtils.getInstance().getUserId());
-            placeOrderRequest.setTotalPrice(totalPrice);
-            placeOrderRequest.setUserInstruction(userInstruction);
+            placeOrderRequest.setTotalPrice(tv_total_payment_value.getText().toString());
+            placeOrderRequest.setUserInstruction(instructions_et.getText().toString());
             bookNowPresenter.placeOrder(placeOrderRequest);
         }
         if (tabPosition > 0) {
@@ -191,6 +202,10 @@ public class BookActivity extends BaseAppCompactActivity implements
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
+        if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
+                !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
+            showDuration();
+        }
     }
 
     @OnClick(R.id.tv_select_time)
@@ -209,6 +224,10 @@ public class BookActivity extends BaseAppCompactActivity implements
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+        if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
+                !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
+            showDuration();
+        }
     }
 
     @Override
@@ -237,6 +256,10 @@ public class BookActivity extends BaseAppCompactActivity implements
         bookNowPresenter.getProductDetails(PrefUtils.getInstance().getUserId());
     }
 
+    private void showDuration() {
+
+    }
+
     private boolean validateDataAtFirstStep() {
         if (ValidationUtil.isNullOrEmpty(tv_select_date.getText().toString()) ||
                 tv_select_date.getText().toString().equalsIgnoreCase
@@ -250,10 +273,10 @@ public class BookActivity extends BaseAppCompactActivity implements
             showToast("Please select time");
             return false;
         }
-        if (expertsListResponseData == null) {
+       /* if (expertsListResponseData == null) {
             showToast("Please select barber");
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -451,7 +474,21 @@ public class BookActivity extends BaseAppCompactActivity implements
             productsAdapter.setData(null);
             return;
         }
+        bookingId = bookingItemsResponse.getData().get(0).getBookingId();
         productsAdapter.setData(bookingItemsResponse.getData());
+        getDurationInMinutes(bookingItemsResponse.getData());
+        tv_payment_value.setText(bookingItemsResponse.getTotalPrice());
+        tv_discount_value.setText(bookingItemsResponse.getOverallDiscount());
+        int totalPayment = Integer.parseInt(bookingItemsResponse.getTotalPrice()) -
+                Integer.parseInt(bookingItemsResponse.getOverallDiscount());
+        tv_total_payment_value.setText(totalPayment + "");
+    }
+
+    private void getDurationInMinutes(List<BookingItemsResponseData> data) {
+        for (BookingItemsResponseData bookingItemsResponseData : data) {
+            serviceDuration = serviceDuration + Integer.
+                    parseInt(bookingItemsResponseData.getServiceDuration());
+        }
     }
 
     @Override
@@ -493,6 +530,8 @@ public class BookActivity extends BaseAppCompactActivity implements
             return;
         }
         showToast(placeOrderResponse.getMessage());
+        finishAffinity();
+        goToActivity(MainActivity.class);
     }
 
     @Override

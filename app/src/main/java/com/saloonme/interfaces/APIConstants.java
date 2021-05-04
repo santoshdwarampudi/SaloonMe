@@ -29,4 +29,5 @@ public interface APIConstants {
     String PLACE_ORDER = "PlaceOrder";
     String ADD_REVIEW = "AddReview";
     String CANCEL_BOOKING = "CancelBooking";
+    String USER_BOOKINGS = "BookingDetails/" + "{user_id}";
 }

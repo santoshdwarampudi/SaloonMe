@@ -16,6 +16,12 @@ public class BookingItemsResponse implements Serializable {
     @SerializedName("data")
     @Expose
     private List<BookingItemsResponseData> data = null;
+    @SerializedName("total_price")
+    @Expose
+    private String totalPrice;
+    @SerializedName("overall_discount")
+    @Expose
+    private String overallDiscount;
 
     public String getStatus() {
         return status;
@@ -39,5 +45,21 @@ public class BookingItemsResponse implements Serializable {
 
     public void setData(List<BookingItemsResponseData> data) {
         this.data = data;
+    }
+
+    public String getOverallDiscount() {
+        return overallDiscount;
+    }
+
+    public void setOverallDiscount(String overallDiscount) {
+        this.overallDiscount = overallDiscount;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

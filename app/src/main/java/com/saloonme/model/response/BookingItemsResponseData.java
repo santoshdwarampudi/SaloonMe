@@ -15,6 +15,9 @@ public class BookingItemsResponseData implements Serializable {
     @SerializedName("booking_id")
     @Expose
     private String bookingId;
+    @SerializedName("service_duration")
+    @Expose
+    private String serviceDuration;
     @SerializedName("book_status")
     @Expose
     private String bookStatus;
@@ -544,5 +547,13 @@ public class BookingItemsResponseData implements Serializable {
 
     public void setServiceImg(String serviceImg) {
         this.serviceImg = serviceImg;
+    }
+
+    public String getServiceDuration() {
+        return serviceDuration;
+    }
+
+    public void setServiceDuration(String serviceDuration) {
+        this.serviceDuration = serviceDuration;
     }
 }
