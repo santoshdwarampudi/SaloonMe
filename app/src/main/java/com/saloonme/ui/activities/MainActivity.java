@@ -1,6 +1,5 @@
 package com.saloonme.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,7 +9,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
@@ -21,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.saloonme.R;
-import com.saloonme.ui.fragments.CartFragment;
+import com.saloonme.ui.fragments.ClickAndShareFragment;
 import com.saloonme.ui.fragments.HomeFragment;
 import com.saloonme.ui.fragments.MoreFragment;
 import com.saloonme.ui.fragments.ProfileFragment;
@@ -79,7 +77,7 @@ public class MainActivity extends BaseAppCompactActivity {
                         loadFragment(new SalonsFragment());
                         break;
                     case 3:
-                        loadFragment(new CartFragment());
+                        loadFragment(new ClickAndShareFragment());
                         break;
                     case 4:
                         loadFragment(new MoreFragment());

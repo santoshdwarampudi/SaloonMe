@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".propel.activity.SocialTimeLineCommentActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/newCommentView"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentsRv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/newComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:elevation="1dp"
+            android:fontFamily="@font/mulish_medium"
+            android:hint="Add a comment.."
+            android:singleLine="true"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/newCommentUserIv"
+            app:layout_constraintEnd_toStartOf="@+id/icSendCommentTc"
+            app:layout_constraintStart_toEndOf="@+id/newCommentUserIv"
+            app:layout_constraintTop_toTopOf="@+id/newCommentUserIv" />
+
+        <ImageView
+            android:id="@+id/newCommentUserIv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="5dp"
+            android:elevation="1dp"
+            android:src="@drawable/user_timeline"
+            app:layout_constraintBottom_toBottomOf="@+id/newCommentView"
+            app:layout_constraintStart_toStartOf="@+id/newCommentView"
+            app:layout_constraintTop_toTopOf="@+id/newCommentView" />
+
+        <View
+            android:id="@+id/newCommentView"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="25dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_new_comment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/icSendCommentTc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_send_comment"
+            app:layout_constraintBottom_toBottomOf="@+id/newCommentView"
+            app:layout_constraintEnd_toEndOf="@+id/newCommentView"
+            app:layout_constraintTop_toTopOf="@+id/newCommentView" />
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/custom_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

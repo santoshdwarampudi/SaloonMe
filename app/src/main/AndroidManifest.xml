@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.AddReviewActivity"></activity>
+        <activity
+            android:name=".ui.activities.CommentsActivity"
+            android:label="@string/title_activity_comments"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ui.activities.AddReviewActivity" />
         <activity android:name=".ui.activities.SaloonImagesActivity" />
         <activity android:name=".ui.activities.CategoryFilterActivity" />
         <activity android:name=".ui.activities.CheckOutActivity" />
@@ -26,6 +30,10 @@
         <activity android:name=".ui.activities.SearchActivity" />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CropImageTheme" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:screenOrientation="portrait">
