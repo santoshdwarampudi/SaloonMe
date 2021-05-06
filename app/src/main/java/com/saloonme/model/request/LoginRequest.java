@@ -9,6 +9,7 @@ public class LoginRequest implements Serializable {
     @SerializedName("user_id")
     @Expose
     private String userId;
+
     @SerializedName("password")
     @Expose
     private String password;

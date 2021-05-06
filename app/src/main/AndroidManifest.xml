@@ -17,10 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.activities.FeedUploadActivity"></activity>
         <activity
             android:name=".ui.activities.CommentsActivity"
             android:label="@string/title_activity_comments"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activities.AddReviewActivity" />
         <activity android:name=".ui.activities.SaloonImagesActivity" />
         <activity android:name=".ui.activities.CategoryFilterActivity" />

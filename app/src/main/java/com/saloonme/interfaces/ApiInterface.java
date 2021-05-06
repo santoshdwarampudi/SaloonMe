@@ -12,6 +12,7 @@ import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CountriesResponse;
 import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.FeedUploadResponse;
 import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
@@ -30,6 +31,7 @@ import com.saloonme.model.response.UserBookingDetailsResponse;
 import java.net.CacheRequest;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -37,7 +39,9 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -152,5 +156,14 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.USER_BOOKINGS)
     Call<UserBookingDetailsResponse> getUserBookings(@Path("user_id") String userId);
+
+    @Headers({"Accept: application/json"})
+    @Multipart
+    @POST(APIConstants.FEED_FORM)
+    Call<FeedUploadResponse> uploadForm(@Part("feed_name") String feed_name,
+                                        @Part("feed_link") String feed_link,
+                                        @Part("description") String description,
+                                        @Part("user_id") String user_id,
+                                        @Part MultipartBody.Part timeLineImg);
 
 }

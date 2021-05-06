@@ -1,5 +1,6 @@
 package com.saloonme.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saloonme.R;
+import com.saloonme.ui.activities.FeedUploadActivity;
 import com.saloonme.ui.adapters.FeedAdapter;
 
 import java.io.File;
@@ -30,13 +33,9 @@ public class ClickAndShareFragment extends BaseFragment {
     private View view;
     @BindView(R.id.postRv)
     RecyclerView postRv;
-    @BindView(R.id.postEt)
-    EditText postEt;
-    @BindView(R.id.attachTv)
-    TextView attachTv;
-    @BindView(R.id.postTv)
-    TextView postTv;
-    private MultipartBody.Part mImage;
+    @BindView(R.id.addFeed)
+    FloatingActionButton addFeed;
+
     private FeedAdapter feedAdapter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -62,16 +61,9 @@ public class ClickAndShareFragment extends BaseFragment {
         postRv.setAdapter(feedAdapter);
     }
 
-    @OnClick(R.id.attachTv)
-    void onAttachClick() {
-        FilePickerBottomSheetFragment.start(
-                (file, uri, compressedFilePath, mimeType, extension) -> {
-                    mImage = MultipartBody.Part.createFormData(
-                            "file",
-                            String.format(Locale.US, "file%s", extension),
-                            RequestBody.create(MediaType.parse(mimeType),
-                                    new File(compressedFilePath)));
-                     attachTv.setText("Attachment added");
-                }).display(getFragmentManager());
+    @OnClick(R.id.addFeed)
+    void onAddFeed(){
+        Intent i = new Intent(getContext(), FeedUploadActivity.class);
+        startActivity(i);
     }
 }
