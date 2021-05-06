@@ -2,6 +2,7 @@ package com.saloonme.interfaces;
 
 
 import com.saloonme.model.request.AddCartRequest;
+import com.saloonme.model.request.CancelRequest;
 import com.saloonme.model.request.LoginRequest;
 import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.request.RegisterRequest;
@@ -24,6 +25,7 @@ import com.saloonme.model.response.SaloonServiceResponse;
 import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
+import com.saloonme.model.response.UserBookingDetailsResponse;
 
 import java.net.CacheRequest;
 import java.util.List;
@@ -145,6 +147,10 @@ public interface ApiInterface {
 
     @Headers({"Accept: application/json"})
     @POST(APIConstants.CANCEL_BOOKING)
-    Call<RemoveCartResponse> cancelBooking(@Body CacheRequest cacheRequest);
+    Call<RemoveCartResponse> cancelBooking(@Body CancelRequest cancelRequest);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.USER_BOOKINGS)
+    Call<UserBookingDetailsResponse> getUserBookings(@Path("user_id") String userId);
 
 }

@@ -35,9 +35,19 @@
                 app:tabPaddingEnd="10dp"
                 app:tabPaddingStart="30dp" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_bookings"
+                android:id="@+id/rv_upcoming_bookings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tabLayout"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/tabLayout"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="?attr/actionBarSize"

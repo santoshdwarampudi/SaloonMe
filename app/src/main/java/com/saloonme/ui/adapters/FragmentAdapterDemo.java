@@ -27,7 +27,7 @@ public class FragmentAdapterDemo extends FragmentPagerAdapter implements IFTabAd
 
     @Override
     public Fragment getItem(int position) {
-        return FragmentCategory.newInstance(saloonServiceResponseDataList.get(position).getId(),saloonId);
+        return FragmentCategory.newInstance(saloonId,saloonServiceResponseDataList.get(position).getId());
     }
 
     @Override

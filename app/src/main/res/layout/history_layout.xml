@@ -17,14 +17,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_reschdule"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@color/blue"
+        android:fontFamily="@font/mulish_regular"
+        android:padding="@dimen/_5sdp"
+        android:text="Reschedule"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/tv_cancel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/tv_cancel"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_30sdp"
-        android:background="@drawable/rounded_colorprimary"
+        android:background="@android:color/holo_red_dark"
         android:fontFamily="@font/mulish_regular"
         android:padding="@dimen/_5sdp"
         android:text="Cancel"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -63,12 +77,35 @@
         app:layout_constraintTop_toBottomOf="@id/view1" />
 
     <TextView
+        android:id="@+id/tv_booking_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/mulish_bold"
+        android:text="Booking Price : "
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_saloon" />
+
+    <TextView
+        android:id="@+id/tv_booking_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:text="400"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toEndOf="@+id/tv_booking_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_saloon" />
+
+    <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:fontFamily="@font/mulish_regular"
         android:text="Cluster I, Jumeirah Lake Towers (JLT)"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_saloon" />
 
@@ -92,6 +129,20 @@
         app:layout_constraintStart_toEndOf="@id/tv_status"
         app:layout_constraintTop_toBottomOf="@id/time_layout" />
 
+    <TextView
+        android:id="@+id/tv_view_booking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@android:color/holo_green_dark"
+        android:fontFamily="@font/mulish_bold"
+        android:padding="@dimen/_1sdp"
+        android:text="View Booking"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_status_value"
+        app:layout_constraintTop_toBottomOf="@id/time_layout" />
+
     <LinearLayout
         android:id="@+id/time_layout"
         android:layout_width="match_parent"
@@ -99,12 +150,12 @@
         android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_address">
+        app:layout_constraintTop_toBottomOf="@+id/tv_booking_price">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -131,7 +182,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -160,7 +211,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

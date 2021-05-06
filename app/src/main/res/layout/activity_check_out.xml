@@ -171,7 +171,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Raj.G"
+                                android:text=""
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 

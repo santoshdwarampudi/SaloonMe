@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.saloonme.R;
 import com.saloonme.interfaces.IRatingView;
+import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.request.ReviewRequest;
+import com.saloonme.model.response.CompletedDetail;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ReviewPresenter;
@@ -21,7 +23,7 @@ import butterknife.OnClick;
 
 public class AddReviewActivity extends BaseAppCompactActivity implements IRatingView {
     private ReviewPresenter reviewPresenter;
-    private String bookingId, saloonId;
+    private CompletedDetail completedDetail;
     @BindView(R.id.tv_heading)
     TextView tv_heading;
     @BindView(R.id.comments_et)
@@ -40,10 +42,10 @@ public class AddReviewActivity extends BaseAppCompactActivity implements IRating
             showToast("Please enter review to submit");
         } else {
             ReviewRequest reviewRequest = new ReviewRequest();
-            reviewRequest.setBookingId(bookingId);
+            reviewRequest.setBookingId(completedDetail.getBookingId());
             reviewRequest.setComments(comments_et.getText().toString());
             reviewRequest.setRating(review_rating.getRating() + "");
-            reviewRequest.setSalonId(saloonId);
+            reviewRequest.setSalonId(completedDetail.getSalonId());
             reviewRequest.setUserId(PrefUtils.getInstance().getUserId());
             reviewPresenter.addReview(reviewRequest);
         }
@@ -58,6 +60,12 @@ public class AddReviewActivity extends BaseAppCompactActivity implements IRating
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_heading.setText("Write a Review");
+        completedDetail = (CompletedDetail) getIntent()
+                .getSerializableExtra(StringConstants.EXTRA_DETAILS);
+        if (completedDetail == null) {
+            showToast("Something went wrong");
+            finish();
+        }
         reviewPresenter = new ReviewPresenter(APIClient.getAPIService(), this);
     }
 

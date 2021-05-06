@@ -60,7 +60,6 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:fontFamily="@font/mulish_regular"
-                android:text=":  15000"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -91,7 +90,6 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:fontFamily="@font/mulish_regular"
-                android:text=":  2700"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -128,7 +126,6 @@
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:fontFamily="@font/mulish_regular"
-                android:text=":  17700"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 

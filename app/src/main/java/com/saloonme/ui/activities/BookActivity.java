@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -47,7 +48,9 @@ import com.saloonme.ui.adapters.SelectBarbersAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -119,6 +122,8 @@ public class BookActivity extends BaseAppCompactActivity implements
     TextView tv_booking_slot_value;
     @BindView(R.id.instructions_et)
     EditText instructions_et;
+    @BindView(R.id.tv_booking_slot)
+    TextView tv_booking_slot;
 
     @OnClick(R.id.iv_menu)
     void onBackClick() {
@@ -198,14 +203,11 @@ public class BookActivity extends BaseAppCompactActivity implements
                                           int monthOfYear, int dayOfMonth) {
 
                         tv_select_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
+                        checkDateAndTimeSelected();
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
-        if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
-                !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
-            showDuration();
-        }
+
     }
 
     @OnClick(R.id.tv_select_time)
@@ -221,13 +223,11 @@ public class BookActivity extends BaseAppCompactActivity implements
                                           int minute) {
 
                         tv_select_time.setText(hourOfDay + ":" + minute + ":00");
+                        checkDateAndTimeSelected();
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
-        if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
-                !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
-            showDuration();
-        }
+
     }
 
     @Override
@@ -256,8 +256,30 @@ public class BookActivity extends BaseAppCompactActivity implements
         bookNowPresenter.getProductDetails(PrefUtils.getInstance().getUserId());
     }
 
-    private void showDuration() {
+    private void checkDateAndTimeSelected() {
+        if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
+                !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
+            showDuration();
+        }
+    }
 
+    private void showDuration() {
+        try {
+            String selectedDate = tv_select_date.getText().toString() + " " +
+                    tv_select_time.getText().toString();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+            Date date1 = df.parse(selectedDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date1);
+            cal.add(Calendar.MINUTE, serviceDuration);
+            String newTime = df.format(cal.getTime());
+            tv_booking_slot_value.setText(selectedDate + " to " + newTime);
+            tv_booking_slot.setVisibility(View.VISIBLE);
+            tv_booking_slot_value.setVisibility(View.VISIBLE);
+
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
     }
 
     private boolean validateDataAtFirstStep() {
