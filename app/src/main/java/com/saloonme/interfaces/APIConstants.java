@@ -31,4 +31,8 @@ public interface APIConstants {
     String CANCEL_BOOKING = "CancelBooking";
     String USER_BOOKINGS = "BookingDetails/" + "{user_id}";
     String FEED_FORM = "FeedForm";
+    String RESCHEDULE_BOOKING = "RescheduleBooking";
+    String VIEW_BOOKING_DETAILS = "ViewBookingDetails/" + "{booking_id}";
+    String BLOG_DETAILS = "BlogDetails";
+    String PRODUCT_LIST = "ProductsList";
 }

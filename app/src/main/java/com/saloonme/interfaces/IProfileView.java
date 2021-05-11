@@ -16,4 +16,8 @@ public interface IProfileView extends IActivityBaseView {
     void cancelBookingSuccess(RemoveCartResponse removeCartResponse);
 
     void cancelBookingFailed();
+
+    void reschduleBookingSuccess(RemoveCartResponse removeCartResponse);
+
+    void reschduleBookingFailed();
 }

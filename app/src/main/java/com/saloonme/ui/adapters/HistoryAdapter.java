@@ -13,8 +13,6 @@ import com.saloonme.R;
 import com.saloonme.model.response.CompletedDetail;
 import com.saloonme.model.response.UpcomingDetail;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,7 +90,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         @OnClick(R.id.tv_reschdule)
         void onReschduleClick() {
             if (itemListener != null)
-                itemListener.onReschduleClick(upcomingDetailList.get(getAdapterPosition()));
+                itemListener.onRescheduleClick(upcomingDetailList.get(getAdapterPosition()));
         }
 
         @OnClick(R.id.tv_view_booking)
@@ -150,7 +148,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         void onCancelClick(UpcomingDetail upcomingDetail);
 
-        void onReschduleClick(UpcomingDetail upcomingDetail);
+        void onRescheduleClick(UpcomingDetail upcomingDetail);
 
         void onViewBookingClick(UpcomingDetail upcomingDetail);
     }

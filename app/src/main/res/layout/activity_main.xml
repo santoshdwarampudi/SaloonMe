@@ -69,7 +69,7 @@
             android:theme="@style/BottomNavigationViewTextStyle"
             app:bt_colorActive="@color/colorPrimary"
             app:bt_colorInactive="@color/bottomNavigationInactiveColor"
-            app:bt_icon="@drawable/ic_explore"
+            app:bt_icon="@drawable/ic_blog"
             app:bt_padding="@dimen/_11sdp"
             app:bt_shape="@drawable/transition_background_drawable"
             app:bt_title="@string/explore"
@@ -89,18 +89,18 @@
             app:bt_title="@string/click_share"
             app:bt_titlePadding="@dimen/_11sdp" />
 
-        <!-- <com.gauravk.bubblenavigation.BubbleToggleView
-             android:id="@+id/l_item_profile"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:theme="@style/BottomNavigationViewTextStyle"
-             app:bt_colorActive="@color/colorPrimary"
-             app:bt_colorInactive="@color/bottomNavigationInactiveColor"
-             app:bt_icon="@drawable/ic_feed"
-             app:bt_padding="@dimen/_11sdp"
-             app:bt_shape="@drawable/transition_background_drawable"
-             app:bt_title="@string/feed"
-             app:bt_titlePadding="@dimen/_11sdp" />-->
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/l_item_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/BottomNavigationViewTextStyle"
+            app:bt_colorActive="@color/colorPrimary"
+            app:bt_colorInactive="@color/bottomNavigationInactiveColor"
+            app:bt_icon="@drawable/ic_shop"
+            app:bt_padding="@dimen/_11sdp"
+            app:bt_shape="@drawable/transition_background_drawable"
+            app:bt_title="@string/feed"
+            app:bt_titlePadding="@dimen/_11sdp" />
     </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

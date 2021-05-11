@@ -8,6 +8,8 @@ import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.request.RegisterRequest;
 import com.saloonme.model.request.ReviewRequest;
 import com.saloonme.model.response.AddCartResponse;
+import com.saloonme.model.response.BlogDetailsResponse;
+import com.saloonme.model.response.BookingDetailsResponse;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CountriesResponse;
@@ -15,6 +17,7 @@ import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.FeedUploadResponse;
 import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
+import com.saloonme.model.response.ProductsResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.RegisterResponse;
@@ -165,5 +168,24 @@ public interface ApiInterface {
                                         @Part("description") String description,
                                         @Part("user_id") String user_id,
                                         @Part MultipartBody.Part timeLineImg);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.RESCHEDULE_BOOKING)
+    Call<RemoveCartResponse> rescheduleBooking(@Field("booking_id") String bookingId,
+                                               @Field("service_date") String serviceDate,
+                                               @Field("service_time") String serviceTime);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.VIEW_BOOKING_DETAILS)
+    Call<BookingDetailsResponse> getBookingDetails(@Path("booking_id") String bookingId);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.BLOG_DETAILS)
+    Call<BlogDetailsResponse> getBlogDetails();
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.PRODUCT_LIST)
+    Call<ProductsResponse> getProductList();
 
 }

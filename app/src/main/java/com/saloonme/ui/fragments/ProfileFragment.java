@@ -1,6 +1,8 @@
 package com.saloonme.ui.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -11,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,10 +37,12 @@ import com.saloonme.model.response.UserBookingDetailsResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
 import com.saloonme.ui.activities.AddReviewActivity;
+import com.saloonme.ui.activities.BookingDetailsActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,7 +52,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
 
     private HistoryAdapter historyAdapter, upComingBookingsAdapter;
     private ProfilePresenter profilePresenter;
-    private Dialog cancelBooking;
+    private Dialog cancelBooking, reschduleBooking;
     @BindView(R.id.bookingsTabs)
     TabLayout bookingsTabs;
     @BindView(R.id.rv_upcoming_bookings)
@@ -227,10 +233,29 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     }
 
     @Override
+    public void reschduleBookingSuccess(RemoveCartResponse removeCartResponse) {
+        if (removeCartResponse == null) {
+            showToast("Failed to reschedule the order");
+            return;
+        }
+        if (removeCartResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(removeCartResponse.getMessage());
+            return;
+        }
+        showToast(removeCartResponse.getMessage());
+        profilePresenter.getUserBookingDetails(PrefUtils.getInstance().getUserId());
+    }
+
+    @Override
+    public void reschduleBookingFailed() {
+        showToast("Failed to reschedule the order");
+    }
+
+    @Override
     public void onAddReviewClick(CompletedDetail completedDetail) {
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(StringConstants.EXTRA_DETAILS,completedDetail);
-        goToActivity(AddReviewActivity.class,bundle);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS, completedDetail);
+        goToActivity(AddReviewActivity.class, bundle);
     }
 
     @Override
@@ -270,12 +295,88 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     }
 
     @Override
-    public void onReschduleClick(UpcomingDetail upcomingDetail) {
+    public void onRescheduleClick(UpcomingDetail upcomingDetail) {
+        reschduleBooking = new Dialog(getActivity());
+        reschduleBooking.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        reschduleBooking.setCancelable(true);
+        reschduleBooking.setContentView(R.layout.dialog_reschdule);
+        reschduleBooking.getWindow().setBackgroundDrawable(new
+                ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView tv_booking_time_date = reschduleBooking.findViewById(R.id.tv_booking_time_date);
+        EditText tv_select_date = reschduleBooking.findViewById(R.id.tv_select_date);
+        EditText tv_select_time = reschduleBooking.findViewById(R.id.tv_select_time);
+        tv_booking_time_date.setText("Booking Date Time : " + upcomingDetail.getServiceDate() + " "
+                + upcomingDetail.getServiceTime());
+        reschduleBooking.findViewById(R.id.tv_clsoe).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reschduleBooking.dismiss();
+            }
+        });
+        reschduleBooking.findViewById(R.id.tv_reschdule_order).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ValidationUtil.isNullOrEmpty(tv_select_date.getText().toString())) {
+                            showToast("Please select date");
+                            return;
+                        }
+                        if (ValidationUtil.isNullOrEmpty(tv_select_time.getText().toString())) {
+                            showToast("Please select time");
+                            return;
+                        }
+                        reschduleBooking.dismiss();
+                        profilePresenter.rescheduleBooking(upcomingDetail.getBookingId(),
+                                tv_select_date.getText().toString(),
+                                tv_select_time.getText().toString());
+                    }
+                });
+        tv_select_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
 
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                tv_select_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+        tv_select_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                int mMinute = c.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                tv_select_time.setText(hourOfDay + ":" + minute + ":00");
+                            }
+                        }, mHour, mMinute, false);
+                timePickerDialog.show();
+            }
+        });
+        reschduleBooking.show();
     }
 
     @Override
     public void onViewBookingClick(UpcomingDetail upcomingDetail) {
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS, upcomingDetail);
+        goToActivity(BookingDetailsActivity.class, bundle);
     }
 }

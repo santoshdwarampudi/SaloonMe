@@ -19,11 +19,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.saloonme.R;
+import com.saloonme.ui.fragments.BlogsFragment;
 import com.saloonme.ui.fragments.ClickAndShareFragment;
 import com.saloonme.ui.fragments.HomeFragment;
-import com.saloonme.ui.fragments.MoreFragment;
+import com.saloonme.ui.fragments.ProductsFragment;
 import com.saloonme.ui.fragments.ProfileFragment;
-import com.saloonme.ui.fragments.SalonsFragment;
 import com.saloonme.util.LocationSingleTon;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
@@ -74,13 +74,13 @@ public class MainActivity extends BaseAppCompactActivity {
                             goToActivity(LoginActivity.class);
                         break;
                     case 2:
-                        loadFragment(new SalonsFragment());
+                        loadFragment(new BlogsFragment());
                         break;
                     case 3:
                         loadFragment(new ClickAndShareFragment());
                         break;
                     case 4:
-                        loadFragment(new MoreFragment());
+                        loadFragment(new ProductsFragment());
                         break;
                 }
             }

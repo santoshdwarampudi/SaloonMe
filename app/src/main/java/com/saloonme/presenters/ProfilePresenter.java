@@ -58,7 +58,7 @@ public class ProfilePresenter {
     }
 
     public void cancelBooking(CancelRequest cancelRequest) {
-        iProfileView.showProgressDialog("Cacelling Booking....");
+        iProfileView.showProgressDialog("Canceling Booking....");
         Call<RemoveCartResponse> cancelBookingCall = apiInterface.cancelBooking(cancelRequest);
         cancelBookingCall.enqueue(new Callback<RemoveCartResponse>() {
             @Override
@@ -72,6 +72,25 @@ public class ProfilePresenter {
                 iProfileView.dismissProgress();
                 iProfileView.cancelBookingFailed();
             }
+        });
+    }
+
+    public void rescheduleBooking(String bookingId, String date, String time) {
+        iProfileView.showProgressDialog("Rescheduling Booking....");
+        Call<RemoveCartResponse> rescheduleCall = apiInterface.rescheduleBooking(bookingId, date, time);
+        rescheduleCall.enqueue(new Callback<RemoveCartResponse>() {
+            @Override
+            public void onResponse(Call<RemoveCartResponse> call, Response<RemoveCartResponse> response) {
+                iProfileView.dismissProgress();
+                iProfileView.reschduleBookingSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<RemoveCartResponse> call, Throwable t) {
+                iProfileView.dismissProgress();
+                iProfileView.reschduleBookingFailed();
+            }
+
         });
     }
 }
