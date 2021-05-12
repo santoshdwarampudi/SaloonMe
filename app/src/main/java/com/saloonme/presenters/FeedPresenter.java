@@ -19,10 +19,10 @@ public class FeedPresenter {
         this.iFeedUploadView = iFeedUploadView;
     }
 
-    public void uploadFeedData(String feedName, String feed_link, String description,String user_id, MultipartBody.Part img) {
+    public void uploadFeedData(String feedName, String feed_link, String description,String user_id, MultipartBody.Part img,String type_of_access) {
         iFeedUploadView.showProgressDialog("Uploding data....");
         Call<FeedUploadResponse> registerResponseCall = apiInterface.uploadForm(
-                feedName, feed_link,description, user_id,img);
+                feedName, feed_link,description, user_id,img,type_of_access);
         registerResponseCall.enqueue(new Callback<FeedUploadResponse>() {
             @Override
             public void onResponse(Call<FeedUploadResponse> call, Response<FeedUploadResponse> response) {

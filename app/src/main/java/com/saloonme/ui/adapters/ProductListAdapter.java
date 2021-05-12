@@ -1,22 +1,29 @@
 package com.saloonme.ui.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
+import com.saloonme.interfaces.APIConstants;
 import com.saloonme.model.response.ProductsResponseData;
+import com.saloonme.model.response.SaloonListResponseData;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductListAdapter {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder>{
     private Context context;
     private List<ProductsResponseData> productsResponseDataList;
     private ProductListItemListener productListItemListener;
@@ -25,6 +32,27 @@ public class ProductListAdapter {
         this.context = context;
         this.productsResponseDataList = productsResponseDataList;
         this.productListItemListener = productListItemListener;
+    }
+
+    public void setData(List<ProductsResponseData> productsResponseDataList) {
+        this.productsResponseDataList = productsResponseDataList;
+        notifyDataSetChanged();
+    }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.product_list_item, parent, false);
+        return new ProductListAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.setData(productsResponseDataList.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return productsResponseDataList != null ? productsResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +71,18 @@ public class ProductListAdapter {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void setData(ProductsResponseData productsResponseData) {
+
+            Glide.with(context).load(productsResponseData.getProdImg())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .into(iv_product);
+            tv_product_name.setText(productsResponseData.getProdName());
+            tv_product_brand_name.setText(productsResponseData.getProdBrand());
+            tv_product_price.setText(String.format("₹%s", productsResponseData.getProdPrice()));
+            tv_product_discount_price.setText(String.format("₹%s", productsResponseData.getProdDisPrice()));
         }
     }
 

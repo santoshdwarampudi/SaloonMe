@@ -183,7 +183,7 @@
                 android:background="#D8D4D6"
                 android:visibility="visible" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+           <!-- <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginLeft="@dimen/_5sdp"
@@ -219,7 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="#D8D4D6" />
+                android:background="#D8D4D6" />-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

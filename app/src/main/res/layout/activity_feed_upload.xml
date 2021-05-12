@@ -48,16 +48,7 @@
                     android:textColor="#4B5660"
                     android:textSize="12dp" />
 
-                <TextView
-                    android:id="@+id/postTv"
-                    android:layout_width="74dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/button_post"
-                    android:fontFamily="@font/mulish_medium"
-                    android:gravity="center"
-                    android:text="Post"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -115,13 +106,27 @@
                 <ImageView
                     android:id="@+id/seletedImage"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="@dimen/_250sdp"
                     android:layout_margin="@dimen/_10sdp"/>
             </LinearLayout>
 
 
         </androidx.cardview.widget.CardView>
-
+        <TextView
+            android:id="@+id/postTv"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_post"
+            android:fontFamily="@font/mulish_medium"
+            android:gravity="center"
+            android:text="Post"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postCv"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

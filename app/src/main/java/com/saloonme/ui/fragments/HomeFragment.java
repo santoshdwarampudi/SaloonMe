@@ -68,10 +68,10 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
     TextView tv_popularPlaces;
     @BindView(R.id.rv_popularItems)
     RecyclerView rv_popularItems;
-    @BindView(R.id.tv_trending)
+    /*@BindView(R.id.tv_trending)
     TextView tv_trending;
     @BindView(R.id.rv_trendingItems)
-    RecyclerView rv_trendingItems;
+    RecyclerView rv_trendingItems;*/
     @BindView(R.id.tv_home_services)
     TextView tv_home_services;
     @BindView(R.id.rv_homeServiceItems)
@@ -223,12 +223,12 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         rv_popularItems.setNestedScrollingEnabled(false);
 
 
-        trendingListAdapter = new TrendingListAdapter(getContext(), this);
+       /* trendingListAdapter = new TrendingListAdapter(getContext(), this);
         LinearLayoutManager trendingListManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false);
         rv_trendingItems.setLayoutManager(trendingListManager);
         rv_trendingItems.setAdapter(trendingListAdapter);
-        rv_trendingItems.setNestedScrollingEnabled(false);
+        rv_trendingItems.setNestedScrollingEnabled(false);*/
 
         homeServicesAdapter = new HomeServicesAdapter(getContext(), this);
         LinearLayoutManager homeServicesListManager = new LinearLayoutManager(getActivity(),
@@ -347,28 +347,12 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
 
     @Override
     public void promotionsFetchedSuccess(PromotionsResponse promotionsResponse) {
-        if (promotionsResponse != null) {
-            if (promotionsResponse.getStatus().equalsIgnoreCase("failed")) {
-                showToast(promotionsResponse.getMessage());
-                trendingListAdapter.setData(null);
-                return;
-            }
-            if (promotionsResponse.getData() == null || promotionsResponse.getData().size() == 0) {
-                showToast(promotionsResponse.getMessage());
-                trendingListAdapter.setData(null);
-                return;
-            }
-            trendingListAdapter.setData(promotionsResponse.getData());
-        } else {
-            trendingListAdapter.setData(null);
-            showToast("Failed to fetch the promotions");
-        }
+
     }
 
     @Override
     public void promotionsFetchedFailed() {
-        trendingListAdapter.setData(null);
-        showToast("Failed to fetch the promotions");
+
     }
 
     @Override
@@ -466,8 +450,6 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
                             position = 0;
                         } else {
                             position++;
-
-
                         }
                         if (position == 3) {
                             position = 0;

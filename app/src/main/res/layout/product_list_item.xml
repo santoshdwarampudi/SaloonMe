@@ -26,26 +26,28 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/mulish_bold"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@id/iv_product"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Best Deals" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_product_brand_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@id/iv_product"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Best Deals" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -55,22 +57,22 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@id/iv_product"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_brand_name"
             tools:text="Best Deals" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_product_discount_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/_14ssp"
-            android:visibility="gone"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toEndOf="@id/iv_product"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_price"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Best Deals" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -89,7 +91,7 @@
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_discount_price"></androidx.appcompat.widget.AppCompatTextView>
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_discount_price"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

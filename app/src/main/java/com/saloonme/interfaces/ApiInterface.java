@@ -167,7 +167,8 @@ public interface ApiInterface {
                                         @Part("feed_link") String feed_link,
                                         @Part("description") String description,
                                         @Part("user_id") String user_id,
-                                        @Part MultipartBody.Part timeLineImg);
+                                        @Part MultipartBody.Part timeLineImg,
+                                        @Part("type_of_access") String type_of_access);
 
     @FormUrlEncoded
     @Headers({"Accept: application/json"})

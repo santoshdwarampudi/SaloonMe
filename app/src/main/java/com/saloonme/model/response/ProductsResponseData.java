@@ -17,13 +17,13 @@ public class ProductsResponseData implements Serializable {
     private String prodServiceId;
     @SerializedName("prod_price")
     @Expose
-    private Integer prodPrice;
+    private String prodPrice;
     @SerializedName("prod_discount")
     @Expose
     private String prodDiscount;
     @SerializedName("prod_dis_price")
     @Expose
-    private Integer prodDisPrice;
+    private String prodDisPrice;
     @SerializedName("prod_stock")
     @Expose
     private Object prodStock;
@@ -109,11 +109,11 @@ public class ProductsResponseData implements Serializable {
         this.prodServiceId = prodServiceId;
     }
 
-    public Integer getProdPrice() {
+    public String getProdPrice() {
         return prodPrice;
     }
 
-    public void setProdPrice(Integer prodPrice) {
+    public void setProdPrice(String prodPrice) {
         this.prodPrice = prodPrice;
     }
 
@@ -125,11 +125,11 @@ public class ProductsResponseData implements Serializable {
         this.prodDiscount = prodDiscount;
     }
 
-    public Integer getProdDisPrice() {
+    public String getProdDisPrice() {
         return prodDisPrice;
     }
 
-    public void setProdDisPrice(Integer prodDisPrice) {
+    public void setProdDisPrice(String prodDisPrice) {
         this.prodDisPrice = prodDisPrice;
     }
 

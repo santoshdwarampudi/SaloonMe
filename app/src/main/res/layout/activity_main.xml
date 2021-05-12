@@ -99,7 +99,7 @@
             app:bt_icon="@drawable/ic_shop"
             app:bt_padding="@dimen/_11sdp"
             app:bt_shape="@drawable/transition_background_drawable"
-            app:bt_title="@string/feed"
+            app:bt_title="@string/shop"
             app:bt_titlePadding="@dimen/_11sdp" />
     </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
 

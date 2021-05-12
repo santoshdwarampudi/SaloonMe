@@ -81,6 +81,7 @@ public class FeedUploadActivity extends BaseAppCompactActivity implements Adapte
                             RequestBody.create(MediaType.parse(mimeType),
                                     new File(compressedFilePath)));
                     attachTv.setText("Attachment added");
+                    seletedImage.setVisibility(View.VISIBLE);
                     seletedImage.setImageBitmap(BitmapFactory.decodeFile(compressedFilePath));
                 }).display(getSupportFragmentManager());
     }
@@ -92,8 +93,14 @@ public class FeedUploadActivity extends BaseAppCompactActivity implements Adapte
         }else if (ValidationUtil.isNullOrEmpty(postEt.getText().toString())){
             showToast("Please enter message");
         }else{
-         feedPresenter.uploadFeedData(nameEt.getText().toString(),visible,postEt.getText().toString(),
-                 PrefUtils.getInstance().getUserId(),mImage);
+            if (visible.equalsIgnoreCase("Public")){
+                feedPresenter.uploadFeedData(nameEt.getText().toString(), "",postEt.getText().toString(),
+                        PrefUtils.getInstance().getUserId(),mImage,"2");
+            }else{
+                feedPresenter.uploadFeedData(nameEt.getText().toString(), "",postEt.getText().toString(),
+                        PrefUtils.getInstance().getUserId(),mImage,"1");
+            }
+
         }
 
     }
@@ -101,6 +108,7 @@ public class FeedUploadActivity extends BaseAppCompactActivity implements Adapte
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         visible=visibilitySpinner.getItemAtPosition(i).toString();
+
     }
 
     @Override
