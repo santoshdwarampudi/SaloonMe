@@ -3,6 +3,7 @@ package com.saloonme.interfaces;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserReviewsResponse;
 
 public interface IProfileView extends IActivityBaseView {
     void getProfileDetailsSuccess(ProfileResponse profileResponse);
@@ -20,4 +21,8 @@ public interface IProfileView extends IActivityBaseView {
     void reschduleBookingSuccess(RemoveCartResponse removeCartResponse);
 
     void reschduleBookingFailed();
+
+    void getUserReviewsSuccess(UserReviewsResponse userReviewsResponse);
+
+    void getUserReviewsFailed();
 }

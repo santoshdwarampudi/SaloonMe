@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.saloonme.R;
 import com.saloonme.model.response.SaloonReviewResponseData;
+import com.saloonme.model.response.UserReviewsResponseData;
 
 import java.util.List;
 
@@ -24,14 +25,22 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     private Context context;
     private ItemListener itemListener;
     private List<SaloonReviewResponseData> saloonReviewResponseDataList;
+    private List<UserReviewsResponseData> userReviewsResponseDataList;
+    private boolean isUserReview;
 
-    public ReviewsAdapter(Context context, ItemListener itemListener) {
+    public ReviewsAdapter(Context context, ItemListener itemListener, boolean isUserReview) {
         this.context = context;
         this.itemListener = itemListener;
+        this.isUserReview = isUserReview;
     }
 
     public void setData(List<SaloonReviewResponseData> saloonReviewResponseDataList) {
         this.saloonReviewResponseDataList = saloonReviewResponseDataList;
+        notifyDataSetChanged();
+    }
+
+    public void setDataToUserReviews(List<UserReviewsResponseData> userReviewsResponseDataList) {
+        this.userReviewsResponseDataList = userReviewsResponseDataList;
         notifyDataSetChanged();
     }
 
@@ -44,12 +53,18 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.Bind(saloonReviewResponseDataList.get(position));
+        if (!isUserReview)
+            holder.Bind(saloonReviewResponseDataList.get(position));
+        else
+            holder.BindUserReviews(userReviewsResponseDataList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return saloonReviewResponseDataList != null ? saloonReviewResponseDataList.size() : 0;
+        if (!isUserReview)
+            return saloonReviewResponseDataList != null ? saloonReviewResponseDataList.size() : 0;
+        else
+            return userReviewsResponseDataList != null ? userReviewsResponseDataList.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,6 +72,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         TextView tv_reviewcount;
         @BindView(R.id.tv_description)
         TextView tv_description;
+        @BindView(R.id.tv_follow)
+        TextView tv_follow;
         @BindView(R.id.iv_user)
         ImageView iv_user;
 
@@ -73,6 +90,25 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         void Bind(SaloonReviewResponseData saloonReviewResponseData) {
             tv_description.setText(saloonReviewResponseData.getReviewComments());
             tv_reviewcount.setText("Rating :" + saloonReviewResponseData.getRating());
+            if (isUserReview) {
+                tv_follow.setVisibility(View.GONE);
+                tv_reviewcount.setVisibility(View.GONE);
+            } else {
+                tv_follow.setVisibility(View.VISIBLE);
+                tv_reviewcount.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public void BindUserReviews(UserReviewsResponseData userReviewsResponseData) {
+            tv_description.setText(userReviewsResponseData.getReviewComments());
+            tv_reviewcount.setText("Rating :" + userReviewsResponseData.getRating());
+            if (isUserReview) {
+                tv_follow.setVisibility(View.GONE);
+                tv_reviewcount.setVisibility(View.GONE);
+            } else {
+                tv_follow.setVisibility(View.VISIBLE);
+                tv_reviewcount.setVisibility(View.VISIBLE);
+            }
         }
     }
 

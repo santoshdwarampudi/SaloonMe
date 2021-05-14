@@ -11,9 +11,11 @@ public interface APIConstants {
     String STATES = "StateDisplay";
     String CITIES = "CityDisplay";
     String PROMOTIONS = "SalonPromotions";
-    String SALOON_LIST_BASEDON_CATEGORY = "SalonsDisplayCategoryWise/" + "{category_id}";
-    String SALOON_LIST_HOME_SERVICES = "SalonsDisplayHomeServiceWise/" + "{category_id}"
-            + "/" + "{home_service}";
+    String SALOON_LIST_BASEDON_CATEGORY = "SaloonsDisplay/" + "{lat}" + "/" + "{logni}" + "/" +
+            "{category_id}";
+    String SALOON_LIST_HOME_SERVICES = "SalonsDisplayHomeServiceWise/" + "{home_service}" + "/"
+            + "{lat}" + "/" + "{logni}" + "/" +
+            "{category_id}";
     String SALOON_DETAILS_IMAGES = "SalonDetailImages/" + "{saloon_id}";
     String SALOON_DETAILS_REVIEWS = "SalonDetailReview/" + "{saloon_id}";
     String PROFILE = "UserProfileDisplay/" + "{user_id}" + "/" + "{token}";
@@ -35,4 +37,6 @@ public interface APIConstants {
     String VIEW_BOOKING_DETAILS = "ViewBookingDetails/" + "{booking_id}";
     String BLOG_DETAILS = "BlogDetails";
     String PRODUCT_LIST = "ProductsList";
+    String USER_REVIEWSLIST = "UserReviewslist/" + "{user_id}";
+    String EDIT_PROFILE = "EditProfile";
 }

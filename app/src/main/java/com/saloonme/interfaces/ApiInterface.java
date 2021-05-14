@@ -30,6 +30,7 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserReviewsResponse;
 
 import java.net.CacheRequest;
 import java.util.List;
@@ -79,7 +80,9 @@ public interface ApiInterface {
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.SALOON_LIST_BASEDON_CATEGORY)
-    Call<SaloonListResponse> getSaloonListBasedOnCategory(@Path("category_id") String categoryId);
+    Call<SaloonListResponse> getSaloonListBasedOnCategory(@Path("category_id") String categoryId,
+                                                          @Path("lat") String lat,
+                                                          @Path("logni") String logni);
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.PROMOTIONS)
@@ -88,7 +91,9 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.SALOON_LIST_HOME_SERVICES)
     Call<SaloonListResponse> getHomeServices(@Path("category_id") String categoryId,
-                                             @Path("home_service") String homeService);
+                                             @Path("home_service") String homeService,
+                                             @Path("lat") String lat,
+                                             @Path("logni") String logni);
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.SALOON_DETAILS_IMAGES)
@@ -188,5 +193,19 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.PRODUCT_LIST)
     Call<ProductsResponse> getProductList();
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.USER_REVIEWSLIST)
+    Call<UserReviewsResponse> getUserReviews(@Path("user_id") String userId);
+
+    @Multipart
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.EDIT_PROFILE)
+    Call<RemoveCartResponse> editProfile(@Part("user_id") String userId,
+                                         @Part("first_name") String firstName,
+                                         @Part("last_name") String lastName,
+                                         @Part("mobile_number") String mobileNumber,
+                                         @Part("email_address") String emailAddress,
+                                         @Part MultipartBody.Part filePart);
 
 }

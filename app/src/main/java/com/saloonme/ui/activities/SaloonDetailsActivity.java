@@ -326,7 +326,7 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     }
 
     private void setReviewRecyclerview() {
-        reviewsAdapter = new ReviewsAdapter(getContext(), this);
+        reviewsAdapter = new ReviewsAdapter(getContext(), this, false);
         LinearLayoutManager saloonListManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         rv_reviews.setLayoutManager(saloonListManager);

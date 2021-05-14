@@ -19,10 +19,10 @@ public class HomePresenter {
         this.iHomeView = iHomeView;
     }
 
-    public void getSaloonListBasedOnCategory(String categoryId) {
+    public void getSaloonListBasedOnCategory(String categoryId, String lat, String longnitude) {
         iHomeView.showProgressDialog("Getting saloons....");
         Call<SaloonListResponse> saloonListResponseCall = apiInterface.
-                getSaloonListBasedOnCategory(categoryId);
+                getSaloonListBasedOnCategory(categoryId, lat, longnitude);
         saloonListResponseCall.enqueue(new Callback<SaloonListResponse>() {
             @Override
             public void onResponse(Call<SaloonListResponse> call, Response<SaloonListResponse> response) {
@@ -56,10 +56,10 @@ public class HomePresenter {
         });
     }
 
-    public void getHomeServices(String categoryId, String homeServices) {
+    public void getHomeServices(String categoryId, String homeServices, String lat, String logni) {
         iHomeView.showProgressDialog("Getting promotions....");
         Call<SaloonListResponse> saloonListResponseCall = apiInterface.getHomeServices
-                (categoryId, homeServices);
+                (categoryId, homeServices, lat, logni);
         saloonListResponseCall.enqueue(new Callback<SaloonListResponse>() {
             @Override
             public void onResponse(Call<SaloonListResponse> call, Response<SaloonListResponse> response) {

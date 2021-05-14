@@ -87,6 +87,7 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
     private LinearLayoutManager linearLayoutManager;
     private Dialog sort, filter;
     private HomePresenter homePresenter;
+    private LatLng latLng;
 
     @OnClick(R.id.search_layout)
     void onSearchClick() {
@@ -156,8 +157,10 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         view = super.onCreateView(inflater, container, savedInstanceState);
         homePresenter = new HomePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
+        //latLng = LocationSingleTon.instance().getLatLng();
+        //dummy hyd values
+        latLng = new LatLng(17.387140, 78.491684);
         setUpTabs();
-        LatLng latLng = LocationSingleTon.instance().getLatLng();
         homePresenter.getPopularPlaces(latLng.latitude + "", latLng.longitude + "");
         homePresenter.getSliders();
         return view;
@@ -168,14 +171,18 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         tabLayout.addTab(tabLayout.newTab().setText("Mens"));
         tabLayout.addTab(tabLayout.newTab().setText("Womens"));
         tabLayout.addTab(tabLayout.newTab().setText("Kids"));
-        homePresenter.getSaloonListBasedOnCategory("1");
-        homePresenter.getHomeServices("1", "1");
+        homePresenter.getSaloonListBasedOnCategory("1", latLng.latitude + "",
+                latLng.longitude + "");
+        homePresenter.getHomeServices("1", "1", latLng.latitude + "",
+                latLng.longitude + "");
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "");
+                homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
+                        latLng.latitude + "", latLng.longitude + "");
                 homePresenter.getHomeServices((tab.getPosition() + 1) + "",
-                        "1");
+                        "1", latLng.latitude + "",
+                        latLng.longitude + "");
             }
 
             @Override

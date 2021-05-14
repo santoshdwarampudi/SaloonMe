@@ -21,6 +21,21 @@
             android:orientation="vertical">
 
             <include layout="@layout/profile_layout" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/profileTabs"
+                style="@style/AppTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@color/white"
+                app:tabGravity="fill"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="30dp" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/bookingsTabs"
                 style="@style/AppTabLayout"
@@ -30,10 +45,12 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:background="@color/white"
+                android:visibility="gone"
                 app:tabGravity="fill"
                 app:tabMode="fixed"
                 app:tabPaddingEnd="10dp"
                 app:tabPaddingStart="30dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_upcoming_bookings"
                 android:layout_width="match_parent"
@@ -41,20 +58,31 @@
                 android:layout_below="@+id/tabLayout"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="?attr/actionBarSize"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_below="@+id/tabLayout"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginBottom="?attr/actionBarSize"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
 
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tabLayout"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

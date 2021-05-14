@@ -34,11 +34,13 @@ import com.saloonme.model.response.ProfileResponseData;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UpcomingDetail;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserReviewsResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
 import com.saloonme.ui.activities.AddReviewActivity;
 import com.saloonme.ui.activities.BookingDetailsActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
+import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
@@ -48,11 +50,13 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class ProfileFragment extends BaseFragment implements HistoryAdapter.ItemListener, IProfileView {
+public class ProfileFragment extends BaseFragment implements HistoryAdapter.ItemListener,
+        IProfileView, ReviewsAdapter.ItemListener {
 
     private HistoryAdapter historyAdapter, upComingBookingsAdapter;
     private ProfilePresenter profilePresenter;
-    private Dialog cancelBooking, reschduleBooking;
+    private Dialog cancelBooking, rescheduleBooking;
+    private ReviewsAdapter reviewsAdapter;
     @BindView(R.id.bookingsTabs)
     TabLayout bookingsTabs;
     @BindView(R.id.rv_upcoming_bookings)
@@ -66,10 +70,14 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     TextView tv_userName;
     @BindView(R.id.tv_dob)
     TextView tv_dob;
+    @BindView(R.id.rv_user_reviews)
+    RecyclerView rv_user_reviews;
     @BindView(R.id.tv_mobile)
     TextView tv_mobile;
     @BindView(R.id.tv_email)
     TextView tv_email;
+    @BindView(R.id.profileTabs)
+    TabLayout profileTabs;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -86,13 +94,71 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                              Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
         profilePresenter = new ProfilePresenter(APIClient.getAPIService(), this);
+        setUpProfileTab();
         setUpTabs();
         setUpRecyclerviewForUpcoming(false);
         setUpRecyclerviewForHistory(true);
+        setUpRecyclerViewForReviews();
         profilePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
                 PrefUtils.getInstance().geToken());
         profilePresenter.getUserBookingDetails(PrefUtils.getInstance().getUserId());
+        profilePresenter.getUserReviews(PrefUtils.getInstance().getUserId());
         return view;
+    }
+
+
+    private void setUpProfileTab() {
+        profileTabs.addTab(profileTabs.newTab().setText("Photos"));
+        profileTabs.addTab(profileTabs.newTab().setText("Bookings"));
+        profileTabs.addTab(profileTabs.newTab().setText("Orders"));
+        profileTabs.addTab(profileTabs.newTab().setText("My Reviews"));
+        profileTabs.addTab(profileTabs.newTab().setText("Feed Profile Form"));
+        profileTabs.selectTab(profileTabs.getTabAt(1));
+        bookingsTabs.setVisibility(View.VISIBLE);
+        rv_bookings.setVisibility(View.VISIBLE);
+        rv_history.setVisibility(View.GONE);
+        profileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        bookingsTabs.setVisibility(View.GONE);
+                        rv_bookings.setVisibility(View.GONE);
+                        rv_history.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        bookingsTabs.setVisibility(View.VISIBLE);
+                        rv_bookings.setVisibility(View.VISIBLE);
+                        rv_history.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        bookingsTabs.setVisibility(View.GONE);
+                        rv_bookings.setVisibility(View.GONE);
+                        rv_history.setVisibility(View.GONE);
+                        break;
+                    case 3:
+                        bookingsTabs.setVisibility(View.GONE);
+                        rv_bookings.setVisibility(View.GONE);
+                        rv_history.setVisibility(View.GONE);
+                        break;
+                    case 4:
+                        bookingsTabs.setVisibility(View.GONE);
+                        rv_bookings.setVisibility(View.GONE);
+                        rv_history.setVisibility(View.GONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setUpRecyclerviewForHistory(boolean isHistory) {
@@ -114,6 +180,16 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         rv_bookings.setAdapter(upComingBookingsAdapter);
         rv_bookings.setNestedScrollingEnabled(false);
     }
+
+    private void setUpRecyclerViewForReviews() {
+        reviewsAdapter = new ReviewsAdapter(getActivity(), this, true);
+        LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_user_reviews.setLayoutManager(saloonListManager);
+        rv_user_reviews.setAdapter(reviewsAdapter);
+        rv_user_reviews.setNestedScrollingEnabled(false);
+    }
+
 
     private void setUpTabs() {
         bookingsTabs.addTab(bookingsTabs.newTab().setText("UpComing Bookings"));
@@ -252,6 +328,25 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     }
 
     @Override
+    public void getUserReviewsSuccess(UserReviewsResponse userReviewsResponse) {
+        if (userReviewsResponse == null) {
+            return;
+        }
+        if (userReviewsResponse.getStatus().toLowerCase().contains("fail")) {
+            return;
+        }
+        if (userReviewsResponse.getData() == null || userReviewsResponse.getData().size() == 0) {
+            return;
+        }
+        reviewsAdapter.setDataToUserReviews(userReviewsResponse.getData());
+    }
+
+    @Override
+    public void getUserReviewsFailed() {
+
+    }
+
+    @Override
     public void onAddReviewClick(CompletedDetail completedDetail) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(StringConstants.EXTRA_DETAILS, completedDetail);
@@ -296,24 +391,24 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
 
     @Override
     public void onRescheduleClick(UpcomingDetail upcomingDetail) {
-        reschduleBooking = new Dialog(getActivity());
-        reschduleBooking.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        reschduleBooking.setCancelable(true);
-        reschduleBooking.setContentView(R.layout.dialog_reschdule);
-        reschduleBooking.getWindow().setBackgroundDrawable(new
+        rescheduleBooking = new Dialog(getActivity());
+        rescheduleBooking.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        rescheduleBooking.setCancelable(true);
+        rescheduleBooking.setContentView(R.layout.dialog_reschdule);
+        rescheduleBooking.getWindow().setBackgroundDrawable(new
                 ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView tv_booking_time_date = reschduleBooking.findViewById(R.id.tv_booking_time_date);
-        EditText tv_select_date = reschduleBooking.findViewById(R.id.tv_select_date);
-        EditText tv_select_time = reschduleBooking.findViewById(R.id.tv_select_time);
+        TextView tv_booking_time_date = rescheduleBooking.findViewById(R.id.tv_booking_time_date);
+        EditText tv_select_date = rescheduleBooking.findViewById(R.id.tv_select_date);
+        EditText tv_select_time = rescheduleBooking.findViewById(R.id.tv_select_time);
         tv_booking_time_date.setText("Booking Date Time : " + upcomingDetail.getServiceDate() + " "
                 + upcomingDetail.getServiceTime());
-        reschduleBooking.findViewById(R.id.tv_clsoe).setOnClickListener(new View.OnClickListener() {
+        rescheduleBooking.findViewById(R.id.tv_clsoe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reschduleBooking.dismiss();
+                rescheduleBooking.dismiss();
             }
         });
-        reschduleBooking.findViewById(R.id.tv_reschdule_order).setOnClickListener(
+        rescheduleBooking.findViewById(R.id.tv_reschdule_order).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -325,7 +420,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                             showToast("Please select time");
                             return;
                         }
-                        reschduleBooking.dismiss();
+                        rescheduleBooking.dismiss();
                         profilePresenter.rescheduleBooking(upcomingDetail.getBookingId(),
                                 tv_select_date.getText().toString(),
                                 tv_select_time.getText().toString());
@@ -370,7 +465,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                 timePickerDialog.show();
             }
         });
-        reschduleBooking.show();
+        rescheduleBooking.show();
     }
 
     @Override

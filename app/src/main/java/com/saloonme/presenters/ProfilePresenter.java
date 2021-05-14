@@ -6,6 +6,7 @@ import com.saloonme.model.request.CancelRequest;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserReviewsResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,6 +92,24 @@ public class ProfilePresenter {
                 iProfileView.reschduleBookingFailed();
             }
 
+        });
+    }
+
+    public void getUserReviews(String userId) {
+        iProfileView.showProgressDialog("Loading....");
+        Call<UserReviewsResponse> userReviewsResponseCall = apiInterface.getUserReviews(userId);
+        userReviewsResponseCall.enqueue(new Callback<UserReviewsResponse>() {
+            @Override
+            public void onResponse(Call<UserReviewsResponse> call, Response<UserReviewsResponse> response) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserReviewsSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserReviewsResponse> call, Throwable t) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserReviewsFailed();
+            }
         });
     }
 }
