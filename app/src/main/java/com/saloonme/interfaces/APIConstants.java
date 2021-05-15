@@ -43,4 +43,5 @@ public interface APIConstants {
     String USER_REVIEWSLIST = "UserReviewslist/" + "{user_id}";
     String FEED_COMMENT_LIST = "Feedview/" + "{feed_sno}";
     String EDIT_PROFILE = "EditProfile";
+    String FORGOT_PASSWORD = "ForgotPassword";
 }

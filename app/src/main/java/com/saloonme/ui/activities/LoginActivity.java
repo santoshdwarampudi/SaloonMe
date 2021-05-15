@@ -38,6 +38,11 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
         goToActivity(RegisterActivity.class);
     }
 
+    @OnClick(R.id.fogot_pwd)
+    void onForgotPwdClick() {
+        goToActivity(ForgotPasswordActivity.class);
+    }
+
     @OnClick(R.id.login_btn)
     void onLoginClick() {
         if (ValidationUtil.isNullOrEmpty(email_tv.getText().toString())) {

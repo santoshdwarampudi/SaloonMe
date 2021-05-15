@@ -39,6 +39,7 @@ import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
 import com.saloonme.ui.activities.AddReviewActivity;
 import com.saloonme.ui.activities.BookingDetailsActivity;
+import com.saloonme.ui.activities.EditProfileActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.util.PrefUtils;
@@ -48,6 +49,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class ProfileFragment extends BaseFragment implements HistoryAdapter.ItemListener,
@@ -57,6 +59,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     private ProfilePresenter profilePresenter;
     private Dialog cancelBooking, rescheduleBooking;
     private ReviewsAdapter reviewsAdapter;
+    private ProfileResponseData profileResponseData;
     @BindView(R.id.bookingsTabs)
     TabLayout bookingsTabs;
     @BindView(R.id.rv_upcoming_bookings)
@@ -81,6 +84,17 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    @OnClick(R.id.tv_edit)
+    void onEditClick() {
+        if(profileResponseData==null){
+            showToast("Something went wrong");
+            return;
+        }
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS,profileResponseData);
+        goToActivity(com.saloonme.ui.activities.EditProfileActivity.class,bundle);
     }
 
 
@@ -239,12 +253,13 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     }
 
     private void setData(List<ProfileResponseData> data) {
-        ProfileResponseData profileResponseData = data.get(0);
+        profileResponseData = data.get(0);
         if (profileResponseData != null) {
             Glide.with(getActivity()).load(APIConstants.IMAGE_BASE_URL +
                     profileResponseData.getProfilePic())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .error(R.drawable.ic_person)
                     .into(iv_profile);
             tv_userName.setText(profileResponseData.getFirstName() + " " + profileResponseData.getLastName());
             tv_mobile.setText("Mobile : " + profileResponseData.getMobileNumber());

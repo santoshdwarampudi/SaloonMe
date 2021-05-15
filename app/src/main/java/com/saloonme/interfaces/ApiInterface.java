@@ -213,13 +213,13 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @Headers({"Accept: application/json"})
-    @POST(APIConstants.ADD_FEED_FAVOURITE )
+    @POST(APIConstants.ADD_FEED_FAVOURITE)
     Call<FavouriteResponse> addFavourite(@Field("feed_sno") String feed_sno,
                                          @Field("user_id") String user_id);
 
     @FormUrlEncoded
     @Headers({"Accept: application/json"})
-    @POST(APIConstants.POST_FEED_COMMENT )
+    @POST(APIConstants.POST_FEED_COMMENT)
     Call<AddCommentResponse> addComment(@Field("feed_sno") String feed_sno,
                                         @Field("feed_comment") String feedComment,
                                         @Field("comment_replay_id") String commentReplayId,
@@ -228,5 +228,10 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.FEED_COMMENT_LIST)
     Call<CommentsResponse> getUserCommentss(@Path("feed_sno") String feed_sno);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.FORGOT_PASSWORD)
+    Call<RemoveCartResponse> forgotPassword(@Field("email_address") String email_address);
 
 }
