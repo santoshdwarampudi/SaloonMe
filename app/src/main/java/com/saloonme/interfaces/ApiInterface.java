@@ -3,17 +3,20 @@ package com.saloonme.interfaces;
 
 import com.saloonme.model.request.AddCartRequest;
 import com.saloonme.model.request.CancelRequest;
-import com.saloonme.model.request.LoginRequest;
 import com.saloonme.model.request.PlaceOrderRequest;
-import com.saloonme.model.request.RegisterRequest;
 import com.saloonme.model.request.ReviewRequest;
 import com.saloonme.model.response.AddCartResponse;
+import com.saloonme.model.response.AddCommentResponse;
 import com.saloonme.model.response.BlogDetailsResponse;
 import com.saloonme.model.response.BookingDetailsResponse;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.CitiesResponse;
+import com.saloonme.model.response.CommentListResponse;
+import com.saloonme.model.response.CommentsResponse;
 import com.saloonme.model.response.CountriesResponse;
 import com.saloonme.model.response.ExpertsListResponse;
+import com.saloonme.model.response.FavouriteResponse;
+import com.saloonme.model.response.FeedResponse;
 import com.saloonme.model.response.FeedUploadResponse;
 import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
@@ -32,9 +35,6 @@ import com.saloonme.model.response.StatesResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 
-import java.net.CacheRequest;
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -47,7 +47,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiInterface {
     @FormUrlEncoded
@@ -195,6 +194,10 @@ public interface ApiInterface {
     Call<ProductsResponse> getProductList();
 
     @Headers({"Accept: application/json"})
+    @GET(APIConstants.FEED_LIST)
+    Call<FeedResponse> getFeedList();
+
+    @Headers({"Accept: application/json"})
     @GET(APIConstants.USER_REVIEWSLIST)
     Call<UserReviewsResponse> getUserReviews(@Path("user_id") String userId);
 
@@ -207,5 +210,23 @@ public interface ApiInterface {
                                          @Part("mobile_number") String mobileNumber,
                                          @Part("email_address") String emailAddress,
                                          @Part MultipartBody.Part filePart);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.ADD_FEED_FAVOURITE )
+    Call<FavouriteResponse> addFavourite(@Field("feed_sno") String feed_sno,
+                                         @Field("user_id") String user_id);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.POST_FEED_COMMENT )
+    Call<AddCommentResponse> addComment(@Field("feed_sno") String feed_sno,
+                                        @Field("feed_comment") String feedComment,
+                                        @Field("comment_replay_id") String commentReplayId,
+                                        @Field("user_id") String user_id);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.FEED_COMMENT_LIST)
+    Call<CommentsResponse> getUserCommentss(@Path("feed_sno") String feed_sno);
 
 }

@@ -37,6 +37,10 @@ public interface APIConstants {
     String VIEW_BOOKING_DETAILS = "ViewBookingDetails/" + "{booking_id}";
     String BLOG_DETAILS = "BlogDetails";
     String PRODUCT_LIST = "ProductsList";
+    String FEED_LIST = "Feedlist";
+    String ADD_FEED_FAVOURITE = "AddFeedFavourite";
+    String POST_FEED_COMMENT = "PostFeedComment";
     String USER_REVIEWSLIST = "UserReviewslist/" + "{user_id}";
+    String FEED_COMMENT_LIST = "Feedview/" + "{feed_sno}";
     String EDIT_PROFILE = "EditProfile";
 }
