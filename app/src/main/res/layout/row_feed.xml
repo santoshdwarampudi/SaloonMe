@@ -76,21 +76,26 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/isLikedIv"
+            <RelativeLayout
+                android:id="@+id/rlLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_unlike"
                 app:layout_constraintStart_toStartOf="@+id/postDividerView"
-                app:layout_constraintTop_toTopOf="@+id/isCommentIv" />
-            <ImageView
-                android:id="@+id/isLikedFillIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_like"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/postDividerView"
-                app:layout_constraintTop_toTopOf="@+id/isCommentIv" />
+                app:layout_constraintTop_toTopOf="@+id/isCommentIv">
+                <ImageView
+                    android:id="@+id/isLikedIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_unlike"
+                    />
+                <ImageView
+                    android:id="@+id/isLikedFillIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_like"
+                    android:visibility="gone"  />
+            </RelativeLayout>
+
 
 
             <ImageView
@@ -100,7 +105,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:src="@drawable/ic_comment"
-                app:layout_constraintStart_toEndOf="@+id/isLikedIv"
+                app:layout_constraintStart_toEndOf="@+id/rlLike"
                 app:layout_constraintTop_toBottomOf="@+id/postDividerView" />
             <ImageView
                 android:id="@+id/isForwardIv"
