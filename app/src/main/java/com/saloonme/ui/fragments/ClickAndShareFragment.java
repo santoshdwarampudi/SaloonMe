@@ -22,6 +22,7 @@ import com.saloonme.presenters.HomePresenter;
 import com.saloonme.ui.activities.CommentsActivity;
 import com.saloonme.ui.activities.FeedUploadActivity;
 import com.saloonme.ui.adapters.FeedAdapter;
+import com.saloonme.util.PrefUtils;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
         view = super.onCreateView(inflater, container, savedInstanceState);
         clickAndSharePresenter = new ClickAndSharePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
-        clickAndSharePresenter.getFeeds();
+        clickAndSharePresenter.getFeeds(PrefUtils.getInstance().getUserId());
         return view;
     }
 
@@ -88,6 +89,7 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
     @Override
     public void addFavouriteSuccess(FavouriteResponse favouriteResponse) {
         showToast(favouriteResponse.getMessage());
+        clickAndSharePresenter.getFeeds(PrefUtils.getInstance().getUserId());
     }
 
     @Override
@@ -108,7 +110,6 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
     public void onCommentClick(FeedListResponse feedListResponse) {
         Intent i = new Intent(getContext(), CommentsActivity.class);
         i.putExtra("feed_sno",feedListResponse.getFeedSno());
-        i.putExtra("userId",feedListResponse.getFeedUserId());
         startActivity(i);
     }
 }

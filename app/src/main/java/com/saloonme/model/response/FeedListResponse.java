@@ -33,6 +33,11 @@ public class FeedListResponse implements Serializable
     @Expose
     private String typeOfAccess;
 
+
+    @SerializedName("add_fav_status")
+    @Expose
+    private boolean add_fav_status ;
+
     public String getFeedSno() {
         return feedSno;
     }
@@ -95,6 +100,15 @@ public class FeedListResponse implements Serializable
 
     public void setTypeOfAccess(String typeOfAccess) {
         this.typeOfAccess = typeOfAccess;
+    }
+
+
+    public boolean getAdd_fav_status() {
+        return add_fav_status;
+    }
+
+    public void setAdd_fav_status(boolean add_fav_status) {
+        this.add_fav_status = add_fav_status;
     }
 
 }

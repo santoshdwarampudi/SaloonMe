@@ -18,6 +18,7 @@ import com.saloonme.R;
 import com.saloonme.model.response.FeedListResponse;
 import com.saloonme.model.response.PromotionsResponseData;
 import com.saloonme.ui.activities.CommentsActivity;
+import com.saloonme.util.PrefUtils;
 
 import java.util.List;
 
@@ -74,8 +75,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         @OnClick(R.id.isLikedIv)
         void onLikeClick() {
             itemListener.onFavouriteClick(feedListResponseList.get(getAdapterPosition()).getFeedSno(),
-                    feedListResponseList.get(getAdapterPosition()).getFeedUserId());
-            isLikedFillIv.setVisibility(View.VISIBLE);
+                    PrefUtils.getInstance().getUserId());
 
         }
         @OnClick(R.id.isCommentIv)
@@ -100,6 +100,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(postIv);
+            if (feedListResponse.getAdd_fav_status()){
+             isLikedFillIv.setVisibility(View.VISIBLE);
+             isLikedIv.setVisibility(View.GONE);
+            }else{
+                isLikedFillIv.setVisibility(View.GONE);
+                isLikedIv.setVisibility(View.VISIBLE);
+            }
 
         }
 

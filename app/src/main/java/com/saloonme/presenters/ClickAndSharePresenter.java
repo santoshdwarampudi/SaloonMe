@@ -19,9 +19,9 @@ public class ClickAndSharePresenter {
         this.iClickAndShareView = iClickAndShareView;
     }
 
-    public void getFeeds() {
+    public void getFeeds(String id) {
         iClickAndShareView.showProgressDialog("Getting Feeds....");
-        Call<FeedResponse> feedResponseCall = apiInterface.getFeedList();
+        Call<FeedResponse> feedResponseCall = apiInterface.getFeedList(id);
         feedResponseCall.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {

@@ -44,7 +44,7 @@ public class CommentsActivity extends BaseAppCompactActivity implements IComment
     ImageView icSendCommentTc;
     CommentsPresenter commentsPresenter;
     CommentsAdapter commentsAdapter;
-    String feedSno,userId;
+    String feedSno;
     @OnClick(R.id.iv_menu)
     void onBackClicked() {
         finish();
@@ -60,7 +60,6 @@ public class CommentsActivity extends BaseAppCompactActivity implements IComment
         super.onCreate(savedInstanceState);
         commentsPresenter = new CommentsPresenter(APIClient.getAPIService(), this);
         feedSno =getIntent().getStringExtra("feed_sno");
-        userId =getIntent().getStringExtra("userId");
         initRecyclerView();
         commentsPresenter.getComments(feedSno);
     }
@@ -69,8 +68,8 @@ public class CommentsActivity extends BaseAppCompactActivity implements IComment
         if (ValidationUtil.isNullOrEmpty(newComment.getText().toString())) {
             showToast("Please enter comment to submit");
         } else {
-          if (feedSno!=null && !feedSno.isEmpty() && userId!=null && !userId.isEmpty())
-            commentsPresenter.addComment(feedSno,newComment.getText().toString(),"",userId);
+          if (feedSno!=null && !feedSno.isEmpty() )
+            commentsPresenter.addComment(feedSno,newComment.getText().toString(),"",PrefUtils.getInstance().getUserId());
         }
     }
     private void initRecyclerView() {

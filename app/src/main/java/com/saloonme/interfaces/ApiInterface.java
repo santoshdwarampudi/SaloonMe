@@ -195,7 +195,7 @@ public interface ApiInterface {
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.FEED_LIST)
-    Call<FeedResponse> getFeedList();
+    Call<FeedResponse> getFeedList(@Path("user_id") String userId);
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.USER_REVIEWSLIST)
