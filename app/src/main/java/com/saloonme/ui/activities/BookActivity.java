@@ -30,6 +30,7 @@ import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.response.BookingItemsResponse;
 import com.saloonme.model.response.BookingItemsResponseData;
+import com.saloonme.model.response.CheckCouponResponse;
 import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.ExpertsListResponseData;
 import com.saloonme.model.response.PlaceOrderResponse;
@@ -65,7 +66,7 @@ public class BookActivity extends BaseAppCompactActivity implements
     private ProductsAdapter productsAdapter;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private BookNowPresenter bookNowPresenter;
-    private String saloonId, bookingId, totalPrice, userInstruction;
+    private String saloonId, bookingId, totalPrice, userInstruction, discount_price;
     private ExpertsListResponseData expertsListResponseData;
     private List<ExpertsListResponseData> expertsListResponseDataList;
     @BindView(R.id.bookTab)
@@ -124,6 +125,19 @@ public class BookActivity extends BaseAppCompactActivity implements
     EditText instructions_et;
     @BindView(R.id.tv_booking_slot)
     TextView tv_booking_slot;
+    @BindView(R.id.apply_btn)
+    TextView apply_btn;
+    @BindView(R.id.et_coupon_code)
+    EditText et_coupon_code;
+
+    @OnClick(R.id.apply_btn)
+    void onCouponButtonClick() {
+        if (ValidationUtil.isNullOrEmpty(et_coupon_code.getText().toString())) {
+            showToast("Please enter coupon code");
+            return;
+        }
+        bookNowPresenter.applyCoupon(saloonId, et_coupon_code.getText().toString());
+    }
 
     @OnClick(R.id.iv_menu)
     void onBackClick() {
@@ -145,7 +159,10 @@ public class BookActivity extends BaseAppCompactActivity implements
             // goToActivity(CheckOutActivity.class);
             // showToast("Redirect to payment gateway");
             PlaceOrderRequest placeOrderRequest = new PlaceOrderRequest();
-            placeOrderRequest.setBarberId(expertsListResponseData.getBarId());
+            if (expertsListResponseData != null)
+                placeOrderRequest.setBarberId(expertsListResponseData.getBarId());
+            else
+                placeOrderRequest.setBarberId("");
             placeOrderRequest.setBookingDate(tv_select_date.getText().toString());
             placeOrderRequest.setBookingId(bookingId);
             placeOrderRequest.setSalonId(saloonId);
@@ -153,6 +170,8 @@ public class BookActivity extends BaseAppCompactActivity implements
             placeOrderRequest.setUserId(PrefUtils.getInstance().getUserId());
             placeOrderRequest.setTotalPrice(tv_total_payment_value.getText().toString());
             placeOrderRequest.setUserInstruction(instructions_et.getText().toString());
+            placeOrderRequest.setCoupon_code(et_coupon_code.getText().toString());
+            placeOrderRequest.setCoupon_discount_price(discount_price);
             bookNowPresenter.placeOrder(placeOrderRequest);
         }
         if (tabPosition > 0) {
@@ -563,6 +582,28 @@ public class BookActivity extends BaseAppCompactActivity implements
     @Override
     public void placeOrderFailed() {
         showToast("Failed to palce order,try again later");
+    }
+
+    @Override
+    public void applyCouponSuccess(CheckCouponResponse checkCouponResponse) {
+        if (checkCouponResponse == null) {
+            showToast("Invalid coupon code,try again later");
+            et_coupon_code.setText("");
+            return;
+        }
+        if (!ValidationUtil.isNullOrEmpty(checkCouponResponse.getStatus()) &&
+                checkCouponResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(checkCouponResponse.getMessage());
+            et_coupon_code.setText("");
+            return;
+        }
+        discount_price = checkCouponResponse.getDiscountPrice();
+    }
+
+    @Override
+    public void applyCouponFailed() {
+        showToast("Invalid coupon code,try again later");
+        et_coupon_code.setText("");
     }
 
     @Override

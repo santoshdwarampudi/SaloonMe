@@ -1,6 +1,7 @@
 package com.saloonme.interfaces;
 
 import com.saloonme.model.response.BookingItemsResponse;
+import com.saloonme.model.response.CheckCouponResponse;
 import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
@@ -31,5 +32,9 @@ public interface IBookView extends IActivityBaseView {
     void placeOrderSuccess(PlaceOrderResponse placeOrderResponse);
 
     void placeOrderFailed();
+
+    void applyCouponSuccess(CheckCouponResponse checkCouponResponse);
+
+    void applyCouponFailed();
 
 }

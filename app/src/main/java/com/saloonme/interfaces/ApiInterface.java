@@ -10,6 +10,7 @@ import com.saloonme.model.response.AddCommentResponse;
 import com.saloonme.model.response.BlogDetailsResponse;
 import com.saloonme.model.response.BookingDetailsResponse;
 import com.saloonme.model.response.BookingItemsResponse;
+import com.saloonme.model.response.CheckCouponResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CommentListResponse;
 import com.saloonme.model.response.CommentsResponse;
@@ -233,5 +234,11 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @POST(APIConstants.FORGOT_PASSWORD)
     Call<RemoveCartResponse> forgotPassword(@Field("email_address") String email_address);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.CHECK_COUPON)
+    Call<CheckCouponResponse> checkCoupon(@Field("coupon_code") String coupon_code,
+                                          @Field("salon_id") String salon_id);
 
 }

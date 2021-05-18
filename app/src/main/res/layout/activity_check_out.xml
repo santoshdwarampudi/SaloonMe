@@ -179,8 +179,8 @@
                                 android:id="@+id/barber_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="gone"
-                                android:rating="3" />
+                                android:rating="3"
+                                android:visibility="gone" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -232,6 +232,10 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <include
+                android:id="@+id/coupon_layout"
+                layout="@layout/coupon_layout" />
 
             <include
                 android:id="@+id/payment_layout"

@@ -44,4 +44,5 @@ public interface APIConstants {
     String FEED_COMMENT_LIST = "Feedview/" + "{feed_sno}";
     String EDIT_PROFILE = "EditProfile";
     String FORGOT_PASSWORD = "ForgotPassword";
+    String CHECK_COUPON = "CheckCoupon";
 }

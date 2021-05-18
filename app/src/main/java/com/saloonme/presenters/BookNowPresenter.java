@@ -4,6 +4,7 @@ import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IBookView;
 import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.response.BookingItemsResponse;
+import com.saloonme.model.response.CheckCouponResponse;
 import com.saloonme.model.response.ExpertsListResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
 import com.saloonme.model.response.ProfileResponse;
@@ -128,6 +129,24 @@ public class BookNowPresenter {
             public void onFailure(Call<PlaceOrderResponse> call, Throwable t) {
                 iBookView.dismissProgress();
                 iBookView.placeOrderFailed();
+            }
+        });
+    }
+
+    public void applyCoupon(String saloonId, String coupon) {
+        iBookView.showProgressDialog("Placing order...");
+        Call<CheckCouponResponse> checkCouponResponseCall = apiInterface.checkCoupon(coupon, saloonId);
+        checkCouponResponseCall.enqueue(new Callback<CheckCouponResponse>() {
+            @Override
+            public void onResponse(Call<CheckCouponResponse> call, Response<CheckCouponResponse> response) {
+                iBookView.dismissProgress();
+                iBookView.applyCouponSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<CheckCouponResponse> call, Throwable t) {
+                iBookView.dismissProgress();
+                iBookView.applyCouponFailed();
             }
         });
     }

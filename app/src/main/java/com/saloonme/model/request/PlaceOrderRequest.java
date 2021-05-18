@@ -27,6 +27,12 @@ public class PlaceOrderRequest implements Serializable {
     @SerializedName("total_price")
     @Expose
     private String totalPrice;
+    @SerializedName("coupon_code")
+    @Expose
+    private String coupon_code;
+    @SerializedName("coupon_discount_price")
+    @Expose
+    private String coupon_discount_price;
     @SerializedName("user_instruction")
     @Expose
     private String userInstruction;
@@ -95,4 +101,19 @@ public class PlaceOrderRequest implements Serializable {
         this.userInstruction = userInstruction;
     }
 
+    public String getCoupon_discount_price() {
+        return coupon_discount_price;
+    }
+
+    public void setCoupon_discount_price(String coupon_discount_price) {
+        this.coupon_discount_price = coupon_discount_price;
+    }
+
+    public String getCoupon_code() {
+        return coupon_code;
+    }
+
+    public void setCoupon_code(String coupon_code) {
+        this.coupon_code = coupon_code;
+    }
 }

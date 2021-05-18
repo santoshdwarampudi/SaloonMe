@@ -49,4 +49,5 @@
     <string name="refund_will_be_processed_within_14_business_days">*Refund will be processed within 14 business days.</string>
 
     <string name="Rs">\u20B9</string>
+    <string name="apply_coupon_code">Apply Coupon Code</string>
 </resources>
