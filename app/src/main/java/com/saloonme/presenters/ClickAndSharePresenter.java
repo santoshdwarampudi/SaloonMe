@@ -26,7 +26,7 @@ public class ClickAndSharePresenter {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
                 iClickAndShareView.dismissProgress();
-                iClickAndShareView.feedListFetchedSuccess(response.body().getData());
+                iClickAndShareView.feedListFetchedSuccess(response.body());
             }
 
             @Override

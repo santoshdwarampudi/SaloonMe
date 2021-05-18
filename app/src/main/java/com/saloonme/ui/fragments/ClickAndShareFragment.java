@@ -16,6 +16,7 @@ import com.saloonme.R;
 import com.saloonme.interfaces.IClickAndShareView;
 import com.saloonme.model.response.FavouriteResponse;
 import com.saloonme.model.response.FeedListResponse;
+import com.saloonme.model.response.FeedResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ClickAndSharePresenter;
 import com.saloonme.presenters.HomePresenter;
@@ -23,6 +24,7 @@ import com.saloonme.ui.activities.CommentsActivity;
 import com.saloonme.ui.activities.FeedUploadActivity;
 import com.saloonme.ui.adapters.FeedAdapter;
 import com.saloonme.util.PrefUtils;
+import com.saloonme.util.ValidationUtil;
 
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
     }
 
     private void initRecyclerview() {
-        feedAdapter = new FeedAdapter(getActivity(),this);
+        feedAdapter = new FeedAdapter(getActivity(), this);
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,
                 false);
         postRv.setLayoutManager(linearLayoutManager);
@@ -67,16 +69,28 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
     }
 
     @OnClick(R.id.addFeed)
-    void onAddFeed(){
+    void onAddFeed() {
         Intent i = new Intent(getContext(), FeedUploadActivity.class);
         startActivity(i);
     }
 
     @Override
-    public void feedListFetchedSuccess(List<FeedListResponse> saloonListResponse) {
-        if (saloonListResponse != null) {
-            feedAdapter.setData(saloonListResponse);
+    public void feedListFetchedSuccess(FeedResponse feedResponse) {
+        if (feedResponse == null) {
+            showToast("Failed to fetch the feeds");
+            return;
         }
+        if (!ValidationUtil.isNullOrEmpty(feedResponse.getStatus()) &&
+                feedResponse.getStatus().toLowerCase().contains("fail")) {
+            showToast(feedResponse.getMessage());
+            return;
+        }
+        if (feedResponse.getData() == null || feedResponse.getData().size() == 0) {
+            showToast(feedResponse.getMessage());
+            return;
+        }
+        feedAdapter.setData(feedResponse.getData());
+
 
     }
 
@@ -101,15 +115,15 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
     @Override
     public void onFavouriteClick(String feedSno, String feedUserId) {
 
-        if (feedSno!=null && !feedSno.isEmpty() && feedUserId!=null && !feedUserId.isEmpty()){
-            clickAndSharePresenter.addFavourite(feedSno,feedUserId);
+        if (feedSno != null && !feedSno.isEmpty() && feedUserId != null && !feedUserId.isEmpty()) {
+            clickAndSharePresenter.addFavourite(feedSno, feedUserId);
         }
     }
 
     @Override
     public void onCommentClick(FeedListResponse feedListResponse) {
         Intent i = new Intent(getContext(), CommentsActivity.class);
-        i.putExtra("feed_sno",feedListResponse.getFeedSno());
+        i.putExtra("feed_sno", feedListResponse.getFeedSno());
         startActivity(i);
     }
 }

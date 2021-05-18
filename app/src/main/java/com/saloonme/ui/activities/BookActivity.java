@@ -403,14 +403,18 @@ public class BookActivity extends BaseAppCompactActivity implements
         if (expertsListResponse == null) {
             showToast("Failed to get the experts");
             seatBookingAdapter.setData(null);
+            return;
         }
-        if (expertsListResponse.getStatus().toLowerCase().contains("fail")) {
+        if (!ValidationUtil.isNullOrEmpty(expertsListResponse.getStatus()) &&
+                expertsListResponse.getStatus().toLowerCase().contains("fail")) {
             showToast(expertsListResponse.getMessage());
             seatBookingAdapter.setData(null);
+            return;
         }
         if (expertsListResponse.getData() == null || expertsListResponse.getData().size() == 0) {
             showToast(expertsListResponse.getMessage());
             seatBookingAdapter.setData(null);
+            return;
         }
         expertsListResponseDataList = expertsListResponse.getData();
         seatBookingAdapter.setData(expertsListResponse.getData());
