@@ -39,6 +39,7 @@ import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
 import com.saloonme.ui.activities.AddReviewActivity;
 import com.saloonme.ui.activities.BookingDetailsActivity;
+import com.saloonme.ui.activities.ChangePasswordActivity;
 import com.saloonme.ui.activities.EditProfileActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
@@ -88,13 +89,24 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
 
     @OnClick(R.id.tv_edit)
     void onEditClick() {
-        if(profileResponseData==null){
+        if (profileResponseData == null) {
             showToast("Something went wrong");
             return;
         }
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(StringConstants.EXTRA_DETAILS,profileResponseData);
-        goToActivity(com.saloonme.ui.activities.EditProfileActivity.class,bundle);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS, profileResponseData);
+        goToActivity(com.saloonme.ui.activities.EditProfileActivity.class, bundle);
+    }
+
+    @OnClick(R.id.tv_change_password)
+    void onChangePasswordClick() {
+        if (profileResponseData == null) {
+            showToast("Something went wrong");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(StringConstants.EXTRA_DETAILS, profileResponseData);
+        goToActivity(ChangePasswordActivity.class, bundle);
     }
 
 
@@ -290,11 +302,15 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                 userBookingDetailsResponse.getData().getCompletedDetails().size() > 0) {
             historyAdapter.setDataToHistory(userBookingDetailsResponse.getData().
                     getCompletedDetails());
+        } else {
+            historyAdapter.setDataToHistory(null);
         }
         if (userBookingDetailsResponse.getData().getUpcomingDetails() != null &&
                 userBookingDetailsResponse.getData().getUpcomingDetails().size() > 0) {
             upComingBookingsAdapter.setDataToUpComing(userBookingDetailsResponse.getData().
                     getUpcomingDetails());
+        } else {
+            upComingBookingsAdapter.setDataToUpComing(null);
         }
 
     }
@@ -316,6 +332,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         }
         showToast(removeCartResponse.getMessage());
         profilePresenter.getUserBookingDetails(PrefUtils.getInstance().getUserId());
+
     }
 
     @Override

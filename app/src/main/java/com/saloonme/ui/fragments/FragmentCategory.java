@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.saloonme.R;
 import com.saloonme.interfaces.ISaloonServiceView;
+import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.request.AddCartRequest;
 import com.saloonme.model.response.AddCartResponse;
 import com.saloonme.model.response.RemoveCartResponse;
@@ -20,6 +21,7 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SaloonSubServiceResponseData;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.SaloonServicePresenter;
+import com.saloonme.ui.activities.BookActivity;
 import com.saloonme.ui.adapters.CategoryFilterAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
@@ -39,6 +41,7 @@ public class FragmentCategory extends BaseFragment implements ISaloonServiceView
     private CategoryFilterAdapter categoryFilterAdapter;
     private SaloonServicePresenter saloonServicePresenter;
     private String saloonId, serviceId;
+    private boolean isBookNowClicked;
     private View view;
     private int positionToUpadte;
     private List<SaloonSubServiceResponseData> saloonSubServiceResponseData;
@@ -133,6 +136,12 @@ public class FragmentCategory extends BaseFragment implements ISaloonServiceView
             showToast(addCartResponse.getMessage());
             return;
         }
+        if (isBookNowClicked) {
+            Bundle bundle = new Bundle();
+            bundle.putString(StringConstants.EXTRA_DETAILS, saloonId);
+            goToActivity(BookActivity.class, bundle);
+            return;
+        }
         showToast(addCartResponse.getMessage());
         saloonSubServiceResponseData.get(positionToUpadte).setAddedToCart(true);
         categoryFilterAdapter.notifyItemChanged(positionToUpadte);
@@ -207,7 +216,16 @@ public class FragmentCategory extends BaseFragment implements ISaloonServiceView
     }
 
     @Override
-    public void onBookNowClicked(SaloonSubServiceResponseData saloonSubServiceResponseData) {
-
+    public void onBookNowClicked(SaloonSubServiceResponseData saloonSubServiceResponseData,
+                                 int position) {
+        isBookNowClicked = true;
+        positionToUpadte = position;
+        AddCartRequest addCartRequest = new AddCartRequest();
+        addCartRequest.setSalonId(saloonId);
+        addCartRequest.setUserId(PrefUtils.getInstance().getUserId());
+        List<String> subServiceId = new ArrayList<>();
+        subServiceId.add(saloonSubServiceResponseData.getServiceId());
+        addCartRequest.setSubServiceId(subServiceId);
+        saloonServicePresenter.addToCart(addCartRequest);
     }
 }

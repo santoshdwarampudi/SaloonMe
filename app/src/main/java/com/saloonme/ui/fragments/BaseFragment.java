@@ -34,6 +34,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment {
 
     public abstract int getFragmentLayoutId();
+
     private Unbinder unbinder;
 
 
@@ -45,7 +46,7 @@ public abstract class BaseFragment extends Fragment {
         ViewStub viewStub = (ViewStub) view.findViewById(R.id.layout_fragment);
         viewStub.setLayoutResource(layoutId);
         viewStub.inflate();
-        unbinder=ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -145,6 +146,7 @@ public abstract class BaseFragment extends Fragment {
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
+
     public void showAlertDialog(String title, String alertMsg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
@@ -168,7 +170,6 @@ public abstract class BaseFragment extends Fragment {
         progressDialog = null;
         unbinder.unbind();
     }
-
 
 
 }

@@ -129,6 +129,8 @@ public class BookActivity extends BaseAppCompactActivity implements
     TextView apply_btn;
     @BindView(R.id.et_coupon_code)
     EditText et_coupon_code;
+    @BindView(R.id.tv_booking_date_time)
+    TextView tv_booking_date_time;
 
     @OnClick(R.id.apply_btn)
     void onCouponButtonClick() {
@@ -279,6 +281,9 @@ public class BookActivity extends BaseAppCompactActivity implements
         if (!tv_select_date.getText().toString().equalsIgnoreCase(getString(R.string.select_date)) &&
                 !tv_select_time.getText().toString().equalsIgnoreCase(getString(R.string.select_time))) {
             showDuration();
+            tv_booking_date_time.setText("Booking Date and time : " +
+                    tv_select_date.getText().toString() + "  " +
+                    tv_select_time.getText().toString());
         }
     }
 

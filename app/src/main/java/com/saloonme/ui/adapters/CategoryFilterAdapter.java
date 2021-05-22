@@ -81,7 +81,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
         void onBookNowClick() {
             if (serviceClickListener != null) {
                 serviceClickListener.onBookNowClicked(saloonSubServiceResponseDataList.
-                        get(getAdapterPosition()));
+                        get(getAdapterPosition()), getAdapterPosition());
             }
         }
 
@@ -130,11 +130,14 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     }
 
     public interface ServiceClickListener {
-        void onAddToCartClicked(SaloonSubServiceResponseData saloonSubServiceResponseData, int position);
+        void onAddToCartClicked(SaloonSubServiceResponseData saloonSubServiceResponseData,
+                                int position);
 
-        void onRemoveToCartClicked(SaloonSubServiceResponseData saloonSubServiceResponseData, int position);
+        void onRemoveToCartClicked(SaloonSubServiceResponseData saloonSubServiceResponseData,
+                                   int position);
 
-        void onBookNowClicked(SaloonSubServiceResponseData saloonSubServiceResponseData);
+        void onBookNowClicked(SaloonSubServiceResponseData saloonSubServiceResponseData,
+                              int position);
     }
 
 }
