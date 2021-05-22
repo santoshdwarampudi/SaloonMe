@@ -95,14 +95,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:visibility="gone"
             android:fontFamily="@font/mulish_regular"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_10ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_booking_slot">
 
         </androidx.appcompat.widget.AppCompatTextView>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_barber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:fontFamily="@font/mulish_bold"
+            android:text="Select Barber &amp; Seat"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_booking_slot_value"></androidx.appcompat.widget.AppCompatTextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_barbers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabLayout"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="?attr/actionBarSize"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_barber"></androidx.recyclerview.widget.RecyclerView>
 
         <EditText
             android:id="@+id/instructions_et"
@@ -121,32 +145,7 @@
             android:textColor="@color/bottomNavigationInactiveColor"
             android:textColorHint="@color/bottomNavigationInactiveColor"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_booking_slot_value" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_select_barber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:fontFamily="@font/mulish_bold"
-            android:text="Select Barber &amp; Seat"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/_14ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/instructions_et"></androidx.appcompat.widget.AppCompatTextView>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_barbers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tabLayout"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="?attr/actionBarSize"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_select_barber"></androidx.recyclerview.widget.RecyclerView>
-
+            app:layout_constraintTop_toBottomOf="@+id/rv_barbers" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
