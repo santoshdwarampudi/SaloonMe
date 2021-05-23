@@ -28,12 +28,12 @@ import butterknife.OnClick;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Context mContext;
-    private FeedItemListener itemListener;
+    private  FeedItemListener itemListener;
     private List<FeedListResponse> feedListResponseList;
 
-    public FeedAdapter(Context mContext, FeedItemListener itemListener) {
+    public FeedAdapter(Context mContext,FeedItemListener itemListener) {
         this.mContext = mContext;
-        this.itemListener = itemListener;
+        this.itemListener=itemListener;
 
     }
 
@@ -42,12 +42,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         this.feedListResponseList = feedListResponseList;
         notifyDataSetChanged();
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_feed, parent, false);
-        return new ViewHolder(view);
+        return new  ViewHolder(view);
     }
 
     @Override
@@ -79,17 +78,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     PrefUtils.getInstance().getUserId());
 
         }
-
         @OnClick(R.id.isCommentIv)
         void onCommentClick() {
 
             itemListener.onCommentClick(feedListResponseList.get(getAdapterPosition()));
         }
-
         @OnClick(R.id.isForwardIv)
         void onForwardClick() {
             if (itemListener != null) {
-                itemListener.onShareClicked(feedListResponseList.get(getAdapterPosition()));
+                itemListener.onShareClicked(feedListResponseList.get(getAdapterPosition()),postIv);
             }
         }
 
@@ -101,14 +98,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public void setData(FeedListResponse feedListResponse) {
             userNameTv.setText(feedListResponse.getFeedName());
             postMsgTv.setText(feedListResponse.getFeedDes());
-            Glide.with(mContext).load(feedListResponse.getFeedImg())
+            Glide.with(mContext).load( feedListResponse.getFeedImg())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(postIv);
-            if (feedListResponse.getAdd_fav_status()) {
-                isLikedFillIv.setVisibility(View.VISIBLE);
-                isLikedIv.setVisibility(View.GONE);
-            } else {
+            if (feedListResponse.getAdd_fav_status()){
+             isLikedFillIv.setVisibility(View.VISIBLE);
+             isLikedIv.setVisibility(View.GONE);
+            }else{
                 isLikedFillIv.setVisibility(View.GONE);
                 isLikedIv.setVisibility(View.VISIBLE);
             }
@@ -123,7 +120,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         void onCommentClick(FeedListResponse feedListResponse);
 
-        void onShareClicked(FeedListResponse feedListResponse);
+        void onShareClicked(FeedListResponse feedListResponse,ImageView imageView);
     }
 }
 
