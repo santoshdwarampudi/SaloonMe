@@ -37,6 +37,7 @@ import com.saloonme.model.response.UserBookingDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -48,6 +49,8 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface ApiInterface {
     @FormUrlEncoded
@@ -240,5 +243,9 @@ public interface ApiInterface {
     @POST(APIConstants.CHECK_COUPON)
     Call<CheckCouponResponse> checkCoupon(@Field("coupon_code") String coupon_code,
                                           @Field("salon_id") String salon_id);
+
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadFileByUrl(@Url String fileUrl);
 
 }

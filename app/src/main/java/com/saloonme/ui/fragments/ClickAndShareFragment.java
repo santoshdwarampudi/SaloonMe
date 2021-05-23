@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.saloonme.ui.activities.CommentsActivity;
 import com.saloonme.ui.activities.FeedUploadActivity;
 import com.saloonme.ui.adapters.FeedAdapter;
 import com.saloonme.util.PrefUtils;
+import com.saloonme.util.ShareUtil;
 import com.saloonme.util.ValidationUtil;
 
 import java.util.List;
@@ -32,7 +34,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class ClickAndShareFragment extends BaseFragment implements IClickAndShareView, FeedAdapter.FeedItemListener {
+public class ClickAndShareFragment extends BaseFragment
+        implements IClickAndShareView, FeedAdapter.FeedItemListener,
+        ShareUtil.onAudioFileShareListener {
 
     private View view;
     @BindView(R.id.postRv)
@@ -108,7 +112,7 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
 
     @Override
     public void addFavouriteFailed() {
-
+        showToast("Failed to add to favourites");
     }
 
 
@@ -125,5 +129,24 @@ public class ClickAndShareFragment extends BaseFragment implements IClickAndShar
         Intent i = new Intent(getContext(), CommentsActivity.class);
         i.putExtra("feed_sno", feedListResponse.getFeedSno());
         startActivity(i);
+    }
+
+    @Override
+    public void onShareClicked(FeedListResponse feedListResponse) {
+        ShareUtil shareUtil = new ShareUtil(getActivity(), this::onShareListener);
+        if (feedListResponse != null) {
+            if (!ValidationUtil.isNullOrEmpty(feedListResponse.getFeedImg())) {
+                clickAndSharePresenter.showProgress();
+                getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                shareUtil.shareImageFile(feedListResponse.getFeedImg(), false);
+            }
+        }
+    }
+
+    @Override
+    public void onShareListener(boolean sharedSuccessfully) {
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        clickAndSharePresenter.hideProgress();
     }
 }

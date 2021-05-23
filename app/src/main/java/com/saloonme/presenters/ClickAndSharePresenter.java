@@ -4,6 +4,7 @@ import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IClickAndShareView;
 import com.saloonme.model.response.FavouriteResponse;
 import com.saloonme.model.response.FeedResponse;
+import com.saloonme.util.ShareUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +38,7 @@ public class ClickAndSharePresenter {
         });
     }
 
-    public void addFavourite(String feedSno,String userId) {
+    public void addFavourite(String feedSno, String userId) {
         iClickAndShareView.showProgressDialog("Adding Favrouite....");
         Call<FavouriteResponse> favouriteResponseCall = apiInterface.addFavourite(feedSno, userId);
         favouriteResponseCall.enqueue(new Callback<FavouriteResponse>() {
@@ -53,5 +54,13 @@ public class ClickAndSharePresenter {
                 iClickAndShareView.addFavouriteFailed();
             }
         });
+    }
+
+    public void showProgress() {
+        iClickAndShareView.showProgressDialog("Sharing,please wait....");
+    }
+
+    public void hideProgress() {
+        iClickAndShareView.dismissProgress();
     }
 }
