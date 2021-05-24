@@ -100,6 +100,7 @@ public class CommentsActivity extends BaseAppCompactActivity implements IComment
 
     @Override
     public void addCommentSuccess(AddCommentResponse addCommentResponse) {
+        newComment.getText().clear();
         if (addCommentResponse == null) {
             showToast("failed to add the comment");
             return;
@@ -109,7 +110,8 @@ public class CommentsActivity extends BaseAppCompactActivity implements IComment
             return;
         }
         showToast(addCommentResponse.getMessage());
-        finish();
+        commentsPresenter.getComments(feedSno);
+      //  finish();
     }
 
     @Override
