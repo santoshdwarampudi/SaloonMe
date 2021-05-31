@@ -2,6 +2,7 @@ package com.saloonme.presenters;
 
 import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IHomeView;
+import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SliderResponse;
@@ -112,5 +113,22 @@ public class HomePresenter {
         });
     }
 
+    public void getProfileDetails(String userId, String token) {
+        iHomeView.showProgressDialog("Getting Profile details....");
+        Call<ProfileResponse> profileResponseCall = apiInterface.getProfile(userId, token);
+        profileResponseCall.enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                iHomeView.dismissProgress();
+                iHomeView.getProfileDetailsSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                iHomeView.dismissProgress();
+                iHomeView.getProfileDetailsFailed();
+            }
+        });
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.saloonme.interfaces;
 
+import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SliderResponse;
@@ -24,6 +25,10 @@ public interface IHomeView extends IActivityBaseView {
     void sliderSuccess(SliderResponse sliderResponse);
 
     void sliderFailed();
+
+    void getProfileDetailsSuccess(ProfileResponse profileResponse);
+
+    void getProfileDetailsFailed();
 
 
 }

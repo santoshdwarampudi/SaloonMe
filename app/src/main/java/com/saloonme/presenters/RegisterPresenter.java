@@ -18,10 +18,11 @@ public class RegisterPresenter {
         this.iRegisterView = iRegisterView;
     }
 
-    public void registerUser(String firstname, String lastName, String pwd, String email, String mobile) {
+    public void registerUser(String firstname, String lastName, String pwd, String email,
+                             String mobile, String gender) {
         iRegisterView.showProgressDialog("Registering user....");
         Call<RegisterResponse> registerResponseCall = apiInterface.registerUser
-                (firstname, pwd, lastName, email, mobile);
+                (firstname, pwd, lastName, email, mobile,gender);
         registerResponseCall.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {

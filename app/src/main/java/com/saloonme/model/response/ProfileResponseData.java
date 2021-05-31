@@ -51,6 +51,10 @@ public class ProfileResponseData implements Serializable {
     @SerializedName("token")
     @Expose
     private String token;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
+
 
     public String getUserId() {
         return userId;
@@ -172,4 +176,11 @@ public class ProfileResponseData implements Serializable {
         this.token = token;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

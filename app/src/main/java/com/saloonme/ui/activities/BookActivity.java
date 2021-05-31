@@ -387,6 +387,11 @@ public class BookActivity extends BaseAppCompactActivity implements
                     previous.setVisibility(View.GONE);
                 }
                 if (tabPosition == 2) {
+                    if (!PrefUtils.getInstance().isLogin()) {
+                        showToast("Login to book the order");
+                        goToActivity(LoginActivity.class);
+                        return;
+                    }
                     next.setText(getString(R.string.submit_pay));
                 } else {
                     next.setText(getString(R.string.next));
@@ -529,8 +534,8 @@ public class BookActivity extends BaseAppCompactActivity implements
         getDurationInMinutes(bookingItemsResponse.getData());
         tv_payment_value.setText(bookingItemsResponse.getTotalPrice());
         tv_discount_value.setText(bookingItemsResponse.getOverallDiscount());
-        int totalPayment = Integer.parseInt(bookingItemsResponse.getTotalPrice()) -
-                Integer.parseInt(bookingItemsResponse.getOverallDiscount());
+        double totalPayment = Double.parseDouble(bookingItemsResponse.getTotalPrice()) -
+                Double.parseDouble(bookingItemsResponse.getOverallDiscount());
         tv_total_payment_value.setText(totalPayment + "");
     }
 

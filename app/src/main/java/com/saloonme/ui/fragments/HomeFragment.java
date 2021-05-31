@@ -27,6 +27,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.saloonme.R;
 import com.saloonme.interfaces.IHomeView;
 import com.saloonme.interfaces.StringConstants;
+import com.saloonme.model.response.ProfileResponse;
+import com.saloonme.model.response.ProfileResponseData;
 import com.saloonme.model.response.PromotionsResponse;
 import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonListResponseData;
@@ -160,8 +162,9 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         //latLng = LocationSingleTon.instance().getLatLng();
         //dummy hyd values
         latLng = new LatLng(17.387140, 78.491684);
-        setUpTabs();
-        homePresenter.getPopularPlaces(latLng.latitude + "", latLng.longitude + "");
+        //  homePresenter.getPopularPlaces(latLng.latitude + "", latLng.longitude + "");
+        homePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
+                PrefUtils.getInstance().geToken());
         homePresenter.getSliders();
         return view;
     }
@@ -438,6 +441,91 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
     public void sliderFailed() {
         showToast("Failed to fetch the offers");
         offersHorizontalAdapter.setData(null);
+    }
+
+    @Override
+    public void getProfileDetailsSuccess(ProfileResponse profileResponse) {
+        if (profileResponse == null) {
+            setUpTabs();
+            return;
+        }
+        if (profileResponse.getStatus().contains("fail")) {
+            setUpTabs();
+            return;
+        }
+        if (profileResponse.getData() == null || profileResponse.getData().size() == 0) {
+            setUpTabs();
+            return;
+        }
+        updateTabPositions(profileResponse.getData());
+    }
+
+    private void updateTabPositions(List<ProfileResponseData> data) {
+        String gender = data.get(0).getGender();
+        if (gender.equals("1")) {
+            tabLayout.addTab(tabLayout.newTab().setText("Mens"));
+            tabLayout.addTab(tabLayout.newTab().setText("Womens"));
+            homePresenter.getSaloonListBasedOnCategory("1", latLng.latitude + "",
+                    latLng.longitude + "");
+            homePresenter.getHomeServices("1", "1", latLng.latitude + "",
+                    latLng.longitude + "");
+        } else {
+            tabLayout.addTab(tabLayout.newTab().setText("Womens"));
+            tabLayout.addTab(tabLayout.newTab().setText("Mens"));
+            homePresenter.getSaloonListBasedOnCategory("2", latLng.latitude + "",
+                    latLng.longitude + "");
+            homePresenter.getHomeServices("2", "1", latLng.latitude + "",
+                    latLng.longitude + "");
+        }
+        tabLayout.addTab(tabLayout.newTab().setText("Kids"));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (gender.equals("1")) {
+                    homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
+                            latLng.latitude + "", latLng.longitude + "");
+                    homePresenter.getHomeServices((tab.getPosition() + 1) + "",
+                            "1", latLng.latitude + "",
+                            latLng.longitude + "");
+                } else {
+                    if (tab.getPosition() == 0) {
+                        homePresenter.getSaloonListBasedOnCategory("2",
+                                latLng.latitude + "", latLng.longitude + "");
+                        homePresenter.getHomeServices("2",
+                                "1", latLng.latitude + "",
+                                latLng.longitude + "");
+                    } else if (tab.getPosition() == 1) {
+                        homePresenter.getSaloonListBasedOnCategory("1",
+                                latLng.latitude + "", latLng.longitude + "");
+                        homePresenter.getHomeServices("1",
+                                "1", latLng.latitude + "",
+                                latLng.longitude + "");
+                    } else {
+                        homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
+                                latLng.latitude + "", latLng.longitude + "");
+                        homePresenter.getHomeServices((tab.getPosition() + 1) + "",
+                                "1", latLng.latitude + "",
+                                latLng.longitude + "");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getProfileDetailsFailed() {
+        setUpTabs();
     }
 
     @Override

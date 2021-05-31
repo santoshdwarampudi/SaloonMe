@@ -82,6 +82,8 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     TextView tv_email;
     @BindView(R.id.profileTabs)
     TabLayout profileTabs;
+    @BindView(R.id.tv_gender)
+    TextView tv_gender;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -267,7 +269,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     private void setData(List<ProfileResponseData> data) {
         profileResponseData = data.get(0);
         if (profileResponseData != null) {
-            Glide.with(getActivity()).load(APIConstants.IMAGE_BASE_URL +
+            Glide.with(getActivity()).load(
                     profileResponseData.getProfilePic())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
@@ -276,6 +278,14 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
             tv_userName.setText(profileResponseData.getFirstName() + " " + profileResponseData.getLastName());
             tv_mobile.setText("Mobile : " + profileResponseData.getMobileNumber());
             tv_email.setText("Email : " + profileResponseData.getEmailAddress());
+            if (profileResponseData.getGender().equals("1")) {
+                tv_gender.setText("Gender : Male");
+            } else if (profileResponseData.getGender().equals("2")) {
+                tv_gender.setText("Gender : FeMale");
+            } else {
+                tv_gender.setText("Gender : Male");
+            }
+
         }
     }
 
