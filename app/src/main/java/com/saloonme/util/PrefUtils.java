@@ -27,7 +27,8 @@ public class PrefUtils {
         static final String LAT = "lat";
         static final String LONG = "long";
         static final String CART_DETAILS = "cart_details";
-
+        static final String EMAIL = "email";
+        static final String PHONE_NUMBER = "mobileNumber";
     }
 
     public static PrefUtils getInstance() {
@@ -59,8 +60,24 @@ public class PrefUtils {
         getPreferences().edit().putString(PrefKeys.USERID, userId).apply();
     }
 
+    public void saveMobileNumber(String mobileNumber) {
+        getPreferences().edit().putString(PrefKeys.PHONE_NUMBER, mobileNumber).apply();
+    }
+
+    public void saveEmail(String emailId) {
+        getPreferences().edit().putString(PrefKeys.EMAIL, emailId).apply();
+    }
+
     public String getUserId() {
         return getPreferences().getString(PrefKeys.USERID, "");
+    }
+
+    public String getMobileNumber() {
+        return getPreferences().getString(PrefKeys.PHONE_NUMBER, "");
+    }
+
+    public String geEmailId() {
+        return getPreferences().getString(PrefKeys.EMAIL, "");
     }
 
     public void saveToken(String token) {

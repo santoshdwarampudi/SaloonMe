@@ -76,6 +76,8 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
             showToast(loginResponse.getMessage());
             PrefUtils.getInstance().saveIsLogin(true);
             PrefUtils.getInstance().saveUserId(loginResponse.getData().get(0).getUserId());
+            PrefUtils.getInstance().saveMobileNumber(loginResponse.getData().get(0).getMobileNumber());
+            PrefUtils.getInstance().saveEmail(loginResponse.getData().get(0).getEmailAddress());
             PrefUtils.getInstance().saveToken(loginResponse.getData().get(0).getToken());
             finish();
             goToActivity(MainActivity.class);
