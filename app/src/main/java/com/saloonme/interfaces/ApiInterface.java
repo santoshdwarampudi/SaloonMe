@@ -10,6 +10,7 @@ import com.saloonme.model.response.AddCommentResponse;
 import com.saloonme.model.response.BlogDetailsResponse;
 import com.saloonme.model.response.BookingDetailsResponse;
 import com.saloonme.model.response.BookingItemsResponse;
+import com.saloonme.model.response.CartResponse;
 import com.saloonme.model.response.CheckCouponResponse;
 import com.saloonme.model.response.CitiesResponse;
 import com.saloonme.model.response.CommentListResponse;
@@ -21,6 +22,7 @@ import com.saloonme.model.response.FeedResponse;
 import com.saloonme.model.response.FeedUploadResponse;
 import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.PlaceOrderResponse;
+import com.saloonme.model.response.ProductViewResponse;
 import com.saloonme.model.response.ProductsResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.PromotionsResponse;
@@ -35,6 +37,7 @@ import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
+import com.saloonme.model.response.ViewCartResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -247,5 +250,19 @@ public interface ApiInterface {
     @Streaming
     @GET
     Call<ResponseBody> downloadFileByUrl(@Url String fileUrl);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.PRODUCT_VIEW)
+    Call<ProductViewResponse> getProductView(@Path("product_id") String product_id);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.VIEW_ORDER_DETAILS)
+    Call<ViewCartResponse> getCartDetails(@Path("order_id") String order_id);
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.PRODUCT_ADD_TO_CART)
+    Call<CartResponse> addToCart(@Field("user_id") String user_id ,
+                                 @Field("prod_id") String prod_id );
 
 }

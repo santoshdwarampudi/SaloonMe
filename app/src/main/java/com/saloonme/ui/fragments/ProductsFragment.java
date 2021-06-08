@@ -1,5 +1,6 @@
 package com.saloonme.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,8 @@ import com.saloonme.model.response.ProductsResponseData;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.HomePresenter;
 import com.saloonme.presenters.ProductsListPresenter;
+import com.saloonme.ui.activities.FeedUploadActivity;
+import com.saloonme.ui.activities.ProductViewActivity;
 import com.saloonme.ui.adapters.ProductListAdapter;
 
 import butterknife.BindView;
@@ -85,6 +88,9 @@ public class ProductsFragment extends BaseFragment implements IProdcutListView, 
     @Override
     public void onProductClick(ProductsResponseData productsResponseData) {
 
+        Intent i = new Intent(getContext(), ProductViewActivity.class);
+        i.putExtra("product_id",productsResponseData.getProdId());
+        startActivity(i);
     }
 
     @Override

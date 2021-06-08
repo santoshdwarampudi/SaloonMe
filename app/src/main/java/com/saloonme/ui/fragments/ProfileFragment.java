@@ -262,6 +262,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
             return;
         }
         setData(profileResponse.getData());
+
     }
 
     private void setData(List<ProfileResponseData> data) {

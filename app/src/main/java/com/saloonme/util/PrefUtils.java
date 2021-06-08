@@ -23,6 +23,7 @@ public class PrefUtils {
         static final String BIDBOL_SHARED_PREF = StringConstants.APPNAME;
         static final String ISLOGIN = "isLogin";
         static final String USERID = "userId";
+        static final String USER_NAME = "userName";
         static final String TOKEN = "tokem";
         static final String LAT = "lat";
         static final String LONG = "long";
@@ -61,6 +62,13 @@ public class PrefUtils {
 
     public String getUserId() {
         return getPreferences().getString(PrefKeys.USERID, "");
+    }
+    public void saveUserName(String userId) {
+        getPreferences().edit().putString(PrefKeys.USER_NAME, userId).apply();
+    }
+
+    public String getUserName() {
+        return getPreferences().getString(PrefKeys.USER_NAME, "");
     }
 
     public void saveToken(String token) {

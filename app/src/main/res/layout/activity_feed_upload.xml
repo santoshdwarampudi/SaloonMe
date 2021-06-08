@@ -67,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <EditText
                     android:id="@+id/nameEt"
                     android:layout_width="match_parent"
@@ -75,6 +76,8 @@
                     android:fontFamily="@font/mulish_medium"
                     android:gravity="top|start"
                     android:hint="Enter Name"
+                    android:editable="false"
+                    android:focusable="false"
                     android:singleLine="true"
                     android:padding="21dp"
                     android:textColor="@color/black"

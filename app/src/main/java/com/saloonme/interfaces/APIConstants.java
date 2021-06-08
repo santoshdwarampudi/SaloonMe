@@ -45,4 +45,7 @@ public interface APIConstants {
     String EDIT_PROFILE = "EditProfile";
     String FORGOT_PASSWORD = "ForgotPassword";
     String CHECK_COUPON = "CheckCoupon";
+    String PRODUCT_ADD_TO_CART = "ProductAddCart";
+    String PRODUCT_VIEW = "ProductView/"+"{product_id}";
+    String VIEW_ORDER_DETAILS = "ViewOrderDetails/"+"{order_id}";
 }

@@ -67,6 +67,7 @@ public class FeedUploadActivity extends BaseAppCompactActivity implements Adapte
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,visibility);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         visibilitySpinner.setAdapter(aa);
+        nameEt.setText(PrefUtils.getInstance().getUserName());
 
         feedPresenter = new FeedPresenter(APIClient.getAPIService(), this);
     }

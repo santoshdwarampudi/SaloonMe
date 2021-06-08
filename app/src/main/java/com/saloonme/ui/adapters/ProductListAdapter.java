@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +49,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setData(productsResponseDataList.get(position));
+        holder.productCl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productListItemListener.onProductClick(productsResponseDataList.get(position));
+            }
+        });
     }
 
     @Override
@@ -60,12 +67,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ImageView iv_product;
         @BindView(R.id.tv_product_name)
         TextView tv_product_name;
+        @BindView(R.id.tv_add_cart)
+        TextView tv_add_cart;
         @BindView(R.id.tv_product_brand_name)
         TextView tv_product_brand_name;
         @BindView(R.id.tv_product_price)
         TextView tv_product_price;
         @BindView(R.id.tv_product_discount_price)
         TextView tv_product_discount_price;
+        @BindView(R.id.productCl)
+        ConstraintLayout productCl;
 
 
         public ViewHolder(@NonNull View itemView) {

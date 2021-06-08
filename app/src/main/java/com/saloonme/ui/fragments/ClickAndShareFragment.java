@@ -70,6 +70,12 @@ public class ClickAndShareFragment extends BaseFragment
         clickAndSharePresenter = new ClickAndSharePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
         initPhotoError();
+        if (PrefUtils.getInstance().isLogin()){
+            addFeed.setVisibility(View.VISIBLE);
+        }else{
+
+            addFeed.setVisibility(View.GONE);
+        }
         clickAndSharePresenter.getFeeds(PrefUtils.getInstance().getUserId());
         return view;
     }

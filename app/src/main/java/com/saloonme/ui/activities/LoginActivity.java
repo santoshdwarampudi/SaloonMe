@@ -8,19 +8,26 @@ import android.widget.TextView;
 
 import com.saloonme.R;
 import com.saloonme.interfaces.ILoginView;
+import com.saloonme.interfaces.IProfileView;
 import com.saloonme.model.request.LoginRequest;
 import com.saloonme.model.response.LoginResponse;
+import com.saloonme.model.response.ProfileResponse;
+import com.saloonme.model.response.RemoveCartResponse;
+import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserReviewsResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.LoginPresenter;
+import com.saloonme.presenters.ProfilePresenter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseAppCompactActivity implements ILoginView {
+public class LoginActivity extends BaseAppCompactActivity implements ILoginView, IProfileView {
 
     private LoginPresenter loginPresenter;
+    private ProfilePresenter profilePresenter;
     @BindView(R.id.tv_heading)
     TextView tv_heading;
     @BindView(R.id.email_tv)
@@ -67,6 +74,7 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
         super.onCreate(savedInstanceState);
         tv_heading.setText("LOGIN");
         loginPresenter = new LoginPresenter(this, APIClient.getAPIService());
+        profilePresenter = new ProfilePresenter(APIClient.getAPIService(), this);
     }
 
     @Override
@@ -77,6 +85,8 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
             PrefUtils.getInstance().saveIsLogin(true);
             PrefUtils.getInstance().saveUserId(loginResponse.getData().get(0).getUserId());
             PrefUtils.getInstance().saveToken(loginResponse.getData().get(0).getToken());
+            profilePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
+                    PrefUtils.getInstance().geToken());
             finish();
             goToActivity(MainActivity.class);
         } else {
@@ -87,6 +97,56 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView 
 
     @Override
     public void onLoginFailed() {
+
+    }
+
+    @Override
+    public void getProfileDetailsSuccess(ProfileResponse profileResponse) {
+        PrefUtils.getInstance().saveUserName(profileResponse.getData().get(0).getFirstName());
+    }
+
+    @Override
+    public void getProfileDetailsFailed() {
+
+    }
+
+    @Override
+    public void getUserBookingDetailsSuccess(UserBookingDetailsResponse userBookingDetailsResponse) {
+
+    }
+
+    @Override
+    public void getUserBookingDetailsFailed() {
+
+    }
+
+    @Override
+    public void cancelBookingSuccess(RemoveCartResponse removeCartResponse) {
+
+    }
+
+    @Override
+    public void cancelBookingFailed() {
+
+    }
+
+    @Override
+    public void reschduleBookingSuccess(RemoveCartResponse removeCartResponse) {
+
+    }
+
+    @Override
+    public void reschduleBookingFailed() {
+
+    }
+
+    @Override
+    public void getUserReviewsSuccess(UserReviewsResponse userReviewsResponse) {
+
+    }
+
+    @Override
+    public void getUserReviewsFailed() {
 
     }
 }
