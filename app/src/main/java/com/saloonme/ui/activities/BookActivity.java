@@ -1,12 +1,7 @@
 package com.saloonme.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -18,11 +13,20 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.tabs.TabLayout;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 import com.saloonme.R;
 import com.saloonme.interfaces.APIConstants;
 import com.saloonme.interfaces.IBookView;
@@ -41,13 +45,13 @@ import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonListResponseData;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.BookNowPresenter;
-import com.saloonme.ui.adapters.PhotosAdapter;
 import com.saloonme.ui.adapters.ProductsAdapter;
-import com.saloonme.ui.adapters.ReviewsAdapter;
 import com.saloonme.ui.adapters.SeatBookingAdapter;
 import com.saloonme.ui.adapters.SelectBarbersAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,79 +63,111 @@ import butterknife.OnClick;
 
 public class BookActivity extends BaseAppCompactActivity implements
         SelectBarbersAdapter.ItemListener, SeatBookingAdapter.ItemListener,
-        ProductsAdapter.ItemListener, IBookView {
-    private SelectBarbersAdapter selectBarbersAdapter;
+        ProductsAdapter.ItemListener, IBookView, PaymentResultListener {
+    private static final String TAG = "BookActivity";
     private SeatBookingAdapter seatBookingAdapter;
     private int tabPosition = 0, serviceDuration = 0;
     private ProductsAdapter productsAdapter;
-    private int mYear, mMonth, mDay, mHour, mMinute;
     private BookNowPresenter bookNowPresenter;
-    private String saloonId, bookingId, totalPrice, userInstruction, discount_price;
+    private String saloonId;
+    private String bookingId;
+    private String discount_price;
     private ExpertsListResponseData expertsListResponseData;
     private List<ExpertsListResponseData> expertsListResponseDataList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bookTab)
     TabLayout tabLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_heading)
     TextView tv_heading;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.book1)
     NestedScrollView book1;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.book2)
     ConstraintLayout book2;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.book3)
     ConstraintLayout book3;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_barbers)
     RecyclerView rv_barbers;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.previous)
     TextView previous;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.next)
     TextView next;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_products)
     RecyclerView rv_products;
     /*@BindView(R.id.rv_seats)
     RecyclerView rv_seats;*/
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_select_date)
     TextView tv_select_date;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_select_time)
     TextView tv_select_time;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_saloon)
     ImageView iv_saloon;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_saloon)
     TextView tv_saloon;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_location)
     TextView tv_location;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_barber)
     ImageView iv_barber;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_barberName)
     TextView tv_barberName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.barber_rating)
     RatingBar barber_rating;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_name)
     EditText et_name;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_email)
     EditText et_email;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_phone)
     EditText et_phone;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_address)
     EditText et_address;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_discount_value)
     TextView tv_discount_value;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_total_payment_value)
     TextView tv_total_payment_value;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_payment_value)
     TextView tv_payment_value;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_booking_slot_value)
     TextView tv_booking_slot_value;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.instructions_et)
     EditText instructions_et;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_booking_slot)
     TextView tv_booking_slot;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.apply_btn)
     TextView apply_btn;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_coupon_code)
     EditText et_coupon_code;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_booking_date_time)
     TextView tv_booking_date_time;
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.apply_btn)
     void onCouponButtonClick() {
         if (ValidationUtil.isNullOrEmpty(et_coupon_code.getText().toString())) {
@@ -141,11 +177,13 @@ public class BookActivity extends BaseAppCompactActivity implements
         bookNowPresenter.applyCoupon(saloonId, et_coupon_code.getText().toString());
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.iv_menu)
     void onBackClick() {
         finish();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.next)
     void onNextClick() {
         if (tabPosition == 0) {
@@ -158,23 +196,7 @@ public class BookActivity extends BaseAppCompactActivity implements
         if (next.getText().toString().equalsIgnoreCase(getString(R.string.next))) {
             tabPosition++;
         } else {
-            // goToActivity(CheckOutActivity.class);
-            // showToast("Redirect to payment gateway");
-            PlaceOrderRequest placeOrderRequest = new PlaceOrderRequest();
-            if (expertsListResponseData != null)
-                placeOrderRequest.setBarberId(expertsListResponseData.getBarId());
-            else
-                placeOrderRequest.setBarberId("");
-            placeOrderRequest.setBookingDate(tv_select_date.getText().toString());
-            placeOrderRequest.setBookingId(bookingId);
-            placeOrderRequest.setSalonId(saloonId);
-            placeOrderRequest.setTime(tv_select_time.getText().toString());
-            placeOrderRequest.setUserId(PrefUtils.getInstance().getUserId());
-            placeOrderRequest.setTotalPrice(tv_total_payment_value.getText().toString());
-            placeOrderRequest.setUserInstruction(instructions_et.getText().toString());
-            placeOrderRequest.setCoupon_code(et_coupon_code.getText().toString());
-            placeOrderRequest.setCoupon_discount_price(discount_price);
-            bookNowPresenter.placeOrder(placeOrderRequest);
+            startPayment();
         }
         if (tabPosition > 0) {
             previous.setVisibility(View.VISIBLE);
@@ -190,6 +212,36 @@ public class BookActivity extends BaseAppCompactActivity implements
         tab.select();
     }
 
+    private void startPayment() {
+        final Activity activity = this;
+
+        final Checkout co = new Checkout();
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", "SaloonMe");
+            options.put("description", "Payment");
+            options.put("send_sms_hash", true);
+            options.put("allow_rotation", true);
+//            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("currency", "INR");
+            double amount = Double.parseDouble(tv_total_payment_value.getText().toString());
+            options.put("amount", amount*100);
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", PrefUtils.getInstance().geEmailId());
+            preFill.put("contact", PrefUtils.getInstance().getMobileNumber());
+
+            options.put("prefill", preFill);
+
+            co.open(activity, options);
+        } catch (Exception e) {
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT)
+                    .show();
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.previous)
     void onPreviousClick() {
         if (previous.getText().toString().equalsIgnoreCase(getString(R.string.previous))) {
@@ -210,42 +262,34 @@ public class BookActivity extends BaseAppCompactActivity implements
         tab.select();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.tv_select_date)
     void onDateSelect() {
         final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
+                (view, year, monthOfYear, dayOfMonth) -> {
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-
-                        tv_select_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        checkDateAndTimeSelected();
-                    }
+                    tv_select_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    checkDateAndTimeSelected();
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.tv_select_time)
     void onTimeSelect() {
         final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
+        int mHour = c.get(Calendar.HOUR_OF_DAY);
+        int mMinute = c.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
+                (view, hourOfDay, minute) -> {
 
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-
-                        tv_select_time.setText(hourOfDay + ":" + minute + ":00");
-                        checkDateAndTimeSelected();
-                    }
+                    tv_select_time.setText(hourOfDay + ":" + minute + ":00");
+                    checkDateAndTimeSelected();
                 }, mHour, mMinute, false);
         timePickerDialog.show();
 
@@ -259,7 +303,7 @@ public class BookActivity extends BaseAppCompactActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_heading.setText("Book Now");
+        tv_heading.setText(R.string.book_now);
         bookNowPresenter = new BookNowPresenter(APIClient.getAPIService(), this);
         saloonId = getIntent().getStringExtra(StringConstants.EXTRA_DETAILS);
         if (ValidationUtil.isNullOrEmpty(saloonId)) {
@@ -275,6 +319,8 @@ public class BookActivity extends BaseAppCompactActivity implements
         bookNowPresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
                 PrefUtils.getInstance().geToken());
         bookNowPresenter.getProductDetails(PrefUtils.getInstance().getUserId());
+
+        Checkout.preload(getApplicationContext());
     }
 
     private void checkDateAndTimeSelected() {
@@ -335,21 +381,7 @@ public class BookActivity extends BaseAppCompactActivity implements
         rv_products.setNestedScrollingEnabled(false);
     }
 
-    private void setSeatSelectionRecycleView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
-        seatBookingAdapter = new SeatBookingAdapter(getContext(), this);
-       /* rv_seats.setLayoutManager(layoutManager);
-        rv_seats.setAdapter(seatBookingAdapter);
-        rv_seats.setNestedScrollingEnabled(false);*/
-    }
-
     private void setBarbersRecyclerView() {
-       /* selectBarbersAdapter = new SelectBarbersAdapter(getContext(), this);
-        LinearLayoutManager saloonListManager = new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false);
-        rv_barbers.setLayoutManager(saloonListManager);
-        rv_barbers.setAdapter(selectBarbersAdapter);
-        rv_barbers.setNestedScrollingEnabled(false);*/
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
         seatBookingAdapter = new SeatBookingAdapter(getContext(), this);
         rv_barbers.setLayoutManager(layoutManager);
@@ -387,6 +419,11 @@ public class BookActivity extends BaseAppCompactActivity implements
                     previous.setVisibility(View.GONE);
                 }
                 if (tabPosition == 2) {
+                    if (!PrefUtils.getInstance().isLogin()) {
+                        showToast("Login to book the order");
+                        goToActivity(LoginActivity.class);
+                        return;
+                    }
                     next.setText(getString(R.string.submit_pay));
                 } else {
                     next.setText(getString(R.string.next));
@@ -529,8 +566,8 @@ public class BookActivity extends BaseAppCompactActivity implements
         getDurationInMinutes(bookingItemsResponse.getData());
         tv_payment_value.setText(bookingItemsResponse.getTotalPrice());
         tv_discount_value.setText(bookingItemsResponse.getOverallDiscount());
-        int totalPayment = Integer.parseInt(bookingItemsResponse.getTotalPrice()) -
-                Integer.parseInt(bookingItemsResponse.getOverallDiscount());
+        double totalPayment = Double.parseDouble(bookingItemsResponse.getTotalPrice()) -
+                Double.parseDouble(bookingItemsResponse.getOverallDiscount());
         tv_total_payment_value.setText(totalPayment + "");
     }
 
@@ -634,5 +671,40 @@ public class BookActivity extends BaseAppCompactActivity implements
     public void onRemoveClick(BookingItemsResponseData bookingItemsResponseData) {
         bookNowPresenter.removeCart(PrefUtils.getInstance().getUserId(),
                 bookingItemsResponseData.getServiceId());
+    }
+
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID) {
+        try {
+            Toast.makeText(this, "Payment Successful: " +
+                    razorpayPaymentID, Toast.LENGTH_SHORT).show();
+            PlaceOrderRequest placeOrderRequest = new PlaceOrderRequest();
+            if (expertsListResponseData != null)
+                placeOrderRequest.setBarberId(expertsListResponseData.getBarId());
+            else
+                placeOrderRequest.setBarberId("");
+            placeOrderRequest.setBookingDate(tv_select_date.getText().toString());
+            placeOrderRequest.setBookingId(bookingId);
+            placeOrderRequest.setSalonId(saloonId);
+            placeOrderRequest.setTime(tv_select_time.getText().toString());
+            placeOrderRequest.setUserId(PrefUtils.getInstance().getUserId());
+            placeOrderRequest.setTotalPrice(tv_total_payment_value.getText().toString());
+            placeOrderRequest.setUserInstruction(instructions_et.getText().toString());
+            placeOrderRequest.setCoupon_code(et_coupon_code.getText().toString());
+            placeOrderRequest.setCoupon_discount_price(discount_price);
+            bookNowPresenter.placeOrder(placeOrderRequest);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in onPaymentSuccess", e);
+        }
+    }
+
+    @Override
+    public void onPaymentError(int code, String response) {
+        try {
+            Toast.makeText(this, "Payment failed: " + code + " " +
+                    response, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in onPaymentError", e);
+        }
     }
 }

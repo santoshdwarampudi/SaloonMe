@@ -38,7 +38,7 @@
         android:drawableLeft="@drawable/ic_person_black_24dp"
         android:drawablePadding="@dimen/_10sdp"
         android:fontFamily="@font/mulish_regular"
-        android:hint="@string/hint_firstName"
+        android:hint="@string/hint_lastName"
         android:paddingBottom="12dp"
         android:singleLine="true"
         android:textColorHint="@color/cool_gray"
@@ -82,6 +82,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_tv" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_select_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:textColor="@color/black"
+        android:text="@string/select_gender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneNumber_tv" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:fontFamily="@font/mulish_regular"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_select_gender" />
+
     <EditText
         android:id="@+id/password_tv"
         android:layout_width="match_parent"
@@ -100,7 +125,7 @@
         android:textSize="@dimen/_16ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_gender" />
 
     <ImageView
         android:id="@+id/showOrHidePwdIv"
@@ -126,7 +151,7 @@
         android:gravity="center"
         android:paddingLeft="48dp"
         android:paddingRight="48dp"
-        android:text="REGISTER"
+        android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

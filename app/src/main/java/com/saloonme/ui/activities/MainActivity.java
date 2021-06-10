@@ -3,12 +3,15 @@ package com.saloonme.ui.activities;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
@@ -42,6 +45,44 @@ public class MainActivity extends BaseAppCompactActivity {
     BubbleNavigationLinearView bottom_navigation_view_linear;
     @BindView(R.id.tv_location)
     TextView tv_location;
+    @BindView(R.id.iv_logout)
+    ImageView iv_logout;
+
+    @OnClick(R.id.iv_logout)
+    void onLogoutClick() {
+        showConfirmationForLogout();
+    }
+
+    private void showConfirmationForLogout() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_confirmation);
+
+        TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
+        TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
+        TextView messageTv = (TextView) dialog.findViewById(R.id.messageTv);
+        messageTv.setText(R.string.logout_msg);
+        yesTv.setText(R.string.yes);
+        noTv.setText(R.string.no);
+
+        noTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        yesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PrefUtils.getInstance().clearSharedPref();
+                goToActivity(LoginActivity.class);
+                finishAffinity();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
     @OnClick(R.id.location_layout)
     void onLocationClick() {
@@ -68,9 +109,10 @@ public class MainActivity extends BaseAppCompactActivity {
                         loadFragment(new HomeFragment());
                         break;
                     case 1:
-                        if (PrefUtils.getInstance().isLogin())
+                        if (PrefUtils.getInstance().isLogin()) {
                             loadFragment(new ProfileFragment());
-                        else
+                            iv_logout.setVisibility(View.VISIBLE);
+                        } else
                             goToActivity(LoginActivity.class);
                         break;
                     case 2:

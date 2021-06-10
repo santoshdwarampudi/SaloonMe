@@ -69,7 +69,8 @@ public interface ApiInterface {
                                         @Field("password") String password,
                                         @Field("last_name") String last_name,
                                         @Field("email_address") String email_address,
-                                        @Field("mobile_number") String mobile_number
+                                        @Field("mobile_number") String mobile_number,
+                                        @Field("gender")String gender
     );
 
     @Headers({"Accept: application/json"})

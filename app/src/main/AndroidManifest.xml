@@ -55,6 +55,14 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_uTkvjTRBUERNM9"
+            />
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
     </application>
 
 </manifest>
