@@ -76,7 +76,7 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
         }
 
         public void setData(SaloonDetailsImageResponseData saloonDetailsImageResponseData) {
-            Glide.with(context).load(APIConstants.IMAGE_BASE_URL +
+            Glide.with(context).load(
                     saloonDetailsImageResponseData.getStoreImg())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))

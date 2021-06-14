@@ -94,7 +94,7 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
             } else {
                 tv_bookNow.setVisibility(View.GONE);
             }
-            Glide.with(context).load(APIConstants.IMAGE_BASE_URL + saloonListResponseData.getStoreImg())
+            Glide.with(context).load(saloonListResponseData.getStoreImg())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

@@ -78,7 +78,7 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
         }
 
         public void setData(SaloonListResponseData saloonListResponseData) {
-            Glide.with(context).load(APIConstants.IMAGE_BASE_URL +
+            Glide.with(context).load(
                     saloonListResponseData.getStoreImg())
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
