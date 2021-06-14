@@ -56,4 +56,10 @@
     <string name="Rs">\u20B9</string>
     <string name="apply_coupon_code">Apply Coupon Code</string>
     <string name="change_password">Change Password</string>
+    <string name="check_out">Check Out</string>
+    <string name="select_gender">Select Gender</string>
+    <string name="register">Register</string>
+    <string name="logout_msg">Are you sure you want to logout from app?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

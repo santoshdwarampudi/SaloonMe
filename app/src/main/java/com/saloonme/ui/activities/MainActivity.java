@@ -106,6 +106,9 @@ public class MainActivity extends BaseAppCompactActivity {
             public void onNavigationChanged(View view, int position) {
                 switch (position) {
                     case 0:
+                        if (PrefUtils.getInstance().isLogin()) {
+                            iv_logout.setVisibility(View.VISIBLE);
+                        }
                         loadFragment(new HomeFragment());
                         break;
                     case 1:
@@ -116,12 +119,21 @@ public class MainActivity extends BaseAppCompactActivity {
                             goToActivity(LoginActivity.class);
                         break;
                     case 2:
+                        if (PrefUtils.getInstance().isLogin()) {
+                            iv_logout.setVisibility(View.VISIBLE);
+                        }
                         loadFragment(new BlogsFragment());
                         break;
                     case 3:
+                        if (PrefUtils.getInstance().isLogin()) {
+                            iv_logout.setVisibility(View.VISIBLE);
+                        }
                         loadFragment(new ClickAndShareFragment());
                         break;
                     case 4:
+                        if (PrefUtils.getInstance().isLogin()) {
+                            iv_logout.setVisibility(View.VISIBLE);
+                        }
                         loadFragment(new ProductsFragment());
                         break;
                 }
