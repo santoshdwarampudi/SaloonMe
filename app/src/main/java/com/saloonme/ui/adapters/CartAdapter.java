@@ -77,7 +77,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             cart_item_quantity.setText(cartResponseData.getCartItems().get(getAdapterPosition()).getProductQuantity());
             cart_item_status.setText(cartResponseData.getOrderDetails().get(getAdapterPosition()).getOrderStatus());
             cart_item_mrp.setText(cartResponseData.getCartItems().get(getAdapterPosition()).getProductPrice());
-            cart_item_price.setText(cartResponseData.getCartItems().get(getAdapterPosition()).getProductSubTotal());
+            cart_item_price.setText(cartResponseData.getOrderDetails().get(getAdapterPosition()).getGrandTotal());
             cart_item_name.setText(cartResponseData.getCartItems().get(getAdapterPosition()).getProductName());
         }
 

@@ -36,6 +36,8 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
     private CartDetailsPresenter cartDetailsPresenter;
     String order_id;
     private CartAdapter cartAdapter;
+    private String grand_total="";
+
 
     @OnClick(R.id.check_out)
     void onCheckoutClick() {
@@ -103,6 +105,7 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
     @Override
     public void onCartViewSuccess(ViewCartResponseData viewCartResponseData) {
         cartAdapter.setData(viewCartResponseData);
+        grand_total=viewCartResponseData.getOrderDetails().get(0).getGrandTotal();
     }
 
     @Override
@@ -125,7 +128,7 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
         try {
             Toast.makeText(this, "Payment Successful: " +
                     razorpayPaymentID, Toast.LENGTH_SHORT).show();
-            cartDetailsPresenter.placeOrder(PrefUtils.getInstance().getUserId(),"100");
+            cartDetailsPresenter.placeOrder(PrefUtils.getInstance().getUserId(),grand_total);
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentSuccess", e);
         }
