@@ -2,6 +2,7 @@ package com.saloonme.presenters;
 
 import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.ICartDetails;
+import com.saloonme.model.response.BaseResponse;
 import com.saloonme.model.response.ProductViewResponse;
 import com.saloonme.model.response.ViewCartResponse;
 
@@ -35,6 +36,26 @@ public class CartDetailsPresenter {
             public void onFailure(Call<ViewCartResponse> call, Throwable t) {
                 iCartDetails.dismissProgress();
                 iCartDetails.onCartViewFailed();
+            }
+        });
+    }
+
+    public void placeOrder(String user_id,String grand_total
+    ) {
+        iCartDetails.showProgressDialog( "Placing order....");
+        Call<BaseResponse> cartResponseCall = apiInterface.producPlaceOrder(
+                user_id,grand_total  );
+        cartResponseCall.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                iCartDetails.dismissProgress();
+                iCartDetails.onPlaceOrderSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                iCartDetails.dismissProgress();
+                iCartDetails.onPlaceOrderFailed();
             }
         });
     }

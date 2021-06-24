@@ -48,4 +48,6 @@ public interface APIConstants {
     String PRODUCT_ADD_TO_CART = "ProductAddCart";
     String PRODUCT_VIEW = "ProductView/"+"{product_id}";
     String VIEW_ORDER_DETAILS = "ViewOrderDetails/"+"{order_id}";
+    String PRODUCT_DELETE_CART = "ProductDeleteCart/"+"{user_id}"+ "/" + "{product_id}";
+    String PRODUCT_PLACE_ORDER = "PlaceOrderProducts";
 }

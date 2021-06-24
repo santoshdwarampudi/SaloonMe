@@ -7,6 +7,7 @@ import com.saloonme.model.request.PlaceOrderRequest;
 import com.saloonme.model.request.ReviewRequest;
 import com.saloonme.model.response.AddCartResponse;
 import com.saloonme.model.response.AddCommentResponse;
+import com.saloonme.model.response.BaseResponse;
 import com.saloonme.model.response.BlogDetailsResponse;
 import com.saloonme.model.response.BookingDetailsResponse;
 import com.saloonme.model.response.BookingItemsResponse;
@@ -265,5 +266,10 @@ public interface ApiInterface {
     @POST(APIConstants.PRODUCT_ADD_TO_CART)
     Call<CartResponse> addToCart(@Field("user_id") String user_id ,
                                  @Field("prod_id") String prod_id );
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.PRODUCT_PLACE_ORDER)
+    Call<BaseResponse> producPlaceOrder(@Field("user_id") String user_id ,
+                                        @Field("grand_total") String prod_id );
 
 }

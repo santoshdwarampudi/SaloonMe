@@ -20,7 +20,6 @@ public class OrderDetail implements Serializable
     @SerializedName("order_status")
     @Expose
     private String orderStatus;
-    private final static long serialVersionUID = 6905328468369796387L;
 
     public String getOrderId() {
         return orderId;

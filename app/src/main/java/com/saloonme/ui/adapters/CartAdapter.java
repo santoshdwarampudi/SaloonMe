@@ -49,7 +49,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return cartResponseData.getCartItems().size();
+        return cartResponseData!= null ? cartResponseData.getOrderDetails().size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
