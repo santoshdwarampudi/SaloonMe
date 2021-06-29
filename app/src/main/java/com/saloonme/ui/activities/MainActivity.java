@@ -1,9 +1,7 @@
 package com.saloonme.ui.activities;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.Dialog;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,14 +11,25 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.saloonme.R;
 import com.saloonme.ui.fragments.BlogsFragment;
 import com.saloonme.ui.fragments.ClickAndShareFragment;
@@ -32,6 +41,7 @@ import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +49,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseAppCompactActivity {
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 101;
     private Handler mHandler;
     FusedLocationProviderClient fusedLocationProviderClient;
     @BindView(R.id.bottom_navigation_view_linear)
@@ -51,6 +62,20 @@ public class MainActivity extends BaseAppCompactActivity {
     @OnClick(R.id.iv_logout)
     void onLogoutClick() {
         showConfirmationForLogout();
+    }
+
+    @OnClick(R.id.tv_location)
+    void onLocationChangeClick() {
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyCgvlGxgIM64Y0zO0_G9m-slg2_zKytBiU");
+            //Places.initialize(getApplicationContext(), "AIzaSyAMrS33N1Oq8Llu6t8pKFQbnMwFc_6BwZg");
+        }
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME,
+                Place.Field.ADDRESS, Place.Field.LAT_LNG);
+        Intent intent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields).setCountry("IN")
+                .build(this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
     private void showConfirmationForLogout() {
@@ -100,7 +125,7 @@ public class MainActivity extends BaseAppCompactActivity {
         mHandler = new Handler();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
-        loadFragment(new HomeFragment());
+        // loadFragment(new HomeFragment());
         bottom_navigation_view_linear.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
@@ -180,6 +205,7 @@ public class MainActivity extends BaseAppCompactActivity {
             if (addresses != null && addresses.size() > 0) {
                 tv_location.setText(
                         addresses.get(0).getLocality());
+                loadFragment(new HomeFragment());
             } else {
                 showToast("Unable to get location");
                 finish();
@@ -209,5 +235,23 @@ public class MainActivity extends BaseAppCompactActivity {
         // refresh toolbar menu
         invalidateOptionsMenu();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                LocationSingleTon.instance().setLatLng(place.getLatLng());
+                setLocation();
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Toast.makeText(this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }

@@ -80,6 +80,8 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
         public void setData(SaloonListResponseData saloonListResponseData) {
             Glide.with(context).load(
                     saloonListResponseData.getStoreImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

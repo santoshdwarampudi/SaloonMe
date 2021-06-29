@@ -110,6 +110,8 @@ public class EditProfileActivity extends BaseAppCompactActivity implements IEdit
         phoneNumber_tv.setText(profileResponseData.getMobileNumber());
         if (!ValidationUtil.isNullOrEmpty(profileResponseData.getProfilePic())) {
             Glide.with(this).load(profileResponseData.getProfilePic())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_profile);

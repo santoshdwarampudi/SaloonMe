@@ -1,11 +1,10 @@
 package com.saloonme.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.athbk.ultimatetablayout.OnClickTabListener;
 import com.athbk.ultimatetablayout.UltimateTabLayout;
@@ -42,9 +41,9 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
 
     @OnClick(R.id.continue_btn)
     void onContinueClick() {
-        Bundle bundle=new Bundle();
-        bundle.putString(StringConstants.EXTRA_DETAILS,saloonId);
-        goToActivity(BookActivity.class,bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.EXTRA_DETAILS, saloonId);
+        goToActivity(BookActivity.class, bundle);
     }
 
     @OnClick(R.id.iv_menu)
@@ -59,8 +58,8 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
                 this);
         saloonId = getIntent().getStringExtra(StringConstants.EXTRA_DETAILS);
         tv_heading.setText("Select Service");
-        tabLayout = (UltimateTabLayout) findViewById(R.id.verticalTabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.verticalTabLayout);
+        viewPager = findViewById(R.id.viewPager);
 
         tabLayout.setOnClickTabListener(new OnClickTabListener() {
             @Override

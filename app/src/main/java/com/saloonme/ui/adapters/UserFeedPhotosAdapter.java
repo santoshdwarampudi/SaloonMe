@@ -66,6 +66,8 @@ public class UserFeedPhotosAdapter extends RecyclerView.Adapter<UserFeedPhotosAd
         void setData(UserFeedPhotsList saloonDetailsImageResponseData) {
             Glide.with(context).load(
                     saloonDetailsImageResponseData.getFeedImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

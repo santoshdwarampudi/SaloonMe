@@ -159,9 +159,9 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         view = super.onCreateView(inflater, container, savedInstanceState);
         homePresenter = new HomePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
-        //latLng = LocationSingleTon.instance().getLatLng();
-        //dummy hyd values
-        latLng = new LatLng(17.387140, 78.491684);
+        latLng = LocationSingleTon.instance().getLatLng();
+       /* //dummy hyd values
+        latLng = new LatLng(17.387140, 78.491684);*/
         //  homePresenter.getPopularPlaces(latLng.latitude + "", latLng.longitude + "");
         homePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
                 PrefUtils.getInstance().geToken());

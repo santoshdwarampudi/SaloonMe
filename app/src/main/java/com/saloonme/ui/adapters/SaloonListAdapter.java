@@ -92,9 +92,11 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
             if (showBookNowOption) {
                 tv_bookNow.setVisibility(View.VISIBLE);
             } else {
-                tv_bookNow.setVisibility(View.GONE);
+                tv_bookNow.setVisibility(View.INVISIBLE);
             }
             Glide.with(context).load(saloonListResponseData.getStoreImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

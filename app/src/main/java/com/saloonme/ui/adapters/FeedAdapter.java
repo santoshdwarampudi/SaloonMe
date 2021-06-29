@@ -99,6 +99,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             userNameTv.setText(feedListResponse.getFeedName());
             postMsgTv.setText(feedListResponse.getFeedDes());
             Glide.with(mContext).load( feedListResponse.getFeedImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(postIv);

@@ -391,8 +391,8 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         Button btnClose = (Button) nagDialog.findViewById(R.id.btnIvClose);
         ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.iv_preview_image);
         Glide.with(this).load(imageUri)
-                .apply(new RequestOptions().placeholder(R.drawable.banner1).
-                        error(R.drawable.banner1)
+                .apply(new RequestOptions().placeholder(R.drawable.ic_placeholder).
+                        error(R.drawable.ic_placeholder)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(ivPreview);
 

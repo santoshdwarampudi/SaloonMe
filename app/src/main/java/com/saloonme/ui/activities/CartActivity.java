@@ -36,13 +36,14 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
     private CartDetailsPresenter cartDetailsPresenter;
     String order_id;
     private CartAdapter cartAdapter;
-    private String grand_total="";
+    private String grand_total = "";
 
 
     @OnClick(R.id.check_out)
     void onCheckoutClick() {
         startPayment();
     }
+
     @OnClick(R.id.iv_menu)
     void onBackClicked() {
         finish();
@@ -59,8 +60,8 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
 
         cartDetailsPresenter = new CartDetailsPresenter(APIClient.getAPIService(), this);
 
-        order_id=getIntent().getStringExtra("order_id");
-        if (order_id!=null)
+        order_id = getIntent().getStringExtra("order_id");
+        if (order_id != null)
             cartDetailsPresenter.cartData(order_id);
         initRecyclerView();
 
@@ -74,6 +75,7 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
         cartRv.setAdapter(cartAdapter);
         cartRv.setNestedScrollingEnabled(false);
     }
+
     private void startPayment() {
         final Activity activity = this;
 
@@ -86,8 +88,8 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
             options.put("allow_rotation", true);
 //            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
             options.put("currency", "INR");
-           // double amount = Double.parseDouble(tv_total_payment_value.getText().toString());
-            options.put("amount",  100);
+            // double amount = Double.parseDouble(tv_total_payment_value.getText().toString());
+            options.put("amount", 100);
 
             JSONObject preFill = new JSONObject();
             preFill.put("email", PrefUtils.getInstance().geEmailId());
@@ -102,10 +104,15 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
             e.printStackTrace();
         }
     }
+
     @Override
     public void onCartViewSuccess(ViewCartResponseData viewCartResponseData) {
         cartAdapter.setData(viewCartResponseData);
-        grand_total=viewCartResponseData.getOrderDetails().get(0).getGrandTotal();
+        if (viewCartResponseData != null && viewCartResponseData.getOrderDetails() != null &&
+                viewCartResponseData.getOrderDetails().size() > 0) {
+            grand_total = viewCartResponseData.getOrderDetails().get(0).getGrandTotal();
+        }
+
     }
 
     @Override
@@ -128,7 +135,7 @@ public class CartActivity extends BaseAppCompactActivity implements ICartDetails
         try {
             Toast.makeText(this, "Payment Successful: " +
                     razorpayPaymentID, Toast.LENGTH_SHORT).show();
-            cartDetailsPresenter.placeOrder(PrefUtils.getInstance().getUserId(),grand_total);
+            cartDetailsPresenter.placeOrder(PrefUtils.getInstance().getUserId(), grand_total);
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentSuccess", e);
         }

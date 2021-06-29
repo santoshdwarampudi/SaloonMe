@@ -87,6 +87,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         void setData(ProductsResponseData productsResponseData) {
 
             Glide.with(context).load(productsResponseData.getProdImg())
+                    .placeholder(R.drawable.ic_product_place_holder)
+                    .error(R.drawable.ic_product_place_holder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_product);

@@ -30,6 +30,8 @@ public class PrefUtils {
         static final String CART_DETAILS = "cart_details";
         static final String EMAIL = "email";
         static final String PHONE_NUMBER = "mobileNumber";
+        static final String DATE = "date";
+        static final String TIME = "time";
     }
 
     public static PrefUtils getInstance() {
@@ -72,6 +74,7 @@ public class PrefUtils {
     public String getUserId() {
         return getPreferences().getString(PrefKeys.USERID, "");
     }
+
     public void saveUserName(String userId) {
         getPreferences().edit().putString(PrefKeys.USER_NAME, userId).apply();
     }
@@ -110,6 +113,22 @@ public class PrefUtils {
 
     public String geLogni() {
         return getPreferences().getString(PrefKeys.LONG, "");
+    }
+
+    public void saveBookingDate(String bookingDate) {
+        getPreferences().edit().putString(PrefKeys.DATE, bookingDate).apply();
+    }
+
+    public String getBookingDate() {
+        return getPreferences().getString(PrefKeys.DATE, "");
+    }
+
+    public void saveBookingTime(String bookingTime) {
+        getPreferences().edit().putString(PrefKeys.TIME, bookingTime).apply();
+    }
+
+    public String getBookingTime() {
+        return getPreferences().getString(PrefKeys.TIME, "");
     }
 
     public void saveCartDetails(List<String> subServiceIdList, String userId) {

@@ -144,8 +144,8 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                 PrefUtils.getInstance().geToken());
         profilePresenter.getUserBookingDetails(PrefUtils.getInstance().getUserId());
         profilePresenter.getUserReviews(PrefUtils.getInstance().getUserId());
-        profilePresenter.getUserFeedPhotos(/*PrefUtils.getInstance().getUserId()*/"43");
-        profilePresenter.getOrderDetails(/*PrefUtils.getInstance().getUserId()*/"23");
+        profilePresenter.getUserFeedPhotos(PrefUtils.getInstance().getUserId());
+        profilePresenter.getOrderDetails(PrefUtils.getInstance().getUserId());
         return view;
     }
 
@@ -158,7 +158,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         profileTabs.addTab(profileTabs.newTab().setText("Feed Profile Form"));
         profileTabs.selectTab(profileTabs.getTabAt(0));
         rv_user_feed_photos.setVisibility(View.VISIBLE);
-       // bookingsTabs.setVisibility(View.VISIBLE);
+        // bookingsTabs.setVisibility(View.VISIBLE);
         //rv_bookings.setVisibility(View.VISIBLE);
         rv_history.setVisibility(View.GONE);
         profileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -251,6 +251,7 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         rv_user_feed_photos.setAdapter(userFeedPhotosAdapter);
         rv_user_feed_photos.setNestedScrollingEnabled(false);
     }
+
     private void setUpRecyclerViewForOrders() {
         ordersAdapter = new OrdersAdapter(getActivity());
         LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
@@ -314,6 +315,8 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         if (profileResponseData != null) {
             Glide.with(getActivity()).load(
                     profileResponseData.getProfilePic())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .error(R.drawable.ic_person)

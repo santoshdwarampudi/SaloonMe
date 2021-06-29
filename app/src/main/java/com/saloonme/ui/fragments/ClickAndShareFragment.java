@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saloonme.R;
 import com.saloonme.interfaces.IClickAndShareView;
@@ -28,7 +26,6 @@ import com.saloonme.model.response.FeedListResponse;
 import com.saloonme.model.response.FeedResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ClickAndSharePresenter;
-import com.saloonme.presenters.HomePresenter;
 import com.saloonme.ui.activities.CommentsActivity;
 import com.saloonme.ui.activities.FeedUploadActivity;
 import com.saloonme.ui.adapters.FeedAdapter;
@@ -38,7 +35,6 @@ import com.saloonme.util.ValidationUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

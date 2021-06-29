@@ -123,6 +123,8 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             }
             Glide.with(context).load(
                      saloonSubServiceResponseData.getImage())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_service);

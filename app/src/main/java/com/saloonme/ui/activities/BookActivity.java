@@ -225,7 +225,7 @@ public class BookActivity extends BaseAppCompactActivity implements
 //            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
             options.put("currency", "INR");
             double amount = Double.parseDouble(tv_total_payment_value.getText().toString());
-            options.put("amount", amount*100);
+            options.put("amount", amount * 100);
 
             JSONObject preFill = new JSONObject();
             preFill.put("email", PrefUtils.getInstance().geEmailId());
@@ -273,6 +273,7 @@ public class BookActivity extends BaseAppCompactActivity implements
                 (view, year, monthOfYear, dayOfMonth) -> {
 
                     tv_select_date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    PrefUtils.getInstance().saveBookingDate(tv_select_date.getText().toString());
                     checkDateAndTimeSelected();
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -289,6 +290,7 @@ public class BookActivity extends BaseAppCompactActivity implements
                 (view, hourOfDay, minute) -> {
 
                     tv_select_time.setText(hourOfDay + ":" + minute + ":00");
+                    PrefUtils.getInstance().saveBookingTime(tv_select_time.getText().toString());
                     checkDateAndTimeSelected();
                 }, mHour, mMinute, false);
         timePickerDialog.show();
@@ -321,6 +323,13 @@ public class BookActivity extends BaseAppCompactActivity implements
         bookNowPresenter.getProductDetails(PrefUtils.getInstance().getUserId());
 
         Checkout.preload(getApplicationContext());
+
+        setBookingDateAndTime();
+    }
+
+    private void setBookingDateAndTime() {
+        tv_select_time.setText(PrefUtils.getInstance().getBookingTime());
+        tv_select_date.setText(PrefUtils.getInstance().getBookingDate());
     }
 
     private void checkDateAndTimeSelected() {
@@ -504,7 +513,9 @@ public class BookActivity extends BaseAppCompactActivity implements
     private void setData(SaloonListResponseData saloonListResponseData) {
         tv_saloon.setText(saloonListResponseData.getStoreName());
         tv_location.setText(saloonListResponseData.getAddress());
-        Glide.with(this).load(APIConstants.IMAGE_BASE_URL + saloonListResponseData.getStoreImg())
+        Glide.with(this).load(saloonListResponseData.getStoreImg())
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
                 .apply(new RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(iv_saloon);
@@ -617,6 +628,8 @@ public class BookActivity extends BaseAppCompactActivity implements
             return;
         }
         showToast(placeOrderResponse.getMessage());
+        PrefUtils.getInstance().saveBookingTime("");
+        PrefUtils.getInstance().saveBookingDate("");
         finishAffinity();
         goToActivity(MainActivity.class);
     }
@@ -661,6 +674,8 @@ public class BookActivity extends BaseAppCompactActivity implements
 
     private void setBarberData() {
         Glide.with(this).load(expertsListResponseData.getProfileImage())
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
                 .apply(new RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(iv_barber);

@@ -74,14 +74,14 @@ public class ProductViewActivity extends BaseAppCompactActivity implements IProd
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-         collapsingToolbar.setNavigationOnClickListener(v -> finish());
+        collapsingToolbar.setNavigationOnClickListener(v -> finish());
 
         setTitle(null);
         productViewPresenter = new ProductViewPresenter(APIClient.getAPIService(), this);
 
-        product_id=getIntent().getStringExtra("product_id");
-        if (product_id!=null)
-        productViewPresenter.productData(product_id);
+        product_id = getIntent().getStringExtra("product_id");
+        if (product_id != null)
+            productViewPresenter.productData(product_id);
         incrementTv.setOnClickListener(this);
         decrementTv.setOnClickListener(this);
         addToCart.setOnClickListener(this);
@@ -89,26 +89,28 @@ public class ProductViewActivity extends BaseAppCompactActivity implements IProd
     }
 
 
-
     @Override
     public void onProductViewSuccess(List<ProductViewResponseData> productViewResponse) {
-        Log.e("token",PrefUtils.getInstance().geToken());
+        Log.e("token", PrefUtils.getInstance().geToken());
         if (null != productViewResponse.get(0).getProdImg())
-            Glide.with(ProductViewActivity.this).load(productViewResponse.get(0).getProdImg()).into(productIv);
+            Glide.with(ProductViewActivity.this).
+                    load(productViewResponse.get(0).getProdImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder).into(productIv);
         productName.setText(productViewResponse.get(0).getProdName());
-        mrpValue.setText(RUPEE_SYMBOL+productViewResponse.get(0).getProdPrice());
-        int disCountedPrice=(Integer.parseInt(productViewResponse.get(0).getProdPrice())
-                *Integer.parseInt(productViewResponse.get(0).getProdDiscount()))/100;
+        mrpValue.setText(RUPEE_SYMBOL + productViewResponse.get(0).getProdPrice());
+        int disCountedPrice = (Integer.parseInt(productViewResponse.get(0).getProdPrice())
+                * Integer.parseInt(productViewResponse.get(0).getProdDiscount())) / 100;
 
-        priceValue.setText(""+RUPEE_SYMBOL+disCountedPrice);
-        int saveRs= Integer.parseInt(productViewResponse.get(0).getProdPrice())-disCountedPrice;
-        saveValue.setText(""+RUPEE_SYMBOL+saveRs);
+        priceValue.setText("" + RUPEE_SYMBOL + disCountedPrice);
+        int saveRs = Integer.parseInt(productViewResponse.get(0).getProdPrice()) - disCountedPrice;
+        saveValue.setText("" + RUPEE_SYMBOL + saveRs);
         stockTv.setText(productViewResponse.get(0).getProdStock());
 
-        if (null!= productViewResponse.get(0).getProdDiscount() &&
+        if (null != productViewResponse.get(0).getProdDiscount() &&
                 !productViewResponse.get(0).getProdDiscount().equalsIgnoreCase("0"))
             productDiscount.setVisibility(View.VISIBLE);
-            productDiscount.setText(productViewResponse.get(0).getProdDiscount()+"%");
+        productDiscount.setText(productViewResponse.get(0).getProdDiscount() + "%");
 
     }
 
@@ -120,9 +122,9 @@ public class ProductViewActivity extends BaseAppCompactActivity implements IProd
     @Override
     public void onAddToCartSuccess(List<CartResponseData> cartResponseData) {
 
-        Log.e("token",PrefUtils.getInstance().geToken());
+        Log.e("token", PrefUtils.getInstance().geToken());
         Intent i = new Intent(getContext(), CartActivity.class);
-        i.putExtra("order_id",cartResponseData.get(0).getOrderId());
+        i.putExtra("order_id", cartResponseData.get(0).getOrderId());
         startActivity(i);
     }
 
@@ -133,7 +135,7 @@ public class ProductViewActivity extends BaseAppCompactActivity implements IProd
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.increment_Tv:
                 increment(incrementTv);
                 break;
@@ -141,19 +143,19 @@ public class ProductViewActivity extends BaseAppCompactActivity implements IProd
                 decrement(decrementTv);
                 break;
             case R.id.add_to_cart:
-                productViewPresenter.addToCart(PrefUtils.getInstance().getUserId(),product_id);
+                productViewPresenter.addToCart(PrefUtils.getInstance().getUserId(), product_id);
                 break;
         }
 
     }
 
-    public void increment (View view) {
+    public void increment(View view) {
         quantity = quantity + 1;
         display(quantity);
     }
 
-    public void decrement (View view) {
-        if (quantity>0){
+    public void decrement(View view) {
+        if (quantity > 0) {
             quantity = quantity - 1;
             display(quantity);
         }

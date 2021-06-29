@@ -67,6 +67,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
         void setData(SaloonDetailsImageResponseData saloonDetailsImageResponseData) {
             Glide.with(context).load(
                     saloonDetailsImageResponseData.getStoreImg())
+                    .placeholder(R.drawable.ic_product_place_holder)
+                    .error(R.drawable.ic_product_place_holder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

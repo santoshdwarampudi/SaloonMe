@@ -13,8 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
-import com.saloonme.interfaces.APIConstants;
-import com.saloonme.model.response.SaloonDetailsImageResponseData;
 import com.saloonme.model.response.SliderResponseData;
 
 import java.util.List;
@@ -76,6 +74,8 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
         public void setData(SliderResponseData saloonDetailsImageResponseData) {
             Glide.with(context).load(
                     saloonDetailsImageResponseData.getImagePath())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_banner);

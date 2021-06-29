@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_menu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_saloon"
@@ -49,30 +51,34 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_saloon"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/mulish_bold"
-            android:text="Raj Saloon"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_bookNow"
+            app:layout_constraintEnd_toStartOf="@id/tv_bookNow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_saloon"></androidx.appcompat.widget.AppCompatTextView>
+            app:layout_constraintTop_toTopOf="@id/tv_bookNow"
+            app:layout_constraintTop_toBottomOf="@+id/iv_saloon"
+            tools:text="@string/common_signin_button_text" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:paddingBottom="@dimen/_5sdp"
             android:text="@string/dummy_text"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_saloon"></androidx.appcompat.widget.AppCompatTextView>
+            app:layout_constraintTop_toBottomOf="@+id/tv_saloon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_openTimings"
@@ -81,27 +87,28 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/mulish_regular"
             android:paddingBottom="@dimen/_5sdp"
-            android:text="Open Now(6Am-9Pm)"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_location"></androidx.appcompat.widget.AppCompatTextView>
+            app:layout_constraintTop_toBottomOf="@+id/tv_location"
+            tools:text="Open Now(6Am-9Pm)" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_bookNow"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:background="@color/colorPrimary"
             android:fontFamily="@font/mulish_medium"
             android:padding="@dimen/_5sdp"
-            android:text="Book Now"
+            android:text="@string/book_now"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_saloon"></androidx.appcompat.widget.AppCompatTextView>
+            app:layout_constraintTop_toBottomOf="@+id/iv_saloon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

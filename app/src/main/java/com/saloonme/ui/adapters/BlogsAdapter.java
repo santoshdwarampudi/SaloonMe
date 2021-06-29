@@ -80,6 +80,8 @@ public class BlogsAdapter extends RecyclerView.Adapter<BlogsAdapter.ViewHolder> 
             tv_deals.setText(blogDetailsResponseData.getBlogTitle());
             tv_offer.setText(blogDetailsResponseData.getBlogDes());
             Glide.with(context).load(blogDetailsResponseData.getBlogImage())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

@@ -78,6 +78,8 @@ public class OffersHorizontalAdapter extends RecyclerView.Adapter<OffersHorizont
         public void setData(SaloonDetailsImageResponseData saloonDetailsImageResponseData) {
             Glide.with(context).load(
                     saloonDetailsImageResponseData.getStoreImg())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_banner);

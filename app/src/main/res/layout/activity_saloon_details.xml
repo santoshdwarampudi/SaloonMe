@@ -82,28 +82,29 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_saloon"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toStartOf="@id/tv_bookNow"
                     android:fontFamily="@font/mulish_bold"
-                    android:text="Raj Saloon"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_14ssp"></androidx.appcompat.widget.AppCompatTextView>
+                    android:textSize="@dimen/_14ssp"
+                    tools:text="Raj Saloon" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="@dimen/_3sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/mulish_medium"
                     android:padding="@dimen/_3sdp"
-                    android:text="Book Now"
+                    android:text="@string/book_now"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+                    android:textSize="@dimen/_12ssp" />
 
             </RelativeLayout>
 
@@ -139,11 +140,11 @@
                     android:id="@+id/tv_visitorCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="@font/mulish_regular"
                     android:paddingBottom="@dimen/_5sdp"
                     android:text="733 Persons Visited"
-                    android:layout_centerVertical="true"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -152,8 +153,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:src="@android:drawable/ic_dialog_map"
                     android:tint="@color/colorPrimary" />
             </RelativeLayout>

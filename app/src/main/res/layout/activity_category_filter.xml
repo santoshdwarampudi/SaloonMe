@@ -28,6 +28,7 @@
             app:tab_style="sliding"
             app:tab_text_color="@color/colorPrimaryDark"
             app:tab_text_size="20"
+            app:tab_under_line_show="true"
             app:tab_under_line_color="@color/colorPrimaryDark"
             app:tab_width="@dimen/_100sdp" />
 

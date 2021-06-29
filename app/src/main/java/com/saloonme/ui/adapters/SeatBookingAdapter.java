@@ -94,6 +94,7 @@ public class SeatBookingAdapter extends RecyclerView.Adapter<SeatBookingAdapter.
             }
             Glide.with(context).load(
                     expertsListResponseData.getProfileImage())
+
                     .apply(new RequestOptions().error(R.drawable.ic_person).
                             placeholder(R.drawable.ic_person)
                             .diskCacheStrategy(DiskCacheStrategy.ALL))

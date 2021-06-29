@@ -81,6 +81,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             tv_product.setText(bookingItemsResponseData.getServiceName());
             tv_price.setText("Price :" + bookingItemsResponseData.getServicePrice());
             Glide.with(context).load( bookingItemsResponseData.getServiceImg())
+                    .placeholder(R.drawable.ic_product_place_holder)
+                    .error(R.drawable.ic_product_place_holder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_product);

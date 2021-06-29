@@ -80,6 +80,8 @@ public class TrendingListAdapter extends RecyclerView.Adapter<TrendingListAdapte
             tv_deals.setText(promotionsResponseData.getPromoTitle());
             tv_offer.setText(promotionsResponseData.getDescription());
             Glide.with(context).load( promotionsResponseData.getPromoImage())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);

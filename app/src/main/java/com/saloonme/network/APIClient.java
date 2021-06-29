@@ -86,7 +86,7 @@ public class APIClient {
                 return chain.proceed(request);
             }
         });
-        httpClient.addInterceptor(interceptor);// <-- this is the important line!
+        httpClient.addInterceptor(interceptor);
         return httpClient.build();
     }
 
