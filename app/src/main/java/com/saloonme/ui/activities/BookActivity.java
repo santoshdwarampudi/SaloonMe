@@ -330,6 +330,7 @@ public class BookActivity extends BaseAppCompactActivity implements
     private void setBookingDateAndTime() {
         tv_select_time.setText(PrefUtils.getInstance().getBookingTime());
         tv_select_date.setText(PrefUtils.getInstance().getBookingDate());
+        checkDateAndTimeSelected();
     }
 
     private void checkDateAndTimeSelected() {
