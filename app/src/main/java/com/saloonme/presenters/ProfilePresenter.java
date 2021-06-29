@@ -6,6 +6,8 @@ import com.saloonme.model.request.CancelRequest;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserFeedPhotsResponse;
+import com.saloonme.model.response.UserOrderDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 
 import retrofit2.Call;
@@ -109,6 +111,41 @@ public class ProfilePresenter {
             public void onFailure(Call<UserReviewsResponse> call, Throwable t) {
                 iProfileView.dismissProgress();
                 iProfileView.getUserReviewsFailed();
+            }
+        });
+    }
+    public void getUserFeedPhotos(String userId) {
+        iProfileView.showProgressDialog("Loading....");
+        Call<UserFeedPhotsResponse> userFeedPhotosResponseCall = apiInterface.getFeedPhotos(userId);
+        userFeedPhotosResponseCall.enqueue(new Callback<UserFeedPhotsResponse>() {
+            @Override
+            public void onResponse(Call<UserFeedPhotsResponse> call, Response<UserFeedPhotsResponse> response) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserFeedPhotsSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserFeedPhotsResponse> call, Throwable t) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserFeedPhotsFailed();
+            }
+        });
+    }
+
+    public void getOrderDetails(String userId) {
+        iProfileView.showProgressDialog("Loading....");
+        Call<UserOrderDetailsResponse> userFeedPhotosResponseCall = apiInterface.getOrderDetails(userId);
+        userFeedPhotosResponseCall.enqueue(new Callback<UserOrderDetailsResponse>() {
+            @Override
+            public void onResponse(Call<UserOrderDetailsResponse> call, Response<UserOrderDetailsResponse> response) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserOrderDetailSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UserOrderDetailsResponse> call, Throwable t) {
+                iProfileView.dismissProgress();
+                iProfileView.getUserFeedPhotsFailed();
             }
         });
     }

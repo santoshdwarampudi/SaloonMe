@@ -20,8 +20,7 @@ public class CartDetailsPresenter {
         this.iCartDetails = iCartDetails;
     }
 
-    public void cartData(String order_id
-    ) {
+    public void cartData(String order_id) {
         iCartDetails.showProgressDialog("Fetching data....");
         Call<ViewCartResponse> cartResponseCall = apiInterface.getCartDetails(
                 order_id  );

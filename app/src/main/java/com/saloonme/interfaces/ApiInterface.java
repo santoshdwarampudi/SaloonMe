@@ -37,6 +37,8 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserFeedPhotsResponse;
+import com.saloonme.model.response.UserOrderDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 import com.saloonme.model.response.ViewCartResponse;
 
@@ -260,6 +262,13 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.VIEW_ORDER_DETAILS)
     Call<ViewCartResponse> getCartDetails(@Path("order_id") String order_id);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.USER_ORDER_DETAILS)
+    Call<UserOrderDetailsResponse> getOrderDetails(@Path("user_id") String user_id);
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.USER_FEED_PHOTOS)
+    Call<UserFeedPhotsResponse> getFeedPhotos(@Path("user_id") String user_id);
 
     @FormUrlEncoded
     @Headers({"Accept: application/json"})

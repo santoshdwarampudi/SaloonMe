@@ -60,7 +60,7 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_history"
@@ -71,7 +71,7 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_user_reviews"
@@ -82,7 +82,27 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user_feed_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tabLayout"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user_orders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tabLayout"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         </LinearLayout>
 

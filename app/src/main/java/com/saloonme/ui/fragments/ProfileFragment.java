@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,8 @@ import com.saloonme.model.response.ProfileResponseData;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UpcomingDetail;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserFeedPhotsResponse;
+import com.saloonme.model.response.UserOrderDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.ProfilePresenter;
@@ -42,7 +45,9 @@ import com.saloonme.ui.activities.BookingDetailsActivity;
 import com.saloonme.ui.activities.ChangePasswordActivity;
 import com.saloonme.ui.activities.EditProfileActivity;
 import com.saloonme.ui.adapters.HistoryAdapter;
+import com.saloonme.ui.adapters.OrdersAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
+import com.saloonme.ui.adapters.UserFeedPhotosAdapter;
 import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
@@ -60,6 +65,8 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     private ProfilePresenter profilePresenter;
     private Dialog cancelBooking, rescheduleBooking;
     private ReviewsAdapter reviewsAdapter;
+    private UserFeedPhotosAdapter userFeedPhotosAdapter;
+    private OrdersAdapter ordersAdapter;
     private ProfileResponseData profileResponseData;
     @BindView(R.id.bookingsTabs)
     TabLayout bookingsTabs;
@@ -67,6 +74,10 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
     RecyclerView rv_bookings;
     @BindView(R.id.rv_history)
     RecyclerView rv_history;
+    @BindView(R.id.rv_user_feed_photos)
+    RecyclerView rv_user_feed_photos;
+    @BindView(R.id.rv_user_orders)
+    RecyclerView rv_user_orders;
     private View view;
     @BindView(R.id.iv_profile)
     ImageView iv_profile;
@@ -127,10 +138,14 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         setUpRecyclerviewForUpcoming(false);
         setUpRecyclerviewForHistory(true);
         setUpRecyclerViewForReviews();
+        setUpRecyclerViewForFeedPhotos();
+        setUpRecyclerViewForOrders();
         profilePresenter.getProfileDetails(PrefUtils.getInstance().getUserId(),
                 PrefUtils.getInstance().geToken());
         profilePresenter.getUserBookingDetails(PrefUtils.getInstance().getUserId());
         profilePresenter.getUserReviews(PrefUtils.getInstance().getUserId());
+        profilePresenter.getUserFeedPhotos(/*PrefUtils.getInstance().getUserId()*/"43");
+        profilePresenter.getOrderDetails(/*PrefUtils.getInstance().getUserId()*/"23");
         return view;
     }
 
@@ -141,9 +156,10 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         profileTabs.addTab(profileTabs.newTab().setText("Orders"));
         profileTabs.addTab(profileTabs.newTab().setText("My Reviews"));
         profileTabs.addTab(profileTabs.newTab().setText("Feed Profile Form"));
-        profileTabs.selectTab(profileTabs.getTabAt(1));
-        bookingsTabs.setVisibility(View.VISIBLE);
-        rv_bookings.setVisibility(View.VISIBLE);
+        profileTabs.selectTab(profileTabs.getTabAt(0));
+        rv_user_feed_photos.setVisibility(View.VISIBLE);
+       // bookingsTabs.setVisibility(View.VISIBLE);
+        //rv_bookings.setVisibility(View.VISIBLE);
         rv_history.setVisibility(View.GONE);
         profileTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -153,26 +169,36 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
                         bookingsTabs.setVisibility(View.GONE);
                         rv_bookings.setVisibility(View.GONE);
                         rv_history.setVisibility(View.GONE);
+                        rv_user_feed_photos.setVisibility(View.VISIBLE);
+                        rv_user_orders.setVisibility(View.GONE);
                         break;
                     case 1:
                         bookingsTabs.setVisibility(View.VISIBLE);
                         rv_bookings.setVisibility(View.VISIBLE);
                         rv_history.setVisibility(View.GONE);
+                        rv_user_feed_photos.setVisibility(View.GONE);
+                        rv_user_orders.setVisibility(View.GONE);
                         break;
                     case 2:
                         bookingsTabs.setVisibility(View.GONE);
                         rv_bookings.setVisibility(View.GONE);
                         rv_history.setVisibility(View.GONE);
+                        rv_user_feed_photos.setVisibility(View.GONE);
+                        rv_user_orders.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         bookingsTabs.setVisibility(View.GONE);
                         rv_bookings.setVisibility(View.GONE);
                         rv_history.setVisibility(View.GONE);
+                        rv_user_feed_photos.setVisibility(View.GONE);
+                        rv_user_orders.setVisibility(View.GONE);
                         break;
                     case 4:
                         bookingsTabs.setVisibility(View.GONE);
                         rv_bookings.setVisibility(View.GONE);
                         rv_history.setVisibility(View.GONE);
+                        rv_user_feed_photos.setVisibility(View.GONE);
+                        rv_user_orders.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -216,6 +242,22 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
         rv_user_reviews.setLayoutManager(saloonListManager);
         rv_user_reviews.setAdapter(reviewsAdapter);
         rv_user_reviews.setNestedScrollingEnabled(false);
+    }
+
+    private void setUpRecyclerViewForFeedPhotos() {
+        userFeedPhotosAdapter = new UserFeedPhotosAdapter(getActivity());
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        rv_user_feed_photos.setLayoutManager(layoutManager);
+        rv_user_feed_photos.setAdapter(userFeedPhotosAdapter);
+        rv_user_feed_photos.setNestedScrollingEnabled(false);
+    }
+    private void setUpRecyclerViewForOrders() {
+        ordersAdapter = new OrdersAdapter(getActivity());
+        LinearLayoutManager saloonListManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rv_user_orders.setLayoutManager(saloonListManager);
+        rv_user_orders.setAdapter(ordersAdapter);
+        rv_user_orders.setNestedScrollingEnabled(false);
     }
 
 
@@ -386,6 +428,44 @@ public class ProfileFragment extends BaseFragment implements HistoryAdapter.Item
 
     @Override
     public void getUserReviewsFailed() {
+
+    }
+
+    @Override
+    public void getUserFeedPhotsSuccess(UserFeedPhotsResponse userFeedPhotsResponse) {
+        if (userFeedPhotsResponse == null) {
+            return;
+        }
+        if (userFeedPhotsResponse.getStatus().toLowerCase().contains("fail")) {
+            return;
+        }
+        if (userFeedPhotsResponse.getData() == null || userFeedPhotsResponse.getData().size() == 0) {
+            return;
+        }
+        userFeedPhotosAdapter.setData(userFeedPhotsResponse.getData());
+    }
+
+    @Override
+    public void getUserFeedPhotsFailed() {
+
+    }
+
+    @Override
+    public void getUserOrderDetailSuccess(UserOrderDetailsResponse userFeedPhotsResponse) {
+        if (userFeedPhotsResponse == null) {
+            return;
+        }
+        if (userFeedPhotsResponse.getStatus().toLowerCase().contains("fail")) {
+            return;
+        }
+        if (userFeedPhotsResponse.getData() == null || userFeedPhotsResponse.getData().size() == 0) {
+            return;
+        }
+        ordersAdapter.setDataToOrders(userFeedPhotsResponse.getData());
+    }
+
+    @Override
+    public void getUserOrderDetailFailed() {
 
     }
 

@@ -14,6 +14,8 @@ import com.saloonme.model.response.LoginResponse;
 import com.saloonme.model.response.ProfileResponse;
 import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
+import com.saloonme.model.response.UserFeedPhotsResponse;
+import com.saloonme.model.response.UserOrderDetailsResponse;
 import com.saloonme.model.response.UserReviewsResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.LoginPresenter;
@@ -149,6 +151,26 @@ public class LoginActivity extends BaseAppCompactActivity implements ILoginView,
 
     @Override
     public void getUserReviewsFailed() {
+
+    }
+
+    @Override
+    public void getUserFeedPhotsSuccess(UserFeedPhotsResponse userFeedPhotsResponse) {
+
+    }
+
+    @Override
+    public void getUserFeedPhotsFailed() {
+
+    }
+
+    @Override
+    public void getUserOrderDetailSuccess(UserOrderDetailsResponse userFeedPhotsResponse) {
+
+    }
+
+    @Override
+    public void getUserOrderDetailFailed() {
 
     }
 }
