@@ -79,7 +79,7 @@ public class BlogsAdapter extends RecyclerView.Adapter<BlogsAdapter.ViewHolder> 
         public void setData(BlogDetailsResponseData blogDetailsResponseData) {
             tv_deals.setText(blogDetailsResponseData.getBlogTitle());
             tv_offer.setText(blogDetailsResponseData.getBlogDes());
-            Glide.with(context).load(blogDetailsResponseData.getBlogImage())
+            Glide.with(context).load(blogDetailsResponseData.getBlogImg())
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()

@@ -20,10 +20,10 @@ public class HomePresenter {
         this.iHomeView = iHomeView;
     }
 
-    public void getSaloonListBasedOnCategory(String categoryId, String lat, String longnitude) {
+    public void getSaloonListBasedOnCategory(String categoryId, String lat, String longnitude, String sortBy) {
         iHomeView.showProgressDialog("Getting saloons....");
         Call<SaloonListResponse> saloonListResponseCall = apiInterface.
-                getSaloonListBasedOnCategory(categoryId, lat, longnitude);
+                getSaloonListBasedOnCategory(categoryId, lat, longnitude, sortBy);
         saloonListResponseCall.enqueue(new Callback<SaloonListResponse>() {
             @Override
             public void onResponse(Call<SaloonListResponse> call, Response<SaloonListResponse> response) {

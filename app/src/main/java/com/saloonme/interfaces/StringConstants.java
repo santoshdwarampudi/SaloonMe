@@ -12,5 +12,7 @@ public interface StringConstants {
     String PHOTO = "Photo";
     String PHOTOSTATUS = "Photo Status";
     String VIDEOSTATUS = "Video Status";
+    String ASCENDING = "ascending";
+    String DECENDING = "decending";
 
 }

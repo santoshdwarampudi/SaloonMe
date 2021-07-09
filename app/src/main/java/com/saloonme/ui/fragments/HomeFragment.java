@@ -1,26 +1,24 @@
 package com.saloonme.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.tabs.TabLayout;
@@ -35,12 +33,10 @@ import com.saloonme.model.response.SaloonListResponseData;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.HomePresenter;
-import com.saloonme.ui.activities.BookActivity;
 import com.saloonme.ui.activities.CategoryFilterActivity;
 import com.saloonme.ui.activities.SaloonDetailsActivity;
 import com.saloonme.ui.activities.SearchActivity;
 import com.saloonme.ui.adapters.HomeServicesAdapter;
-import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.SaloonListAdapter;
 import com.saloonme.ui.adapters.SliderAdapter;
 import com.saloonme.ui.adapters.TrendingListAdapter;
@@ -60,30 +56,36 @@ import butterknife.OnClick;
 public class HomeFragment extends BaseFragment implements SliderAdapter.ItemListener,
         SaloonListAdapter.ItemListener, TrendingListAdapter.TrendingItemListener, IHomeView,
         HomeServicesAdapter.ItemListener {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_horizontalOffers)
     RecyclerView rv_horizontalOffers;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tabs)
     TabLayout tabLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_menuItems)
     RecyclerView rv_menuItems;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_popularPlaces)
     TextView tv_popularPlaces;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_popularItems)
     RecyclerView rv_popularItems;
     /*@BindView(R.id.tv_trending)
     TextView tv_trending;
     @BindView(R.id.rv_trendingItems)
     RecyclerView rv_trendingItems;*/
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_home_services)
     TextView tv_home_services;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_homeServiceItems)
     RecyclerView rv_homeServiceItems;
 
-    private View view;
     private Timer timer;
     public int position = 0;
+    private String cityId;
     private SaloonListAdapter saloonListAdapter, poupularListAdapter;
-    private TrendingListAdapter trendingListAdapter;
     private HomeServicesAdapter homeServicesAdapter;
     private SliderAdapter offersHorizontalAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -91,9 +93,12 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
     private HomePresenter homePresenter;
     private LatLng latLng;
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.search_layout)
     void onSearchClick() {
-        goToActivity(SearchActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("city", cityId);
+        goToActivity(SearchActivity.class, bundle);
     }
 
     public HomeFragment() {
@@ -109,6 +114,7 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         return R.layout.fragment_home;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.sort_by)
     void onSortByclick() {
         sort = new Dialog(getActivity());
@@ -116,15 +122,23 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         sort.setCancelable(false);
         sort.setContentView(R.layout.sort_by_dialog);
         sort.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        sort.findViewById(R.id.closeDialogIv).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sort.dismiss();
-            }
+        sort.findViewById(R.id.closeDialogIv).setOnClickListener(view -> sort.dismiss());
+        sort.findViewById(R.id.saloon_rating).setOnClickListener(view -> {
+            //decending
+            homePresenter.getSaloonListBasedOnCategory((tabLayout.getSelectedTabPosition() + 1) + "",
+                    latLng.latitude + "", latLng.longitude + "", StringConstants.DECENDING);
+            sort.dismiss();
+        });
+        sort.findViewById(R.id.popularity).setOnClickListener(view -> {
+            //ascending
+            homePresenter.getSaloonListBasedOnCategory((tabLayout.getSelectedTabPosition() + 1) + "",
+                    latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
+            sort.dismiss();
         });
         sort.show();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.filter_by)
     void onFilterByclick() {
         filter = new Dialog(getActivity());
@@ -132,21 +146,13 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         filter.setCancelable(false);
         filter.setContentView(R.layout.filter_dialog);
         filter.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        filter.findViewById(R.id.closeDialogIv).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                filter.dismiss();
-            }
-        });
+        filter.findViewById(R.id.closeDialogIv).setOnClickListener(view -> filter.dismiss());
         final ConstraintLayout ll = (ConstraintLayout) filter.findViewById(R.id.filter_cl);
-        filter.findViewById(R.id.clear_all).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < ll.getChildCount(); i++) {
-                    view = ll.getChildAt(i);
-                    if (view instanceof CheckBox) {
-                        ((CheckBox) view).setChecked(false);
-                    }
+        filter.findViewById(R.id.clear_all).setOnClickListener(view -> {
+            for (int i = 0; i < ll.getChildCount(); i++) {
+                view = ll.getChildAt(i);
+                if (view instanceof CheckBox) {
+                    ((CheckBox) view).setChecked(false);
                 }
             }
         });
@@ -156,7 +162,7 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         homePresenter = new HomePresenter(APIClient.getAPIService(), this);
         initRecyclerview();
         latLng = LocationSingleTon.instance().getLatLng();
@@ -175,14 +181,14 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         tabLayout.addTab(tabLayout.newTab().setText("Womens"));
         tabLayout.addTab(tabLayout.newTab().setText("Kids"));
         homePresenter.getSaloonListBasedOnCategory("1", latLng.latitude + "",
-                latLng.longitude + "");
+                latLng.longitude + "", StringConstants.ASCENDING);
         homePresenter.getHomeServices("1", "1", latLng.latitude + "",
                 latLng.longitude + "");
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
-                        latLng.latitude + "", latLng.longitude + "");
+                        latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
                 homePresenter.getHomeServices((tab.getPosition() + 1) + "",
                         "1", latLng.latitude + "",
                         latLng.longitude + "");
@@ -293,20 +299,12 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
         TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
 
-        noTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        yesTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PrefUtils.getInstance().saveCartDetails(new
-                        ArrayList<>(), PrefUtils.getInstance().getUserId());
-                dialog.dismiss();
-                goToCategorySelectionScreen(storeId);
-            }
+        noTv.setOnClickListener(v -> dialog.dismiss());
+        yesTv.setOnClickListener(view -> {
+            PrefUtils.getInstance().saveCartDetails(new
+                    ArrayList<>(), PrefUtils.getInstance().getUserId());
+            dialog.dismiss();
+            goToCategorySelectionScreen(storeId);
         });
 
         dialog.show();
@@ -345,6 +343,7 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
             saloonListAdapter.setData(null);
             return;
         }
+        cityId = saloonListResponse.getData().get(0).getCity();
         saloonListAdapter.setData(saloonListResponse.getData());
     }
 
@@ -382,7 +381,6 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         } else {
             showToast("Failed to fetch the home services");
             homeServicesAdapter.setData(null);
-            return;
         }
 
     }
@@ -466,14 +464,14 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
             tabLayout.addTab(tabLayout.newTab().setText("Mens"));
             tabLayout.addTab(tabLayout.newTab().setText("Womens"));
             homePresenter.getSaloonListBasedOnCategory("1", latLng.latitude + "",
-                    latLng.longitude + "");
+                    latLng.longitude + "", StringConstants.ASCENDING);
             homePresenter.getHomeServices("1", "1", latLng.latitude + "",
                     latLng.longitude + "");
         } else {
             tabLayout.addTab(tabLayout.newTab().setText("Womens"));
             tabLayout.addTab(tabLayout.newTab().setText("Mens"));
             homePresenter.getSaloonListBasedOnCategory("2", latLng.latitude + "",
-                    latLng.longitude + "");
+                    latLng.longitude + "", StringConstants.ASCENDING);
             homePresenter.getHomeServices("2", "1", latLng.latitude + "",
                     latLng.longitude + "");
         }
@@ -483,26 +481,26 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
             public void onTabSelected(TabLayout.Tab tab) {
                 if (gender.equals("1")) {
                     homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
-                            latLng.latitude + "", latLng.longitude + "");
+                            latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
                     homePresenter.getHomeServices((tab.getPosition() + 1) + "",
                             "1", latLng.latitude + "",
                             latLng.longitude + "");
                 } else {
                     if (tab.getPosition() == 0) {
                         homePresenter.getSaloonListBasedOnCategory("2",
-                                latLng.latitude + "", latLng.longitude + "");
+                                latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
                         homePresenter.getHomeServices("2",
                                 "1", latLng.latitude + "",
                                 latLng.longitude + "");
                     } else if (tab.getPosition() == 1) {
                         homePresenter.getSaloonListBasedOnCategory("1",
-                                latLng.latitude + "", latLng.longitude + "");
+                                latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
                         homePresenter.getHomeServices("1",
                                 "1", latLng.latitude + "",
                                 latLng.longitude + "");
                     } else {
                         homePresenter.getSaloonListBasedOnCategory((tab.getPosition() + 1) + "",
-                                latLng.latitude + "", latLng.longitude + "");
+                                latLng.latitude + "", latLng.longitude + "", StringConstants.ASCENDING);
                         homePresenter.getHomeServices((tab.getPosition() + 1) + "",
                                 "1", latLng.latitude + "",
                                 latLng.longitude + "");
@@ -538,30 +536,28 @@ public class HomeFragment extends BaseFragment implements SliderAdapter.ItemList
         @Override
         public void run() {
             if (getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
+                getActivity().runOnUiThread(() -> {
 
-                        if (position == 3) {
-                            position = 0;
-                        } else {
-                            position++;
-                        }
-                        if (position == 3) {
-                            position = 0;
-                        }
-                        if (getActivity() != null) {
-                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getActivity()) {
-                                @Override
-                                protected int getVerticalSnapPreference() {
-                                    return LinearSmoothScroller.SNAP_TO_START;
-                                }
-                            };
-                            smoothScroller.setTargetPosition(position);
-                            linearLayoutManager.startSmoothScroll(smoothScroller);
-                        }
-
-
+                    if (position == 3) {
+                        position = 0;
+                    } else {
+                        position++;
                     }
+                    if (position == 3) {
+                        position = 0;
+                    }
+                    if (getActivity() != null) {
+                        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getActivity()) {
+                            @Override
+                            protected int getVerticalSnapPreference() {
+                                return LinearSmoothScroller.SNAP_TO_START;
+                            }
+                        };
+                        smoothScroller.setTargetPosition(position);
+                        linearLayoutManager.startSmoothScroll(smoothScroller);
+                    }
+
+
                 });
             }
 

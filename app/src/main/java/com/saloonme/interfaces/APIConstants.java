@@ -11,8 +11,8 @@ public interface APIConstants {
     String STATES = "StateDisplay";
     String CITIES = "CityDisplay";
     String PROMOTIONS = "SalonPromotions";
-    String SALOON_LIST_BASEDON_CATEGORY = "SaloonsDisplay/" + "{lat}" + "/" + "{logni}" + "/" +
-            "{category_id}";
+    String SALOON_LIST_BASEDON_CATEGORY = "SalonsDisplayCategoryWise/" + "{category_id}" + "/" + "{lat}" + "/" +
+            "{logni}" + "/" + "{sort}";
     String SALOON_LIST_HOME_SERVICES = "SalonsDisplayHomeServiceWise/" + "{home_service}" + "/"
             + "{lat}" + "/" + "{logni}" + "/" +
             "{category_id}";
@@ -46,10 +46,11 @@ public interface APIConstants {
     String FORGOT_PASSWORD = "ForgotPassword";
     String CHECK_COUPON = "CheckCoupon";
     String PRODUCT_ADD_TO_CART = "ProductAddCart";
-    String PRODUCT_VIEW = "ProductView/"+"{product_id}";
-    String VIEW_ORDER_DETAILS = "ViewOrderDetails/"+"{order_id}";
-    String PRODUCT_DELETE_CART = "ProductDeleteCart/"+"{user_id}"+ "/" + "{product_id}";
-    String USER_ORDER_DETAILS = "UserOrderDetails/"+"{user_id}";
-    String USER_FEED_PHOTOS= "User_Feed_Photos/"+"{user_id}";
+    String PRODUCT_VIEW = "ProductView/" + "{product_id}";
+    String VIEW_ORDER_DETAILS = "ViewOrderDetails/" + "{order_id}";
+    String PRODUCT_DELETE_CART = "ProductDeleteCart/" + "{user_id}" + "/" + "{product_id}";
+    String USER_ORDER_DETAILS = "UserOrderDetails/" + "{user_id}";
+    String USER_FEED_PHOTOS = "User_Feed_Photos/" + "{user_id}";
     String PRODUCT_PLACE_ORDER = "PlaceOrderProducts";
+    String SEARCH = "SearchSaloonsDisplayCityWise/" + "{cityId}" + "/" + "{search}";
 }

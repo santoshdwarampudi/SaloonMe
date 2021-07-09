@@ -34,6 +34,7 @@ import com.saloonme.model.response.SaloonListResponse;
 import com.saloonme.model.response.SaloonReviewResponse;
 import com.saloonme.model.response.SaloonServiceResponse;
 import com.saloonme.model.response.SaloonSubServiceResponse;
+import com.saloonme.model.response.SearchResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
@@ -73,7 +74,7 @@ public interface ApiInterface {
                                         @Field("last_name") String last_name,
                                         @Field("email_address") String email_address,
                                         @Field("mobile_number") String mobile_number,
-                                        @Field("gender")String gender
+                                        @Field("gender") String gender
     );
 
     @Headers({"Accept: application/json"})
@@ -92,7 +93,8 @@ public interface ApiInterface {
     @GET(APIConstants.SALOON_LIST_BASEDON_CATEGORY)
     Call<SaloonListResponse> getSaloonListBasedOnCategory(@Path("category_id") String categoryId,
                                                           @Path("lat") String lat,
-                                                          @Path("logni") String logni);
+                                                          @Path("logni") String logni,
+                                                          @Path("sort") String sort);
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.PROMOTIONS)
@@ -266,6 +268,7 @@ public interface ApiInterface {
     @Headers({"Accept: application/json"})
     @GET(APIConstants.USER_ORDER_DETAILS)
     Call<UserOrderDetailsResponse> getOrderDetails(@Path("user_id") String user_id);
+
     @Headers({"Accept: application/json"})
     @GET(APIConstants.USER_FEED_PHOTOS)
     Call<UserFeedPhotsResponse> getFeedPhotos(@Path("user_id") String user_id);
@@ -273,12 +276,20 @@ public interface ApiInterface {
     @FormUrlEncoded
     @Headers({"Accept: application/json"})
     @POST(APIConstants.PRODUCT_ADD_TO_CART)
-    Call<CartResponse> addToCart(@Field("user_id") String user_id ,
-                                 @Field("prod_id") String prod_id );
+    Call<CartResponse> addToCart(@Field("user_id") String user_id,
+                                 @Field("prod_id") String prod_id);
+
     @FormUrlEncoded
     @Headers({"Accept: application/json"})
     @POST(APIConstants.PRODUCT_PLACE_ORDER)
-    Call<BaseResponse> producPlaceOrder(@Field("user_id") String user_id ,
-                                        @Field("grand_total") String prod_id );
+    Call<BaseResponse> producPlaceOrder(@Field("user_id") String user_id,
+                                        @Field("grand_total") String prod_id);
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.SEARCH)
+    Call<SearchResponse> getSaloonBasedOnSearch(@Path("cityId") String cityId,
+                                                @Path("search") String search
+    );
+
 
 }

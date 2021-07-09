@@ -67,8 +67,8 @@ public class MainActivity extends BaseAppCompactActivity {
     @OnClick(R.id.tv_location)
     void onLocationChangeClick() {
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), "AIzaSyCgvlGxgIM64Y0zO0_G9m-slg2_zKytBiU");
-            //Places.initialize(getApplicationContext(), "AIzaSyAMrS33N1Oq8Llu6t8pKFQbnMwFc_6BwZg");
+           // Places.initialize(getApplicationContext(), "AIzaSyAMrS33N1Oq8Llu6t8pKFQbnMwFc_6BwZg");
+           Places.initialize(getApplicationContext(), "AIzaSyCgvlGxgIM64Y0zO0_G9m-slg2_zKytBiU");
         }
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME,
                 Place.Field.ADDRESS, Place.Field.LAT_LNG);

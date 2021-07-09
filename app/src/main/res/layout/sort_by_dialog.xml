@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/mulish_regular"
-                    android:text="POPULARITY"
+                    android:text="Ascending"
                     android:textColor="@color/cool_gray"
                     android:textSize="@dimen/_10sdp" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/mulish_regular"
-                    android:text="SALOON RATING"
+                    android:text="Decending"
                     android:textColor="@color/cool_gray"
                     android:textSize="@dimen/_10sdp" />
 
@@ -120,6 +120,7 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@color/grey"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/saloon_rating" />
@@ -129,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_10sdp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/saloon_rating">
 

@@ -73,14 +73,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder
 
         public void setData(SliderResponseData saloonDetailsImageResponseData) {
             Glide.with(context).load(
-                    saloonDetailsImageResponseData.getImagePath())
+                    saloonDetailsImageResponseData.getImage1())
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_placeholder)
                     .apply(new RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_banner);
         }
-
     }
 
     public interface ItemListener {
