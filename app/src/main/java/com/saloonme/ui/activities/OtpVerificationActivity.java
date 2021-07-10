@@ -17,9 +17,17 @@ public class OtpVerificationActivity extends BaseAppCompactActivity {
     @BindView(R.id.verify_btn)
     TextView verify_btn;
     @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tv_heading)
+    TextView tv_heading;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.et_otp)
     EditText et_otp;
 
+    @SuppressLint("NonConstantResourceId")
+    @OnClick(R.id.iv_menu)
+    void onBackClick() {
+        finish();
+    }
 
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.verify_btn)
@@ -44,6 +52,7 @@ public class OtpVerificationActivity extends BaseAppCompactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tv_heading.setText(getString(R.string.verify_otp));
         otp = getIntent().getStringExtra(StringConstants.EXTRA_DETAILS);
     }
 }
