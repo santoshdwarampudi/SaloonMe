@@ -37,6 +37,7 @@ import com.saloonme.model.response.SaloonSubServiceResponse;
 import com.saloonme.model.response.SearchResponse;
 import com.saloonme.model.response.SliderResponse;
 import com.saloonme.model.response.StatesResponse;
+import com.saloonme.model.response.TrendingHairStyleResponse;
 import com.saloonme.model.response.UserBookingDetailsResponse;
 import com.saloonme.model.response.UserFeedPhotsResponse;
 import com.saloonme.model.response.UserOrderDetailsResponse;
@@ -290,6 +291,15 @@ public interface ApiInterface {
     Call<SearchResponse> getSaloonBasedOnSearch(@Path("cityId") String cityId,
                                                 @Path("search") String search
     );
+
+    @Headers({"Accept: application/json"})
+    @GET(APIConstants.TRENDING_HAIR_STYLES)
+    Call<TrendingHairStyleResponse> getTrendingHairStyles();
+
+    @FormUrlEncoded
+    @Headers({"Accept: application/json"})
+    @POST(APIConstants.REGISTER_OTP)
+    Call<BaseResponse> registerOtp(@Field("mobile_number") String mobileNumber);
 
 
 }

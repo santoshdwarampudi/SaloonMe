@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.saloonme.R;
 import com.saloonme.interfaces.IRegisterView;
+import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.request.LoginRequest;
 import com.saloonme.model.request.RegisterRequest;
+import com.saloonme.model.response.BaseResponse;
 import com.saloonme.model.response.RegisterResponse;
 import com.saloonme.network.APIClient;
 import com.saloonme.presenters.RegisterPresenter;
@@ -120,17 +122,26 @@ public class RegisterActivity extends BaseAppCompactActivity implements IRegiste
     @Override
     public void onRegisterSuccess(RegisterResponse registerResponse) {
         if (registerResponse != null) {
-            showToast(registerResponse.getMessage());
-            goToActivity(LoginActivity.class);
-            finish();
+            registerPresenter.getRegisterOtp(phoneNumber_tv.getText().toString());
         } else {
             showToast("Failed to register,try again");
         }
-
     }
 
     @Override
     public void onRegisterFailed() {
+        showToast("Failed to register,try again");
+    }
+
+    @Override
+    public void getOtpSuccess(BaseResponse baseResponse) {
+        Bundle bundle = new Bundle();
+        bundle.putString(StringConstants.EXTRA_DETAILS, baseResponse.getData());
+        goToActivity(OtpVerificationActivity.class, bundle);
+    }
+
+    @Override
+    public void getOtpFailed() {
         showToast("Failed to register,try again");
     }
 }

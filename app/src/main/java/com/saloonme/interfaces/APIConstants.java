@@ -52,5 +52,7 @@ public interface APIConstants {
     String USER_ORDER_DETAILS = "UserOrderDetails/" + "{user_id}";
     String USER_FEED_PHOTOS = "User_Feed_Photos/" + "{user_id}";
     String PRODUCT_PLACE_ORDER = "PlaceOrderProducts";
+    String TRENDING_HAIR_STYLES = "Trending_Hair_Styles";
+    String REGISTER_OTP = "Registerotp";
     String SEARCH = "SearchSaloonsDisplayCityWise/" + "{cityId}" + "/" + "{search}";
 }

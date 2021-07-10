@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.CartActivity"></activity>
+        <activity android:name=".ui.activities.OtpVerificationActivity"></activity>
+        <activity android:name=".ui.activities.CartActivity" />
         <activity android:name=".ui.activities.ProductViewActivity" />
         <activity android:name=".ui.activities.ChangePasswordActivity" />
         <activity android:name=".ui.activities.ForgotPasswordActivity" />
@@ -58,8 +59,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_uTkvjTRBUERNM9"
-            />
+            android:value="rzp_live_uTkvjTRBUERNM9" />
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

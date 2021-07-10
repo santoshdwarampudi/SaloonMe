@@ -3,6 +3,7 @@ package com.saloonme.presenters;
 import com.saloonme.interfaces.ApiInterface;
 import com.saloonme.interfaces.IRegisterView;
 import com.saloonme.model.request.RegisterRequest;
+import com.saloonme.model.response.BaseResponse;
 import com.saloonme.model.response.RegisterResponse;
 
 import retrofit2.Call;
@@ -22,7 +23,7 @@ public class RegisterPresenter {
                              String mobile, String gender) {
         iRegisterView.showProgressDialog("Registering user....");
         Call<RegisterResponse> registerResponseCall = apiInterface.registerUser
-                (firstname, pwd, lastName, email, mobile,gender);
+                (firstname, pwd, lastName, email, mobile, gender);
         registerResponseCall.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
@@ -34,6 +35,24 @@ public class RegisterPresenter {
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 iRegisterView.dismissProgress();
                 iRegisterView.onRegisterFailed();
+            }
+        });
+    }
+
+    public void getRegisterOtp(String mobileNumber) {
+        iRegisterView.showProgressDialog("Loading....");
+        Call<BaseResponse> registerOtpCall = apiInterface.registerOtp(mobileNumber);
+        registerOtpCall.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                iRegisterView.dismissProgress();
+                iRegisterView.getOtpSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                iRegisterView.dismissProgress();
+                iRegisterView.getOtpFailed();
             }
         });
     }
