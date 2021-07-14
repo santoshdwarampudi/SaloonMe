@@ -76,7 +76,7 @@
             android:text="@string/dummy_text"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_saloon" />
 
@@ -89,7 +89,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_12ssp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_location"
             tools:text="Open Now(6Am-9Pm)" />

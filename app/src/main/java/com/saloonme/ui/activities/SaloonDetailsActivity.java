@@ -1,16 +1,6 @@
 package com.saloonme.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +11,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,6 +29,7 @@ import com.saloonme.R;
 import com.saloonme.interfaces.ISaloonDetailView;
 import com.saloonme.interfaces.StringConstants;
 import com.saloonme.model.response.SaloonDetailsImageResponse;
+import com.saloonme.model.response.SaloonDetailsImageResponseData;
 import com.saloonme.model.response.SaloonListResponseData;
 import com.saloonme.model.response.SaloonReviewResponse;
 import com.saloonme.network.APIClient;
@@ -36,8 +37,6 @@ import com.saloonme.presenters.SaloonDetailPresenter;
 import com.saloonme.ui.adapters.OffersHorizontalAdapter;
 import com.saloonme.ui.adapters.PhotosAdapter;
 import com.saloonme.ui.adapters.ReviewsAdapter;
-import com.saloonme.ui.adapters.SearchAdapter;
-import com.saloonme.ui.fragments.HomeFragment;
 import com.saloonme.util.PrefUtils;
 
 import java.util.ArrayList;
@@ -57,43 +56,61 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     private LinearLayoutManager linearLayoutManager;
     private Timer timer;
     public int position = 0;
-    private SaloonDetailPresenter saloonDetailPresenter;
     private SaloonListResponseData saloonListResponseData;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_heading)
     TextView tv_heading;
-    @BindView(R.id.tv_description_details)
-    TextView tv_description_details;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.saloonTabs)
     TabLayout tabLayout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_reviews)
     RecyclerView rv_reviews;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.booknow_layout)
     ConstraintLayout booknow_layout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.overview_layout)
     ConstraintLayout overview_layout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.photos_layout)
     ConstraintLayout photos_layout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.reviews_layout)
     ConstraintLayout reviews_layout;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_photos)
     RecyclerView rv_photos;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rv_saloonImages)
     RecyclerView rv_saloonImages;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_saloon)
     TextView tv_saloon;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_location)
     TextView tv_location;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_openTimings)
     TextView tv_openTimings;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_visitorCount)
     TextView tv_visitorCount;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tv_description_details)
+    TextView tv_description_details;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.tv_short_bio_details)
+    TextView tv_short_bio_details;
 
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.iv_menu)
     void onBackClick() {
         finish();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.tv_bookNow)
     void onBookNowClick() {
         List<String> serviceIdsList = PrefUtils.getInstance().
@@ -106,6 +123,7 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.iv_directions)
     void onDirectionsClick() {
         try {
@@ -115,7 +133,7 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
             intent.setClassName("com.google.android.apps.maps",
                     "com.google.android.maps.MapsActivity");
             startActivity(intent);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -132,23 +150,15 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_confirmation);
 
-        TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
-        TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
+        TextView noTv = dialog.findViewById(R.id.noTv);
+        TextView yesTv = dialog.findViewById(R.id.yesTv);
 
-        noTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        yesTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PrefUtils.getInstance().saveCartDetails(new
-                        ArrayList<>(), PrefUtils.getInstance().getUserId());
-                dialog.dismiss();
-                goToCategorySelectionScreen();
-            }
+        noTv.setOnClickListener(v -> dialog.dismiss());
+        yesTv.setOnClickListener(view -> {
+            PrefUtils.getInstance().saveCartDetails(new
+                    ArrayList<>(), PrefUtils.getInstance().getUserId());
+            dialog.dismiss();
+            goToCategorySelectionScreen();
         });
 
         dialog.show();
@@ -163,7 +173,7 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        saloonDetailPresenter = new SaloonDetailPresenter(APIClient.getAPIService(),
+        SaloonDetailPresenter saloonDetailPresenter = new SaloonDetailPresenter(APIClient.getAPIService(),
                 this);
         saloonListResponseData = (SaloonListResponseData)
                 getIntent().getSerializableExtra(StringConstants.EXTRA_DETAILS);
@@ -177,13 +187,17 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         setPhotosRecyclerview();
         saloonDetailPresenter.getSaloonImages(saloonListResponseData.getStoreId());
         saloonDetailPresenter.getSaloonReviews(saloonListResponseData.getStoreId());
+        setData(saloonListResponseData);
+        setUpTabs();
+    }
+
+    private void setData(SaloonListResponseData saloonListResponseData) {
         tv_heading.setText(saloonListResponseData.getStoreName());
         tv_saloon.setText(saloonListResponseData.getStoreName());
         tv_location.setText(saloonListResponseData.getAddress());
         tv_description_details.setText(saloonListResponseData.getLongBio());
-        setUpTabs();
-
-
+        tv_short_bio_details.setText(saloonListResponseData.getShortBio());
+        tv_openTimings.setText(getString(R.string.timings) + saloonListResponseData.getNew_salon_time_slot());
     }
 
     private void setSaloonImagesRecyclerView() {
@@ -209,20 +223,22 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
     @Override
     public void getSaloonImageSuccess(SaloonDetailsImageResponse saloonDetailsImageResponse) {
         if (saloonDetailsImageResponse == null) {
-            showToast("Failed to get the store images");
             offersHorizontalAdapter.setData(null);
+            setSaloonImageToRecyclerView();
             photosAdapter.setData(null);
             return;
         }
         if (saloonDetailsImageResponse.getStatus().equalsIgnoreCase("failed")) {
             showToast(saloonDetailsImageResponse.getMessage());
             offersHorizontalAdapter.setData(null);
+            setSaloonImageToRecyclerView();
             photosAdapter.setData(null);
             return;
         }
         if (saloonDetailsImageResponse.getData() == null || saloonDetailsImageResponse.getData().size() == 0) {
             showToast(saloonDetailsImageResponse.getMessage());
             offersHorizontalAdapter.setData(null);
+            setSaloonImageToRecyclerView();
             photosAdapter.setData(null);
             return;
         }
@@ -232,15 +248,25 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
 
     @Override
     public void getSaloonImageFailed() {
-        showToast("Failed to get the store images");
         offersHorizontalAdapter.setData(null);
+        setSaloonImageToRecyclerView();
         photosAdapter.setData(null);
+    }
+
+    private void setSaloonImageToRecyclerView() {
+        List<SaloonDetailsImageResponseData> saloonDetailsImageResponseDataList = new ArrayList<>();
+        SaloonDetailsImageResponseData saloonDetailsImageResponseData =
+                new SaloonDetailsImageResponseData();
+        saloonDetailsImageResponseData.setId(saloonListResponseData.getStoreId());
+        saloonDetailsImageResponseData.setStoreId(saloonListResponseData.getStoreId());
+        saloonDetailsImageResponseData.setStoreImg(saloonListResponseData.getStoreImg());
+        saloonDetailsImageResponseDataList.add(saloonDetailsImageResponseData);
+        offersHorizontalAdapter.setData(saloonDetailsImageResponseDataList);
     }
 
     @Override
     public void getSaloonReviewSuccess(SaloonReviewResponse saloonReviewResponse) {
         if (saloonReviewResponse == null) {
-            showToast("Failed to get the store reviews");
             reviewsAdapter.setData(null);
             return;
         }
@@ -259,7 +285,6 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
 
     @Override
     public void getSaloonReviewFailed() {
-        showToast("Failed to get the store reviews");
         reviewsAdapter.setData(null);
     }
 
@@ -268,32 +293,30 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         @Override
         public void run() {
             if (getContext() != null) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
+                runOnUiThread(() -> {
 
-                        if (position == 3) {
-                            position = 0;
-                        } else {
-                            position++;
-
-
-                        }
-                        if (position == 3) {
-                            position = 0;
-                        }
-                        if (getContext() != null) {
-                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
-                                @Override
-                                protected int getVerticalSnapPreference() {
-                                    return LinearSmoothScroller.SNAP_TO_START;
-                                }
-                            };
-                            smoothScroller.setTargetPosition(position);
-                            linearLayoutManager.startSmoothScroll(smoothScroller);
-                        }
+                    if (position == 3) {
+                        position = 0;
+                    } else {
+                        position++;
 
 
                     }
+                    if (position == 3) {
+                        position = 0;
+                    }
+                    if (getContext() != null) {
+                        RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getContext()) {
+                            @Override
+                            protected int getVerticalSnapPreference() {
+                                return LinearSmoothScroller.SNAP_TO_START;
+                            }
+                        };
+                        smoothScroller.setTargetPosition(position);
+                        linearLayoutManager.startSmoothScroll(smoothScroller);
+                    }
+
+
                 });
             }
 
@@ -388,23 +411,15 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         nagDialog.setCancelable(true);
         nagDialog.setCanceledOnTouchOutside(true);
         nagDialog.setContentView(R.layout.imgmsgpopup);
-        Button btnClose = (Button) nagDialog.findViewById(R.id.btnIvClose);
-        ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.iv_preview_image);
+        Button btnClose = nagDialog.findViewById(R.id.btnIvClose);
+        ImageView ivPreview = nagDialog.findViewById(R.id.iv_preview_image);
         Glide.with(this).load(imageUri)
                 .apply(new RequestOptions().placeholder(R.drawable.ic_placeholder).
                         error(R.drawable.ic_placeholder)
                         .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(ivPreview);
 
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                nagDialog.dismiss();
-            }
-        });
+        btnClose.setOnClickListener(arg0 -> nagDialog.dismiss());
         nagDialog.show();
-
-
     }
 }

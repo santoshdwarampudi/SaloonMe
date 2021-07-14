@@ -55,13 +55,17 @@ public abstract class BaseFragment extends Fragment {
     public void showProgressDialog(String msg) {
 
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity());
+            if (getActivity() != null)
+                progressDialog = new ProgressDialog(getActivity());
         }
 
-        progressDialog.setMessage(msg);
-        progressDialog.setCancelable(false);
-        progressDialog.setIndeterminate(true);
-        progressDialog.show();
+        if (progressDialog != null) {
+            progressDialog.setMessage(msg);
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
     }
 
     public void dismissProgress() {

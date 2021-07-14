@@ -112,23 +112,12 @@
                 android:id="@+id/tv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:fontFamily="@font/mulish_regular"
                 android:paddingBottom="@dimen/_5sdp"
-                android:text="Ameerpet"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_openTimings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:fontFamily="@font/mulish_regular"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="Open Now (6Am-12Pm)"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+                android:textSize="@dimen/_12ssp"
+                tools:text="Ameerpet" />
 
 
             <RelativeLayout
@@ -141,18 +130,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:fontFamily="@font/mulish_regular"
                     android:paddingBottom="@dimen/_5sdp"
-                    android:text="733 Persons Visited"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_12ssp"></androidx.appcompat.widget.AppCompatTextView>
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone"
+                    tools:text="733 Persons Visited" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_openTimings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/mulish_regular"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="Open Now (6Am-12Pm)" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_directions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:src="@android:drawable/ic_dialog_map"

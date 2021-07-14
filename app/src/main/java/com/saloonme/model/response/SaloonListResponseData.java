@@ -83,7 +83,7 @@ public class SaloonListResponseData implements Serializable {
     private String longBio;
     @SerializedName("status")
     @Expose
-    private Object status;
+    private String status;
     @SerializedName("short_bio")
     @Expose
     private String shortBio;
@@ -117,6 +117,12 @@ public class SaloonListResponseData implements Serializable {
     @SerializedName("saloon_url")
     @Expose
     private String saloonUrl;
+    @SerializedName("distance")
+    @Expose
+    private String distance;
+    @SerializedName("new_salon_time_slot")
+    @Expose
+    private String new_salon_time_slot;
 
     public String getStoreId() {
         return storeId;
@@ -322,7 +328,7 @@ public class SaloonListResponseData implements Serializable {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -414,4 +420,19 @@ public class SaloonListResponseData implements Serializable {
         this.saloonUrl = saloonUrl;
     }
 
+    public String getNew_salon_time_slot() {
+        return new_salon_time_slot;
+    }
+
+    public void setNew_salon_time_slot(String new_salon_time_slot) {
+        this.new_salon_time_slot = new_salon_time_slot;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
 }

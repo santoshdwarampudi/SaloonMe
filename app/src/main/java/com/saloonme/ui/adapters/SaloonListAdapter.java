@@ -1,5 +1,6 @@
 package com.saloonme.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.saloonme.R;
-import com.saloonme.interfaces.APIConstants;
 import com.saloonme.model.response.SaloonListResponseData;
 
 import java.util.List;
@@ -24,9 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.ViewHolder> {
-    private Context context;
-    private ItemListener itemListener;
-    private boolean showBookNowOption;
+    private final Context context;
+    private final ItemListener itemListener;
+    private final boolean showBookNowOption;
     private List<SaloonListResponseData> saloonListResponseDataList;
 
     public SaloonListAdapter(Context context, ItemListener itemListener, boolean showBookNowOption) {
@@ -58,17 +58,26 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.iv_saloon)
         ImageView iv_saloon;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_saloon)
         TextView tv_saloon;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_location)
         TextView tv_location;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_bookNow)
         TextView tv_bookNow;
+        @SuppressLint("NonConstantResourceId")
         @BindView(R.id.tv_rating)
         TextView tv_rating;
+        @SuppressLint("NonConstantResourceId")
+        @BindView(R.id.tv_openTimings)
+        TextView tv_openTimings;
 
+        @SuppressLint("NonConstantResourceId")
         @OnClick(R.id.card_menu)
         void onSaloonClick() {
             if (itemListener != null) {
@@ -101,7 +110,8 @@ public class SaloonListAdapter extends RecyclerView.Adapter<SaloonListAdapter.Vi
                             .diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(iv_saloon);
             tv_saloon.setText(saloonListResponseData.getStoreName());
-            tv_location.setText(saloonListResponseData.getAddress());
+            tv_location.setText("Distance : " + saloonListResponseData.getDistance() + " Km");
+            tv_openTimings.setText("Timings : " + saloonListResponseData.getNew_salon_time_slot());
         }
     }
 

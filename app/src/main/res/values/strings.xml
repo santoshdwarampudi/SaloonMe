@@ -64,4 +64,7 @@
     <string name="trending_hair_styles">Trending Hair Styles</string>
     <string name="hint_enter_otp">Enter Otp</string>
     <string name="verify_otp">Verify Otp</string>
+    <string name="about_salon">About Salon</string>
+    <string name="description">Description</string>
+    <string name="timings">Timings : </string>
 </resources>
