@@ -1,7 +1,10 @@
 package com.saloonme.ui.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -41,6 +45,7 @@ import com.saloonme.util.PrefUtils;
 import com.saloonme.util.ValidationUtil;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -52,18 +57,23 @@ public class MainActivity extends BaseAppCompactActivity {
     private static final int AUTOCOMPLETE_REQUEST_CODE = 101;
     private Handler mHandler;
     FusedLocationProviderClient fusedLocationProviderClient;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.bottom_navigation_view_linear)
     BubbleNavigationLinearView bottom_navigation_view_linear;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_location)
     TextView tv_location;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.iv_logout)
     ImageView iv_logout;
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.iv_logout)
     void onLogoutClick() {
         showConfirmationForLogout();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.tv_location)
     void onLocationChangeClick() {
         if (!Places.isInitialized()) {
@@ -84,31 +94,24 @@ public class MainActivity extends BaseAppCompactActivity {
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_confirmation);
 
-        TextView noTv = (TextView) dialog.findViewById(R.id.noTv);
-        TextView yesTv = (TextView) dialog.findViewById(R.id.yesTv);
-        TextView messageTv = (TextView) dialog.findViewById(R.id.messageTv);
+        TextView noTv = dialog.findViewById(R.id.noTv);
+        TextView yesTv = dialog.findViewById(R.id.yesTv);
+        TextView messageTv = dialog.findViewById(R.id.messageTv);
         messageTv.setText(R.string.logout_msg);
         yesTv.setText(R.string.yes);
         noTv.setText(R.string.no);
 
-        noTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        yesTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PrefUtils.getInstance().clearSharedPref();
-                goToActivity(LoginActivity.class);
-                finishAffinity();
-                dialog.dismiss();
-            }
+        noTv.setOnClickListener(v -> dialog.dismiss());
+        yesTv.setOnClickListener(view -> {
+            PrefUtils.getInstance().clearSharedPref();
+            goToActivity(LoginActivity.class);
+            finishAffinity();
+            dialog.dismiss();
         });
         dialog.show();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.location_layout)
     void onLocationClick() {
 
@@ -126,67 +129,75 @@ public class MainActivity extends BaseAppCompactActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
         loadFragment(new HomeFragment());
-        bottom_navigation_view_linear.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-            @Override
-            public void onNavigationChanged(View view, int position) {
-                switch (position) {
-                    case 0:
-                        if (PrefUtils.getInstance().isLogin()) {
-                            iv_logout.setVisibility(View.VISIBLE);
-                        }
-                        loadFragment(new HomeFragment());
-                        break;
-                    case 1:
-                        if (PrefUtils.getInstance().isLogin()) {
-                            loadFragment(new ProfileFragment());
-                            iv_logout.setVisibility(View.VISIBLE);
-                        } else
-                            goToActivity(LoginActivity.class);
-                        break;
-                    case 2:
-                        if (PrefUtils.getInstance().isLogin()) {
-                            iv_logout.setVisibility(View.VISIBLE);
-                        }
-                        loadFragment(new BlogsFragment());
-                        break;
-                    case 3:
-                        if (PrefUtils.getInstance().isLogin()) {
-                            iv_logout.setVisibility(View.VISIBLE);
-                        }
-                        loadFragment(new ClickAndShareFragment());
-                        break;
-                    case 4:
-                        if (PrefUtils.getInstance().isLogin()) {
-                            iv_logout.setVisibility(View.VISIBLE);
-                        }
-                        loadFragment(new ProductsFragment());
-                        break;
-                }
+        bottom_navigation_view_linear.setNavigationChangeListener((view, position) -> {
+            switch (position) {
+                case 0:
+                    if (PrefUtils.getInstance().isLogin()) {
+                        iv_logout.setVisibility(View.VISIBLE);
+                    }
+                    loadFragment(new HomeFragment());
+                    break;
+                case 1:
+                    if (PrefUtils.getInstance().isLogin()) {
+                        loadFragment(new ProfileFragment());
+                        iv_logout.setVisibility(View.VISIBLE);
+                    } else
+                        goToActivity(LoginActivity.class);
+                    break;
+                case 2:
+                    if (PrefUtils.getInstance().isLogin()) {
+                        iv_logout.setVisibility(View.VISIBLE);
+                    }
+                    loadFragment(new BlogsFragment());
+                    break;
+                case 3:
+                    if (PrefUtils.getInstance().isLogin()) {
+                        iv_logout.setVisibility(View.VISIBLE);
+                    }
+                    loadFragment(new ClickAndShareFragment());
+                    break;
+                case 4:
+                    if (PrefUtils.getInstance().isLogin()) {
+                        iv_logout.setVisibility(View.VISIBLE);
+                    }
+                    loadFragment(new ProductsFragment());
+                    break;
             }
         });
     }
 
     private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    PrefUtils.getInstance().saveLat(location.getLatitude() + "");
-                    PrefUtils.getInstance().saveLogni(location.getLongitude() + "");
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        task.addOnSuccessListener(location -> {
+            if (location != null) {
+                PrefUtils.getInstance().saveLat(location.getLatitude() + "");
+                PrefUtils.getInstance().saveLogni(location.getLongitude() + "");
+                LatLng latLng = new LatLng(
+                        Double.parseDouble(new DecimalFormat("##.####").format(location.getLatitude())),
+                        Double.parseDouble(new DecimalFormat("##.####").format(location.getLongitude())));
+                LocationSingleTon.instance().setLatLng(latLng);
+                setLocation();
+            } else {
+                String lat = PrefUtils.getInstance().geLat();
+                String logni = PrefUtils.getInstance().geLogni();
+                if (!ValidationUtil.isNullOrEmpty(lat) && !ValidationUtil.isNullOrEmpty(logni)) {
+                    double double_lat = Double.parseDouble(lat);
+                    double double_longni = Double.parseDouble(logni);
+                    LatLng latLng = new LatLng(
+                            Double.parseDouble(new DecimalFormat("##.####").format(double_lat)),
+                            Double.parseDouble(new DecimalFormat("##.####").format(double_longni)));
                     LocationSingleTon.instance().setLatLng(latLng);
                     setLocation();
-                } else {
-                    String lat = PrefUtils.getInstance().geLat();
-                    String logni = PrefUtils.getInstance().geLogni();
-                    if (!ValidationUtil.isNullOrEmpty(lat) && !ValidationUtil.isNullOrEmpty(logni)) {
-                        double double_lat = Double.parseDouble(lat);
-                        double double_longni = Double.parseDouble(logni);
-                        LatLng latLng = new LatLng(double_lat, double_longni);
-                        LocationSingleTon.instance().setLatLng(latLng);
-                        setLocation();
-                    }
                 }
             }
         });
@@ -214,16 +225,13 @@ public class MainActivity extends BaseAppCompactActivity {
     }
 
     private void loadFragment(final Fragment fragment) {
-        Runnable mPendingRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // update the main content by replacing fragments
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                fragmentTransaction.replace(R.id.frame, fragment, "");
-                fragmentTransaction.commitAllowingStateLoss();
-            }
+        Runnable mPendingRunnable = () -> {
+            // update the main content by replacing fragments
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                    android.R.anim.fade_out);
+            fragmentTransaction.replace(R.id.frame, fragment, "");
+            fragmentTransaction.commitAllowingStateLoss();
         };
 
         // If mPendingRunnable is not null, then add to the message queue
@@ -243,7 +251,12 @@ public class MainActivity extends BaseAppCompactActivity {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                LocationSingleTon.instance().setLatLng(place.getLatLng());
+                LocationSingleTon.instance().setLatLng(
+                        new LatLng(
+                                Double.parseDouble(new DecimalFormat("##.####").format(place.getLatLng().latitude)),
+                                Double.parseDouble(new DecimalFormat("##.####").format(place.getLatLng().longitude))
+                        )
+                );
                 setLocation();
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.

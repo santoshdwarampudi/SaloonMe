@@ -361,7 +361,7 @@ public class SaloonDetailsActivity extends BaseAppCompactActivity implements
         tabLayout.addTab(tabLayout.newTab().setText("OverView"));
         //  tabLayout.addTab(tabLayout.newTab().setText("Book Now"));
         tabLayout.addTab(tabLayout.newTab().setText("Reviews"));
-        tabLayout.addTab(tabLayout.newTab().setText("Photos"));
+        tabLayout.addTab(tabLayout.newTab().setText("Gallery"));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

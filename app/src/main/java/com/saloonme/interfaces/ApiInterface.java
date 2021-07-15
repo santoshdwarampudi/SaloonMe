@@ -123,7 +123,7 @@ public interface ApiInterface {
 
     @Headers({"Accept: application/json"})
     @GET(APIConstants.MAIN_SERVICES)
-    Call<SaloonServiceResponse> getSaloonServices();
+    Call<SaloonServiceResponse> getSaloonServices(@Path("saloon_id") String saloonId);
 
 
     @Headers({"Accept: application/json"})

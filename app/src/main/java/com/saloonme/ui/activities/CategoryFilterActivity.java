@@ -1,5 +1,6 @@
 package com.saloonme.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,10 +28,9 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
 
     private UltimateTabLayout tabLayout;
     private ViewPager viewPager;
-    private SaloonServicePresenter saloonServicePresenter;
-    private FragmentAdapterDemo adapter;
     private String saloonId;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tv_heading)
     TextView tv_heading;
 
@@ -39,6 +39,7 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
         return R.layout.activity_category_filter;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.continue_btn)
     void onContinueClick() {
         Bundle bundle = new Bundle();
@@ -46,6 +47,7 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
         goToActivity(BookActivity.class, bundle);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.iv_menu)
     void onBackClicked() {
         finish();
@@ -54,10 +56,14 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        saloonServicePresenter = new SaloonServicePresenter(APIClient.getAPIService(),
+        SaloonServicePresenter saloonServicePresenter = new SaloonServicePresenter(APIClient.getAPIService(),
                 this);
         saloonId = getIntent().getStringExtra(StringConstants.EXTRA_DETAILS);
-        tv_heading.setText("Select Service");
+        if (saloonId.isEmpty()) {
+            showToast(getString(R.string.something_went_wrong));
+            finish();
+        }
+        tv_heading.setText(R.string.select_service);
         tabLayout = findViewById(R.id.verticalTabLayout);
         viewPager = findViewById(R.id.viewPager);
 
@@ -75,7 +81,7 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
         });
 
 
-        saloonServicePresenter.getSaloonMainServices();
+        saloonServicePresenter.getSaloonMainServices(saloonId);
     }
 
     @Override
@@ -92,7 +98,7 @@ public class CategoryFilterActivity extends BaseAppCompactActivity implements
             showToast(saloonServiceResponse.getMessage());
             return;
         }
-        adapter = new FragmentAdapterDemo(getSupportFragmentManager(),
+        FragmentAdapterDemo adapter = new FragmentAdapterDemo(getSupportFragmentManager(),
                 saloonServiceResponse.getData(), saloonId);
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager, adapter);

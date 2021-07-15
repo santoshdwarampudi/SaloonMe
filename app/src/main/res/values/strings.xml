@@ -67,4 +67,6 @@
     <string name="about_salon">About Salon</string>
     <string name="description">Description</string>
     <string name="timings">Timings : </string>
+    <string name="select_service">Select Service</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

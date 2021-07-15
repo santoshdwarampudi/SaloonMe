@@ -8,31 +8,35 @@ import com.saloonme.model.response.RemoveCartResponse;
 import com.saloonme.model.response.SaloonServiceResponse;
 import com.saloonme.model.response.SaloonSubServiceResponse;
 
+import org.jetbrains.annotations.NotNull;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SaloonServicePresenter {
-    private ApiInterface apiInterface;
-    private ISaloonServiceView iSaloonServiceView;
+    private final ApiInterface apiInterface;
+    private final ISaloonServiceView iSaloonServiceView;
 
     public SaloonServicePresenter(ApiInterface apiInterface, ISaloonServiceView iSaloonServiceView) {
         this.apiInterface = apiInterface;
         this.iSaloonServiceView = iSaloonServiceView;
     }
 
-    public void getSaloonMainServices() {
+    public void getSaloonMainServices(String saloonId) {
         iSaloonServiceView.showProgressDialog("Getting Services...");
-        Call<SaloonServiceResponse> saloonServiceResponseCall = apiInterface.getSaloonServices();
+        Call<SaloonServiceResponse> saloonServiceResponseCall =
+                apiInterface.getSaloonServices(saloonId);
         saloonServiceResponseCall.enqueue(new Callback<SaloonServiceResponse>() {
             @Override
-            public void onResponse(Call<SaloonServiceResponse> call, Response<SaloonServiceResponse> response) {
+            public void onResponse(@NotNull Call<SaloonServiceResponse> call,
+                                   @NotNull Response<SaloonServiceResponse> response) {
                 iSaloonServiceView.dismissProgress();
                 iSaloonServiceView.saloonServiceSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<SaloonServiceResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<SaloonServiceResponse> call, @NotNull Throwable t) {
                 iSaloonServiceView.dismissProgress();
                 iSaloonServiceView.saloonServiceFailed();
             }
